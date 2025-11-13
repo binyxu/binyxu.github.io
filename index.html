@@ -550,6 +550,26 @@
       }
     }
 
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .edu-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.6);
+    }
+    
+    [data-theme="light"] .edu-logo {
+      background: #f8fafc;
+    }
+
     .timeline {
       border-left: 1px dashed rgba(148, 163, 184, 0.6);
       padding-left: 16px;
@@ -941,123 +961,50 @@
     <!-- Projects -->
     <section id="projects" class="section" aria-label="Projects">
       <div class="section-header">
-        <h2 class="section-title">Selected Projects</h2>
+        <h2 class="section-title">Selected Project</h2>
         <p class="section-subtitle">
-          A mix of research prototypes and collaborations with industry labs.
+          Industry research experience at Microsoft Research Asia (MSRA).
         </p>
       </div>
-
-      <div class="two-column">
-        <div>
-          <!-- UnivIntruder project card -->
-          <div class="card">
-            <div class="card-header-line">
-              <div>
-                <div class="card-title">
-                  UnivIntruder: One Surrogate to Fool Them All
-                </div>
-                <div class="card-meta">Vision-Language Model–Based Universal Adversarial Attack</div>
-              </div>
+    
+      <div class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">
+              AI-Aided Ascetic Graphic Design Generation
             </div>
-            <div class="card-body">
-              UnivIntruder uses CLIP as a universal surrogate to generate a single adversarial trigger that
-              transfers across many unseen models and datasets. The method is data-free and query-free for
-              the protected model, relying only on public out-of-distribution images and CLIP’s embedding space.
-            </div>
-            <div class="card-tags">
-              <span class="tag">CLIP</span>
-              <span class="tag">Universal attack</span>
-              <span class="tag">Black-box security</span>
-            </div>
-            <div class="card-footer">
-              <a class="card-link" href="https://github.com/binyxu/UnivIntruder" target="_blank" rel="noreferrer">
-                <span>GitHub</span> <span>↗</span>
-              </a>
+            <div class="card-meta">
+              Microsoft Research Asia · Stars of Tomorrow Internship
             </div>
           </div>
-
-          <!-- CGD project card -->
-          <div class="card">
-            <div class="card-header-line">
-              <div>
-                <div class="card-title">
-                  CLIP-Guided Backdoor Defense (CGD)
-                </div>
-                <div class="card-meta">Entropy-Based Poisoned Data Separation</div>
-              </div>
-            </div>
-            <div class="card-body">
-              CGD exploits CLIP’s semantic predictions to detect suspicious training samples:
-              low-entropy disagreements signal potential poisoning. By re-training the model on
-              cleanly separated data with CLIP logits as guidance, CGD significantly reduces
-              attack success rates across many backdoor types with minimal overhead.
-            </div>
-            <div class="card-tags">
-              <span class="tag">Backdoor defense</span>
-              <span class="tag">Entropy</span>
-              <span class="tag">CLIP guidance</span>
-            </div>
-            <div class="card-footer">
-              <a class="card-link" href="https://github.com/binyxu/CGD" target="_blank" rel="noreferrer">
-                <span>GitHub</span> <span>↗</span>
-              </a>
-            </div>
-          </div>
+          <!-- 可选：项目小标签 -->
+          <span class="tag">Industry collaboration</span>
         </div>
-
-        <div>
-          <!-- GCB project card -->
-          <div class="card">
-            <div class="card-header-line">
-              <div>
-                <div class="card-title">
-                  GCB: Generative Adversarial Clean-Image Backdoors
-                </div>
-                <div class="card-meta">Universal Clean-Image Backdoor Framework</div>
-              </div>
-            </div>
-            <div class="card-body">
-              GCB studies highly stealthy backdoors where the input image remains visually unchanged
-              and only labels are poisoned. Through a generative approach, we embed triggers in the
-              feature space while preserving the original appearance, enabling powerful yet hard-to-detect
-              backdoor behavior and integration with BackdoorBench-style evaluations.
-            </div>
-            <div class="card-tags">
-              <span class="tag">Clean-label attacks</span>
-              <span class="tag">Representation learning</span>
-              <span class="tag">BackdoorBench</span>
-            </div>
-            <div class="card-footer">
-              <a class="card-link" href="https://github.com/binyxu/GCB" target="_blank" rel="noreferrer">
-                <span>GitHub</span> <span>↗</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- MSRA graphic design project -->
-          <div class="card">
-            <div class="card-header-line">
-              <div>
-                <div class="card-title">
-                  AI-Aided Ascetic Graphic Design Generation
-                </div>
-                <div class="card-meta">
-                  Microsoft Research Asia · Stars of Tomorrow Internship
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              At MSRA, I co-developed a system for ascetic graphic design that combines an
-              autoregressive vision-language layout generator with diffusion-based style refinement.
-              The system achieves higher aesthetic quality and fewer constraint violations than
-              earlier approaches, highlighting how generative models can support professional design workflows.
-            </div>
-            <div class="card-tags">
-              <span class="tag">Diffusion models</span>
-              <span class="tag">Layout generation</span>
-              <span class="tag">Industry collaboration</span>
-            </div>
-          </div>
+    
+        <!-- TODO: 换成你自己的项目截图 -->
+        <div style="margin: 10px -4px 4px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(148,163,184,0.35);">
+          <img src="assets/msra-project.png"
+               alt="AI-aided ascetic graphic design system interface (placeholder)"
+               style="width: 100%; display: block; max-height: 230px; object-fit: cover;">
+        </div>
+    
+        <div class="card-body">
+          During my internship at Microsoft Research Asia (MSRA), I co-developed an AI-aided
+          <em>ascetic graphic design</em> system that combines:
+          <ul style="margin-top: 6px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
+            <li>an autoregressive vision-language layout generator that produces structured, constraint-aware designs,</li>
+            <li>a diffusion-based module that refines style and texture while preserving layout semantics.</li>
+          </ul>
+          The system achieves higher aesthetic quality and fewer constraint violations compared to prior
+          approaches, and demonstrates how generative models can augment professional design workflows
+          in a controllable way.
+        </div>
+    
+        <div class="card-tags">
+          <span class="tag">Diffusion models</span>
+          <span class="tag">Layout generation</span>
+          <span class="tag">Vision-language</span>
+          <span class="tag">Human–AI collaboration</span>
         </div>
       </div>
     </section>
@@ -1077,33 +1024,51 @@
             <span class="card-title">Education</span>
           </div>
           <div class="timeline">
+            <!-- CUHK PhD -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-title">Ph.D. in Information Engineering</div>
-              <div class="timeline-meta">
-                The Chinese University of Hong Kong · Sep. 2023 – Aug. 2027 (expected)
+              <div class="timeline-header">
+                <img src="assets/logo-cuhk.png" alt="The Chinese University of Hong Kong logo" class="edu-logo">
+                <div>
+                  <div class="timeline-title">Ph.D. in Information Engineering</div>
+                  <div class="timeline-meta">
+                    The Chinese University of Hong Kong · Sep. 2023 – Aug. 2027 (expected)
+                  </div>
+                </div>
               </div>
               <div class="timeline-desc">
                 GPA: 3.86. Research on AI security, backdoor attacks/defenses, and vision-language / embodied AI.
               </div>
             </div>
-
+        
+            <!-- UC Berkeley exchange -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-title">Exchange Program in EECS</div>
-              <div class="timeline-meta">
-                University of California, Berkeley · Aug. 2021 – Dec. 2021
+              <div class="timeline-header">
+                <img src="assets/logo-berkeley.png" alt="UC Berkeley logo" class="edu-logo">
+                <div>
+                  <div class="timeline-title">Exchange Program in EECS</div>
+                  <div class="timeline-meta">
+                    University of California, Berkeley · Aug. 2021 – Dec. 2021
+                  </div>
+                </div>
               </div>
               <div class="timeline-desc">
                 GPA: 4.0. Coursework and projects in computer science and artificial intelligence.
               </div>
             </div>
-
+        
+            <!-- XJTU undergrad -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-title">B.Sc. in Automation (Honor)</div>
-              <div class="timeline-meta">
-                Xi’an Jiaotong University · Sep. 2019 – Jul. 2023
+              <div class="timeline-header">
+                <img src="assets/logo-xjtu.png" alt="Xi'an Jiaotong University logo" class="edu-logo">
+                <div>
+                  <div class="timeline-title">B.Sc. in Automation (Honor)</div>
+                  <div class="timeline-meta">
+                    Xi’an Jiaotong University · Sep. 2019 – Jul. 2023
+                  </div>
+                </div>
               </div>
               <div class="timeline-desc">
                 GPA: 3.92. Graduated with honors under the Qian Xuesen Program.

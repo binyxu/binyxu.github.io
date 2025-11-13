@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <title>徐彬彦 | 人工智能安全与视觉语言模型</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+        content="徐彬彦，香港中文大学信息工程系博士生，研究方向为 AI 安全、后门攻击与防御、以及视觉语言模型与具身智能的安全性。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* 直接复用你 index.html 里的所有 CSS，不改动 */
+    :root {
+      --bg: #040712;
+      --bg-alt: #080c1c;
+      --bg-soft: #0f172a;
+      --fg: #f9fafb;
+      --fg-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --accent-strong: #0ea5e9;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --card-radius: 18px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.7);
+      --nav-blur: 18px;
+      --code-bg: #020617;
+      --tag-bg: rgba(148, 163, 184, 0.12);
+      --link: #38bdf8;
+      --link-hover: #7dd3fc;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-alt: #f1f5f9;
+      --bg-soft: #ffffff;
+      --fg: #020617;
+      --fg-muted: #4b5563;
+      --accent: #0284c7;
+      --accent-soft: rgba(37, 99, 235, 0.06);
+      --accent-strong: #1d4ed8;
+      --border-subtle: rgba(148, 163, 184, 0.45);
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.10);
+      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.12);
+      --code-bg: #0f172a;
+      --tag-bg: rgba(148, 163, 184, 0.14);
+      --link: #0369a1;
+      --link-hover: #0ea5e9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #0b1120 0, var(--bg) 38%, #020617 100%);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    a:hover {
+      color: var(--link-hover);
+    }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 96px 20px 72px;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(var(--nav-blur));
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.72), transparent);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .top-nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 10px 20px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: var(--fg-muted);
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #e0f2fe, var(--accent));
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      font-size: 0.85rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      color: var(--fg-muted);
+      padding: 6px 8px;
+      border-radius: 999px;
+    }
+
+    .nav-links a:hover {
+      color: var(--fg);
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .theme-toggle {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.35), rgba(15, 23, 42, 0.95));
+      height: 28px;
+      width: 48px;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .theme-toggle-knob {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #f9fafb, #e5e7eb);
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.7);
+      transform: translateX(0);
+      transition: transform 0.22s ease;
+    }
+
+    .theme-toggle[data-mode="light"] .theme-toggle-knob {
+      transform: translateX(18px);
+    }
+
+    .theme-toggle-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7px;
+      font-size: 0.7rem;
+      color: rgba(148, 163, 184, 0.8);
+      pointer-events: none;
+    }
+
+    .grid-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.1fr);
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 820px) {
+      .grid-hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .section {
+      margin-top: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fg-muted);
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--fg-muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fg-muted);
+    }
+
+    [data-theme="light"] .pill {
+      background: rgba(241, 245, 249, 0.9);
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      letter-spacing: 0.02em;
+      font-weight: 650;
+      margin-bottom: 10px;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(120deg, #22d3ee, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--fg-muted);
+      max-width: 32rem;
+      margin-bottom: 16px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .meta-item {
+      font-size: 0.82rem;
+      color: var(--fg-muted);
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    [data-theme="light"] .meta-item {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 15px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.86rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at 0 0, #e0f2fe, #38bdf8);
+      border-color: rgba(56, 189, 248, 0.6);
+      color: #0f172a;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.02);
+      transform: translateY(-0.5px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--fg-muted);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--fg);
+    }
+
+    [data-theme="light"] .btn-ghost:hover {
+      background: rgba(226, 232, 240, 0.9);
+    }
+
+    .btn-icon {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .hero-avatar-card {
+      border-radius: 24px;
+      background: radial-gradient(circle at 15% 0, rgba(56, 189, 248, 0.25), var(--bg-soft));
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: var(--shadow-soft);
+      padding: 20px 18px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-avatar-main {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+    }
+
+    .hero-avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 0, #1f2937, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .hero-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-avatar-meta-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(248, 250, 252, 0.85);
+    }
+
+    .hero-avatar-meta-text {
+      font-size: 0.88rem;
+      color: var(--fg-muted);
+      margin-top: 4px;
+    }
+
+    .hero-avatar-meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--tag-bg);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--fg-muted);
+      white-space: nowrap;
+    }
+
+    .hero-avatar-footer {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      padding-top: 10px;
+    }
+
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    .icon-link {
+      font-size: 0.8rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: var(--fg-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(15, 23, 42, 0.6);
+    }
+
+    [data-theme="light"] .icon-link {
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .icon-link span.icon {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .glow-orbit {
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.38), transparent 55%),
+                  radial-gradient(circle at 100% 0, rgba(129, 140, 248, 0.35), transparent 55%);
+      opacity: 0.25;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .card {
+      border-radius: var(--card-radius);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    [data-theme="light"] .card {
+      background: radial-gradient(circle at 0 0, rgba(191, 219, 254, 0.28), #ffffff);
+    }
+
+    .card + .card {
+      margin-top: 14px;
+    }
+
+    .card-header-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 550;
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+    }
+
+    .card-tags {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .card-body {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--fg-muted);
+    }
+
+    .card-footer {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.82rem;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid rgba(56, 189, 248, 0.6);
+    }
+
+    .card-link:hover {
+      background: rgba(56, 189, 248, 0.18);
+    }
+
+    .muted {
+      color: var(--fg-muted);
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.15fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 880px) {
+      .two-column {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .edu-logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.6);
+    }
+
+    [data-theme="light"] .edu-logo {
+      background: #f8fafc;
+    }
+
+    .timeline {
+      border-left: 1px dashed rgba(148, 163, 184, 0.6);
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -21px;
+      top: 4px;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+    }
+
+    .timeline-title {
+      font-size: 0.9rem;
+      font-weight: 550;
+    }
+
+    .timeline-meta {
+      font-size: 0.78rem;
+      color: var(--fg-muted);
+    }
+
+    .timeline-desc {
+      font-size: 0.84rem;
+      color: var(--fg-muted);
+      margin-top: 4px;
+    }
+
+    ul.inline-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.84rem;
+      color: var(--fg-muted);
+    }
+
+    ul.inline-list li::before {
+      content: "•";
+      margin-right: 4px;
+      color: var(--accent);
+    }
+
+    footer {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px 32px;
+      font-size: 0.78rem;
+      color: var(--fg-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      opacity: 0.92;
+    }
+
+    .kbd {
+      font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.75em;
+      padding: 2px 5px;
+      border-radius: 4px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    [data-theme="light"] .kbd {
+      background: rgba(248, 250, 252, 0.9);
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <div class="brand">
+        <div class="brand-dot"></div>
+        <span>Binyan Xu</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#about">关于</a>
+        <a href="#research">研究</a>
+        <a href="#publications">论文</a>
+        <a href="#projects">项目</a>
+        <a href="#awards">获奖与教育</a>
+        <a href="#contact">联系</a>
+
+        <!-- 从中文版跳回英文版 -->
+        <a href="index.html" title="Switch to English version">EN</a>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换亮/暗主题">
+          <div class="theme-toggle-icon">
+            <span>☾</span>
+            <span>☀︎</span>
+          </div>
+          <div class="theme-toggle-knob"></div>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="about" class="section" aria-label="个人简介">
+      <div class="grid-hero">
+        <div>
+          <div class="pill" style="margin-bottom: 10px;">
+            <span class="pill-dot"></span>
+            <span>AI 安全 · 视觉语言模型</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="hero-highlight">徐彬彦</span>
+          </h1>
+          <p class="hero-subtitle">
+            香港中文大学（CUHK）信息工程系博士生。我的研究关注在对抗环境下构建可信的智能系统，
+            尤其是利用 CLIP 等视觉语言模型以及具身智能体，在安全视角下同时作为
+            <em>防御者</em> 与 <em>攻击者</em> 的双重角色。
+          </p>
+
+          <div class="hero-meta">
+            <div class="meta-item">深度神经网络安全</div>
+            <div class="meta-item">后门与对抗攻击 / 防御</div>
+            <div class="meta-item">视觉语言模型与具身智能安全</div>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://binyxu.github.io/Binyan_Resume_phd.pdf" target="_blank" rel="noreferrer">
+              下载 CV
+              <span class="btn-icon">⇩</span>
+            </a>
+            <a class="btn btn-ghost" href="#research">
+              研究概览
+              <span class="btn-icon">↳</span>
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-avatar-card" aria-label="快速档案">
+          <div class="glow-orbit" aria-hidden="true"></div>
+          <div class="hero-avatar-main">
+            <div class="hero-avatar">
+              <img src="photo.jpg" alt="徐彬彦的个人照片" />
+            </div>
+            <div>
+              <div class="hero-avatar-meta-title">当前职位</div>
+              <div class="hero-avatar-meta-text">
+                信息工程系博士研究生<br />
+                香港中文大学 · 香港特别行政区
+              </div>
+              <div class="hero-avatar-meta-tags">
+                <span class="tag">AI 安全</span>
+                <span class="tag">CLIP & VLMs</span>
+                <span class="tag">后门攻击 / 防御</span>
+                <span class="tag">具身智能安全</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-avatar-footer">
+            <div>
+              <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em;">
+                联系方式
+              </div>
+              <div style="font-size: 0.82rem;">
+                <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a>
+              </div>
+            </div>
+            <div class="hero-links">
+              <a class="icon-link" href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works"
+                 target="_blank" rel="noreferrer">
+                <span class="icon">📚</span> Scholar
+              </a>
+              <a class="icon-link" href="https://github.com/binyxu" target="_blank" rel="noreferrer">
+                <span class="icon">💻</span> GitHub
+              </a>
+              <a class="icon-link" href="https://www.linkedin.com/in/binyan-xu-171b862b0"
+                 target="_blank" rel="noreferrer">
+                <span class="icon">💼</span> LinkedIn
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="two-column">
+        <div class="card">
+          <div class="card-header-line">
+            <span class="card-title">个人简介</span>
+          </div>
+          <div class="card-body">
+            我目前在香港中文大学信息工程系攻读博士学位，导师为张可焕教授。
+            在此之前，我于西安交通大学钱学森班获得自动化荣誉学士学位，
+            并作为交换学生在加州大学伯克利分校 EECS 系学习一学期。
+            我的研究致力于在对抗环境中提升现代 AI 系统的可信度，
+            重点方向包括后门攻击与防御、通用对抗扰动，以及视觉语言模型与具身智能体的安全性。
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header-line">
+            <span class="card-title">研究兴趣</span>
+          </div>
+          <div class="card-body">
+            <ul class="inline-list">
+              <li>深度神经网络后门攻击与防御</li>
+              <li>通用与可迁移对抗攻击</li>
+              <li>利用 CLIP / VLM / LLM 进行 AI 安全</li>
+              <li>具身智能体与机器人系统的安全性</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research overview -->
+    <section id="research" class="section" aria-label="研究概览">
+      <div class="section-header">
+        <h2 class="section-title">研究概览</h2>
+        <p class="section-subtitle">
+          Friend and Foe：视觉语言模型在 AI 安全中的双重角色。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">
+              Friend and Foe: Vision-Language Models as Both Attackers and Defenders
+            </div>
+            <div class="card-meta">
+              博士前资格论文提案 · 香港中文大学信息工程系
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          视觉语言模型（VLM）如 CLIP 具有强大的跨模态表征与推理能力，
+          但同时也引入了新的攻击面。我的研究从三个方向系统性地研究其在安全中的“友与敌”：
+          <ol style="margin-top: 8px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
+            <li style="margin-bottom: 4px;">
+              <strong>UnivIntruder：</strong> 仅利用一个公开的 VLM 构造通用、可迁移、定向的对抗扰动，
+              在完全黑盒的图像分类模型上实现高效“劫持”。
+            </li>
+            <li style="margin-bottom: 4px;">
+              <strong>CLIP-Guided Defense：</strong> 将 CLIP 作为外部语义审计器，从训练数据中分离后门样本与干净样本，
+              并通过 CLIP logits 指导重新训练，提升多种后门攻击下的鲁棒性。
+            </li>
+            <li>
+              <strong>环境驱动的具身智能 Jailbreak（在研）：</strong>
+              研究如何通过精心设计的物理环境，利用感知链路的脆弱性绕过具身智能体的安全机制。
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publications -->
+    <section id="publications" class="section" aria-label="代表论文">
+      <div class="section-header">
+        <h2 class="section-title">代表论文</h2>
+        <p class="section-subtitle">
+          第一作者工作，聚焦 AI 安全、视觉语言模型与后门鲁棒性。
+        </p>
+      </div>
+
+      <!-- UnivIntruder -->
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">
+              One Surrogate to Fool Them All: Universal, Transferable, and Targeted Adversarial Attacks with CLIP
+            </div>
+            <div class="card-meta">
+              ACM Conference on Computer and Communications Security (CCS) 2025 · Oral
+            </div>
+          </div>
+          <span class="tag">Adversarial Attack</span>
+        </div>
+        <div class="card-body">
+          该工作表明，一个公开可用的视觉语言模型（CLIP）即可作为通用代理（surrogate），
+          生成面向多种黑盒视觉模型的定向通用对抗扰动；整个过程不依赖目标模型的结构、参数或训练数据。
+        </div>
+        <div class="card-tags">
+          <span class="tag">Universal perturbation</span>
+          <span class="tag">Transferability</span>
+          <span class="tag">Black-box models</span>
+          <span class="tag">CLIP</span>
+        </div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2505.19840" target="_blank" rel="noreferrer">
+            <span>arXiv</span> <span>↗</span>
+          </a>
+          <a class="card-link" href="https://github.com/binyxu/UnivIntruder" target="_blank" rel="noreferrer">
+            <span>Code (UnivIntruder)</span> <span>↗</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CLIP-Guided Defense -->
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">
+              CLIP-Guided Backdoor Defense through Entropy-Based Poisoned Dataset Separation
+            </div>
+            <div class="card-meta">
+              ACM Multimedia (MM) 2025 · Oral
+            </div>
+          </div>
+          <span class="tag">Backdoor Defense</span>
+        </div>
+        <div class="card-body">
+          提出 CLIP-Guided Defense（CGD）：利用 CLIP 的语义预测对训练集样本进行熵值打分，
+          将可疑后门样本与干净样本自动分离，并以 CLIP logits 作为监督重训模型。
+          在多数据集、多种后门攻击（包括 clean-label 与 clean-image 设置）下，
+          CGD 能在保持干净精度的同时，将攻击成功率压到约 1% 或更低。
+        </div>
+        <div class="card-tags">
+          <span class="tag">Data separation</span>
+          <span class="tag">Entropy-based scoring</span>
+          <span class="tag">Clean-image backdoors</span>
+          <span class="tag">Robust retraining</span>
+        </div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2507.05113" target="_blank" rel="noreferrer">
+            <span>arXiv</span> <span>↗</span>
+          </a>
+          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3746027.3754860" target="_blank" rel="noreferrer">
+            <span>ACM DL</span> <span>↗</span>
+          </a>
+          <a class="card-link" href="https://github.com/binyxu/CGD" target="_blank" rel="noreferrer">
+            <span>Code (CGD)</span> <span>↗</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- GCB -->
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">
+              Breaking the Stealth–Potency Trade-off in Clean-Image Backdoors with Generative Trigger Optimization
+            </div>
+            <div class="card-meta">
+              AAAI Conference on Artificial Intelligence (AAAI) 2026 · Oral
+            </div>
+          </div>
+          <span class="tag">Backdoor Attack</span>
+        </div>
+        <div class="card-body">
+          本工作提出一种针对 <em>clean-image</em>（图像不改，标签被投毒）的通用后门框架：
+          攻击者仅通过重新标注，便可在保持输入图像外观完全不变的前提下植入强后门。
+          通过在潜在触发空间中进行生成式优化，我们证明了“高隐蔽性”和“高攻击性”可以兼得，
+          并在分类、回归、分割等任务中系统分析其影响。
+        </div>
+        <div class="card-tags">
+          <span class="tag">Clean-image backdoors</span>
+          <span class="tag">Generative models</span>
+          <span class="tag">InfoGAN</span>
+        </div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2511.07210" target="_blank" rel="noreferrer">
+            <span>arXiv</span> <span>↗</span>
+          </a>
+          <a class="card-link" href="https://github.com/binyxu/GCB" target="_blank" rel="noreferrer">
+            <span>Code (GCB)</span> <span>↗</span>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section" aria-label="项目">
+      <div class="section-header">
+        <h2 class="section-title">代表项目</h2>
+        <p class="section-subtitle">
+          在微软亚洲研究院（MSRA）的产业研究实习经历。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">
+              AI-Aided Ascetic Graphic Design Generation
+            </div>
+            <div class="card-meta">
+              微软亚洲研究院 · Stars of Tomorrow 实习
+            </div>
+          </div>
+          <span class="tag">Industry collaboration</span>
+        </div>
+
+        <div class="card-body">
+          在 MSRA 实习期间，我参与共建了一个面向极简设计风格的 AI 辅助平面设计系统，
+          将：
+          <ul style="margin-top: 6px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
+            <li>具约束感知的自回归视觉语言布局生成器，</li>
+            <li>以及在保持布局语义的前提下进行风格与质感细化的扩散模型模块</li>
+          </ul>
+          有机结合。实验结果表明，该系统在美学质量与约束满足度上均优于现有方法，
+          展示了生成式模型在专业设计流程中的可控辅助能力。
+        </div>
+
+        <div class="card-tags">
+          <span class="tag">Diffusion models</span>
+          <span class="tag">Layout generation</span>
+          <span class="tag">Vision-language</span>
+          <span class="tag">Human–AI collaboration</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Awards & Education -->
+    <section id="awards" class="section" aria-label="获奖与教育">
+      <div class="section-header">
+        <h2 class="section-title">教育背景与奖励</h2>
+        <p class="section-subtitle">
+          学术训练经历与部分荣誉。
+        </p>
+      </div>
+
+      <div class="two-column">
+        <div class="card">
+          <div class="card-header-line">
+            <span class="card-title">教育背景</span>
+          </div>
+          <div class="timeline">
+            <!-- CUHK PhD -->
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-header">
+                <img src="assets/logo-cuhk.png" alt="The Chinese University of Hong Kong logo" class="edu-logo">
+                <div>
+                  <div class="timeline-title">信息工程博士</div>
+                  <div class="timeline-meta">
+                    香港中文大学 · 2023 年 9 月 – 2027 年 8 月（预计）
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-desc">
+                GPA：3.86。研究方向涵盖 AI 安全、后门攻击与防御、以及视觉语言 / 具身智能的安全性。
+              </div>
+            </div>
+
+            <!-- UC Berkeley exchange -->
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-header">
+                <img src="assets/logo-berkeley.svg" alt="UC Berkeley logo" class="edu-logo">
+                <div>
+                  <div class="timeline-title">EECS 交换生</div>
+                  <div class="timeline-meta">
+                    加州大学伯克利分校 · 2021 年 8 月 – 2021 年 12 月
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-desc">
+                GPA：4.0。修读计算机科学与人工智能相关课程并参与项目。
+              </div>
+            </div>
+
+            <!-- XJTU undergrad -->
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-header">
+                <img src="assets/logo-xjtu.png" alt="Xi'an Jiaotong University logo" class="edu-logo">
+                <div>
+                  <div class="timeline-title">自动化专业荣誉学士</div>
+                  <div class="timeline-meta">
+                    西安交通大学 · 2019 年 9 月 – 2023 年 7 月
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-desc">
+                GPA：3.92。钱学森班荣誉毕业生。
+              </div>
+            </div>
+
+            <!-- XJTU Youth Class -->
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-header">
+                <img src="assets/logo-xjtu.png" alt="Xi'an Jiaotong University logo" class="edu-logo">
+                <div>
+                  <div class="timeline-title">西安交大少年班</div>
+                  <div class="timeline-meta">
+                    西安交通大学 · 2017 年 9 月 – 2019 年 7 月
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-desc">
+                GPA 位列前 10%。中学到大学的预备课程培养计划。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header-line">
+            <span class="card-title">部分奖励与资助</span>
+          </div>
+          <div class="card-body">
+            <ul style="padding-left: 18px; margin-top: 4px; font-size: 0.9rem; color: var(--fg-muted);">
+              <li>美国大学生数学建模竞赛（MCM）Finalist Award</li>
+              <li>钱学森班荣誉毕业生</li>
+              <li>优秀毕业生奖学金</li>
+              <li>出国深造一等资助（约人民币 10 万元）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section" aria-label="联系方式">
+      <div class="section-header">
+        <h2 class="section-title">联系与链接</h2>
+        <p class="section-subtitle">
+          如有合作意向或相关问题，欢迎邮件联系。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="two-column">
+          <div>
+            <div class="card-title">联系方式</div>
+            <div class="card-body">
+              <p>
+                我非常乐意讨论与 AI 安全、后门攻击 / 防御、视觉语言模型或具身智能相关的研究问题。
+                如果你对合作感兴趣，欢迎通过邮件简单介绍你的想法。
+              </p>
+              <p style="margin-top: 8px;">
+                <strong>邮箱：</strong>
+                <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a>
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="card-title">更多链接</div>
+            <div class="card-body">
+              <ul style="list-style: none; padding-left: 0; font-size: 0.9rem;">
+                <li style="margin-bottom: 6px;">
+                  <span>📚</span>
+                  <a href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works"
+                     target="_blank" rel="noreferrer">
+                    Google Scholar
+                  </a>
+                </li>
+                <li style="margin-bottom: 6px;">
+                  <span>💻</span>
+                  <a href="https://github.com/binyxu" target="_blank" rel="noreferrer">
+                    GitHub (@binyxu)
+                  </a>
+                </li>
+                <li style="margin-bottom: 6px;">
+                  <span>💼</span>
+                  <a href="https://www.linkedin.com/in/binyan-xu-171b862b0"
+                     target="_blank" rel="noreferrer">
+                    LinkedIn
+                  </a>
+                </li>
+                <li style="margin-bottom: 6px;">
+                  <span>🆔</span>
+                  <a href="https://orcid.org/0009-0006-1073-1837" target="_blank" rel="noreferrer">
+                    ORCID: 0009-0006-1073-1837
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      © <span id="year"></span> · Built by Binyan Xu
+    </div>
+    <div>
+      主题切换：<span class="kbd">☾ / ☀︎</span> · 托管于静态站点服务。
+    </div>
+  </footer>
+
+  <script>
+    // 底部年份
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // 主题切换，与英文版保持一致（使用 localStorage）
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById("themeToggle");
+      const stored = window.localStorage.getItem("binyan-theme");
+      if (stored === "light") {
+        root.setAttribute("data-theme", "light");
+        toggle.setAttribute("data-mode", "light");
+      } else {
+        root.setAttribute("data-theme", "dark");
+        toggle.setAttribute("data-mode", "dark");
+      }
+
+      toggle.addEventListener("click", function () {
+        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+        const next = current === "light" ? "dark" : "light";
+        root.setAttribute("data-theme", next);
+        toggle.setAttribute("data-mode", next);
+        window.localStorage.setItem("binyan-theme", next);
+      });
+    })();
+  </script>
+</body>
+</html>

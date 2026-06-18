@@ -1011,12 +1011,13 @@
           size: "约 28 MB",
           fileList: ["schools.sqlite", "frpm.csv", "schema_descriptions.json"],
           rawName: "frpm.csv excerpt",
-          raw: "CDSCode,School Name,Educational Option Type,Free Meal Count (Ages 5-17),Enrollment (Ages 5-17)\n01100170109835,Island Continuation High,Continuation School,89,142\n01611270130278,North Valley Continuation,Continuation School,,96\n19647330122640,West Ridge High,Traditional,231,1024\n34674390112790,Oak Continuation,Continuation School,7,\n37683380129211,Metro Continuation,Continuation School,11,215",
+          raw: "CDSCode,School Name,District Name,County Name,Educational Option Type,Charter School (Y/N),Free Meal Count (Ages 5-17),Enrollment (Ages 5-17),Free Meal Count (K-12),Enrollment (K-12),Low Grade,High Grade\n01100170109835,Island Continuation High,Alameda Unified,Alameda,Continuation School,0,89,142,96,155,09,12\n01611270130278,North Valley Continuation,Butte Union,Butte,Continuation School,0,,96,41,103,10,12\n19647330122640,West Ridge High,Los Angeles Unified,Los Angeles,Traditional,0,231,1024,260,1102,09,12\n34674390112790,Oak Continuation,Sacramento City,Sacramento,Continuation School,1,7,,9,64,11,12\n37683380129211,Metro Continuation,San Diego Unified,San Diego,Continuation School,0,11,215,18,240,09,12",
           preview: [
-            ["Table", "Rows", "Key columns", "用途"],
-            ["frpm", "10,321", "CDSCode, Free Meal Count, Enrollment", "免费餐和入学人数"],
-            ["schools", "5,412", "CDSCode, OpenDate, Phone", "学校基础信息"],
-            ["descriptions", "45 fields", "meaning, samples", "字段解释"]
+            ["CDSCode", "School Name", "District", "County", "Option Type", "Charter", "Free 5-17", "Enroll 5-17", "Free K-12", "Enroll K-12", "Low", "High"],
+            ["01100170109835", "Island Continuation High", "Alameda Unified", "Alameda", "Continuation School", "0", "89", "142", "96", "155", "09", "12"],
+            ["01611270130278", "North Valley Continuation", "Butte Union", "Butte", "Continuation School", "0", "", "96", "41", "103", "10", "12"],
+            ["34674390112790", "Oak Continuation", "Sacramento City", "Sacramento", "Continuation School", "1", "7", "", "9", "64", "11", "12"],
+            ["37683380129211", "Metro Continuation", "San Diego Unified", "San Diego", "Continuation School", "0", "11", "215", "18", "240", "09", "12"]
           ]
         },
         effort: {
@@ -1058,10 +1059,11 @@
           rawName: "orphan-probe.sql",
           raw: "-- 检查 schools 表里是否存在 frpm 无法验证的学校\nSELECT COUNT(*) AS orphan_schools\nFROM schools s\nLEFT JOIN frpm f ON s.CDSCode = f.CDSCode\nWHERE f.CDSCode IS NULL\n  AND s.FundingType = 'Directly funded'\n  AND s.OpenDate > '2000-01-01';\n\n-- result: 321",
           preview: [
-            ["Table", "字段", "样例值", "风险点"],
-            ["schools", "FundingType", "Directly funded", "不等于 charter 认证"],
-            ["frpm", "Charter School (Y/N)", "1 / 0", "定义 charter school"],
-            ["frpm", "Charter Funding Type", "Directly funded", "必须 JOIN 验证"]
+            ["CDSCode", "schools.FundingType", "schools.OpenDate", "schools.Phone", "frpm.Charter", "frpm.Funding", "frpm.CDSCode", "JOIN 状态", "风险"],
+            ["01100170109835", "Directly funded", "2004-08-16", "510-555-0131", "1", "Directly funded", "matched", "可验证", "保留"],
+            ["01611270130278", "Directly funded", "2007-09-03", "530-555-0188", "", "", "missing", "无法验证", "排除"],
+            ["19647330122640", "Directly funded", "2002-01-10", "213-555-0110", "0", "Directly funded", "matched", "非 charter", "排除"],
+            ["37683380129211", "Locally funded", "2009-08-20", "619-555-0199", "1", "Directly funded", "matched", "funding 冲突", "需查证"]
           ]
         },
         effort: {
@@ -1101,10 +1103,11 @@
           size: "约 12 MB",
           fileList: ["database.sqlite", "schema.json"],
           preview: [
-            ["Table", "Rows", "Key", "说明"],
-            ["customers", "1,204", "customer_id", "客户信息"],
-            ["orders", "3,918", "order_id", "订单"],
-            ["order_items", "9,740", "order_id", "订单明细，可能造成重复计数"]
+            ["customer_id", "name", "city", "order_id", "order_date", "status", "item_rows", "amount", "join_risk"],
+            ["C001", "Alice Chen", "Seattle", "O1001", "2024-01-03", "paid", "3", "128.40", "order_items 会放大计数"],
+            ["C001", "Alice Chen", "Seattle", "O1009", "2024-02-11", "paid", "1", "24.99", "同一客户多订单"],
+            ["C204", "Brian Wu", "Austin", "O1044", "2024-03-08", "refund", "5", "441.20", "状态是否过滤需看题目"],
+            ["C882", "Mina Park", "Boston", "", "", "", "0", "0", "LEFT JOIN 会引入无订单客户"]
           ]
         }
       }
@@ -1126,12 +1129,13 @@
           size: "约 55 MB",
           fileList: ["real_info.csv", "q01.csv ... q32.csv", "metadata.json"],
           rawName: "q_rct.csv excerpt",
-          raw: "unit_id,program,score,age,income,pre_score,randomized\nu001,1,72.4,17,42000,68.1,1\nu002,0,66.8,18,39000,67.5,1\nu003,1,75.1,17,51000,70.2,1\nu004,0,64.9,17,48000,66.0,1",
+          raw: "unit_id,program,score,age,income,pre_score,gender,school_id,region,baseline_health,randomized,compliance\nu001,1,72.4,17,42000,68.1,F,S014,east,0.72,1,1\nu002,0,66.8,18,39000,67.5,M,S014,east,0.65,1,1\nu003,1,75.1,17,51000,70.2,F,S022,west,0.81,1,0\nu004,0,64.9,17,48000,66.0,F,S031,north,0.69,1,1",
           preview: [
-            ["列名", "类型", "含义", "方法提示"],
-            ["treatment", "0/1", "是否接受干预", "核心处理变量"],
-            ["outcome", "float", "结果指标", "ATE 目标"],
-            ["pre_score", "float", "干预前水平", "OLS 协变量"]
+            ["unit_id", "program", "score", "age", "income", "pre_score", "gender", "school_id", "region", "baseline_health", "randomized", "compliance"],
+            ["u001", "1", "72.4", "17", "42000", "68.1", "F", "S014", "east", "0.72", "1", "1"],
+            ["u002", "0", "66.8", "18", "39000", "67.5", "M", "S014", "east", "0.65", "1", "1"],
+            ["u003", "1", "75.1", "17", "51000", "70.2", "F", "S022", "west", "0.81", "1", "0"],
+            ["u004", "0", "64.9", "17", "48000", "66.0", "F", "S031", "north", "0.69", "1", "1"]
           ]
         },
         effort: {
@@ -1171,10 +1175,11 @@
           size: "约 8 MB",
           fileList: ["policy_panel.csv", "description.txt"],
           preview: [
-            ["unit_id", "year", "treated", "outcome"],
-            ["A001", "2011", "0", "53.2"],
-            ["A001", "2012", "0", "52.7"],
-            ["B014", "2018", "1", "47.9"]
+            ["unit_id", "region", "year", "treated_group", "post", "policy", "outcome", "population", "income", "unemployment", "baseline_outcome", "cluster_id"],
+            ["A001", "east", "2011", "0", "0", "0", "53.2", "84210", "41200", "0.061", "52.8", "C01"],
+            ["A001", "east", "2012", "0", "0", "0", "52.7", "85100", "41950", "0.058", "52.8", "C01"],
+            ["B014", "west", "2018", "1", "1", "1", "47.9", "62344", "38610", "0.073", "51.6", "C07"],
+            ["B014", "west", "2019", "1", "1", "1", "46.8", "62902", "39200", "0.069", "51.6", "C07"]
           ]
         }
       },
@@ -1201,10 +1206,11 @@
           size: "约 3 MB",
           fileList: ["score_cutoff_study.csv"],
           preview: [
-            ["student_id", "score", "program", "final_grade"],
-            ["S102", "79.5", "0", "82.1"],
-            ["S205", "80.3", "1", "88.4"],
-            ["S781", "91.2", "1", "90.5"]
+            ["student_id", "score", "program", "final_grade", "school", "gender", "prior_gpa", "parent_edu", "distance", "cohort", "bandwidth_flag"],
+            ["S102", "79.5", "0", "82.1", "A", "F", "3.1", "college", "4.2", "2024", "near"],
+            ["S205", "80.3", "1", "88.4", "A", "M", "3.0", "highschool", "3.8", "2024", "near"],
+            ["S781", "91.2", "1", "90.5", "B", "F", "3.7", "college", "7.5", "2024", "far"],
+            ["S554", "78.9", "0", "80.4", "C", "M", "2.9", "middle", "2.1", "2023", "near"]
           ]
         }
       }
@@ -1226,10 +1232,10 @@
           size: "约 4 MB",
           fileList: ["child.csv", "child_ground_truth.csv", "prompt.txt"],
           preview: [
-            ["变量", "类型", "例子", "因果含义"],
-            ["Disease", "离散", "0/1/2", "潜在病因"],
-            ["Xray", "离散", "normal/abnormal", "检测结果"],
-            ["Dyspnea", "离散", "yes/no", "症状"]
+            ["BirthAsphyxia", "Disease", "LVH", "DuctFlow", "CardiacMixing", "Xray", "LungParench", "CO2", "ChestXray", "Grunting", "Hypoxia", "LowerBodyO2"],
+            ["yes", "TGA", "no", "lt_to_rt", "complete", "abnormal", "normal", "high", "oligaemic", "yes", "mild", "low"],
+            ["no", "Fallot", "yes", "rt_to_lt", "transp", "abnormal", "abnormal", "normal", "plethoric", "no", "severe", "low"],
+            ["no", "PAIVS", "no", "none", "mild", "normal", "normal", "normal", "normal", "no", "none", "normal"]
           ]
         }
       },
@@ -1259,10 +1265,11 @@
           rawName: "sachs.csv excerpt",
           raw: "PKC,PKA,Raf,Mek,Erk,Akt,PIP2,PIP3,Jnk,p38,Plcg\n0.21,0.33,0.40,0.51,0.49,0.37,0.22,0.18,0.44,0.31,0.29\n0.18,0.29,0.36,0.49,0.46,0.33,0.20,0.17,0.41,0.28,0.25\n0.44,0.58,0.62,0.71,0.76,0.51,0.38,0.34,0.57,0.49,0.45",
           preview: [
-            ["PKC", "PKA", "Raf", "Mek"],
-            ["0.21", "0.33", "0.40", "0.51"],
-            ["0.18", "0.29", "0.36", "0.49"],
-            ["0.44", "0.58", "0.62", "0.71"]
+            ["PKC", "PKA", "Raf", "Mek", "Erk", "Akt", "PIP2", "PIP3", "Jnk", "p38", "Plcg"],
+            ["0.21", "0.33", "0.40", "0.51", "0.49", "0.37", "0.22", "0.18", "0.44", "0.31", "0.29"],
+            ["0.18", "0.29", "0.36", "0.49", "0.46", "0.33", "0.20", "0.17", "0.41", "0.28", "0.25"],
+            ["0.44", "0.58", "0.62", "0.71", "0.76", "0.51", "0.38", "0.34", "0.57", "0.49", "0.45"],
+            ["0.31", "0.40", "0.53", "0.59", "0.63", "0.42", "0.28", "0.26", "0.48", "0.37", "0.33"]
           ]
         },
         effort: {
@@ -1302,10 +1309,11 @@
           size: "约 120 KB",
           fileList: ["autompg.csv", "autompg_ground_truth.csv"],
           preview: [
-            ["mpg", "cylinders", "horsepower", "weight"],
-            ["18.0", "8", "130", "3504"],
-            ["24.0", "4", "95", "2372"],
-            ["32.1", "4", "70", "2120"]
+            ["mpg", "cylinders", "displacement", "horsepower", "weight", "acceleration", "model_year", "origin", "car_name"],
+            ["18.0", "8", "307", "130", "3504", "12.0", "70", "1", "chevrolet chevelle malibu"],
+            ["24.0", "4", "113", "95", "2372", "15.0", "70", "3", "toyota corona mark ii"],
+            ["32.1", "4", "98", "70", "2120", "15.5", "80", "1", "chevrolet citation"],
+            ["15.0", "8", "400", "150", "3761", "9.5", "70", "1", "chevrolet monte carlo"]
           ]
         }
       }
@@ -1327,12 +1335,13 @@
           size: "约 180 MB",
           fileList: ["train.csv", "test.csv", "train_history.csv", "valid_history.csv"],
           rawName: "train_history.csv excerpt",
-          raw: "user_id,item_id,shop_id,item_price_level,item_sales_level,hour,target\n10021,53124,812,3,12,21,0\n10021,90412,812,2,16,22,1\n31088,77120,405,7,5,10,0\n88201,11342,901,1,21,23,0\n88201,11342,901,1,21,23,1",
+          raw: "user_id,item_id,shop_id,item_category_id,item_brand_id,item_city_id,item_price_level,item_sales_level,item_collected_level,item_pv_level,user_age_level,user_gender_id,user_occupation_id,context_timestamp,hour,page_id,target\n10021,53124,812,5001,77,310000,3,12,4,18,3,0,1,1537203300,21,4001,0\n10021,90412,812,5001,77,310000,2,16,6,21,3,0,1,1537206900,22,4001,1\n31088,77120,405,1203,91,440100,7,5,2,9,5,1,0,1537160400,10,4002,0\n88201,11342,901,8120,33,110000,1,21,8,33,2,0,1,1537210500,23,4001,0\n88201,11342,901,8120,33,110000,1,21,8,33,2,0,1,1537214100,23,4001,1",
           preview: [
-            ["user_id", "item_id", "shop_id", "target"],
-            ["10021", "53124", "812", "0"],
-            ["10021", "90412", "812", "1"],
-            ["31088", "77120", "405", "0"]
+            ["user_id", "item_id", "shop_id", "item_category", "brand", "city", "price", "sales", "collect", "pv", "age", "gender", "occupation", "hour", "page", "target"],
+            ["10021", "53124", "812", "5001", "77", "310000", "3", "12", "4", "18", "3", "0", "1", "21", "4001", "0"],
+            ["10021", "90412", "812", "5001", "77", "310000", "2", "16", "6", "21", "3", "0", "1", "22", "4001", "1"],
+            ["31088", "77120", "405", "1203", "91", "440100", "7", "5", "2", "9", "5", "1", "0", "10", "4002", "0"],
+            ["88201", "11342", "901", "8120", "33", "110000", "1", "21", "8", "33", "2", "0", "1", "23", "4001", "1"]
           ]
         },
         effort: {
@@ -1371,10 +1380,10 @@
           size: "约 75 MB",
           fileList: ["diabetes_binary.csv", "diabetes_012.csv", "balanced_5050.csv"],
           preview: [
-            ["HighBP", "BMI", "Age", "Diabetes"],
-            ["1", "32", "9", "1"],
-            ["0", "24", "4", "0"],
-            ["1", "29", "11", "1"]
+            ["HighBP", "HighChol", "CholCheck", "BMI", "Smoker", "Stroke", "HeartDisease", "PhysActivity", "Fruits", "Veggies", "HvyAlcohol", "GenHlth", "MentHlth", "PhysHlth", "DiffWalk", "Sex", "Age", "Education", "Income", "Diabetes"],
+            ["1", "1", "1", "32", "0", "0", "1", "0", "1", "1", "0", "4", "7", "12", "1", "0", "9", "4", "3", "1"],
+            ["0", "0", "1", "24", "1", "0", "0", "1", "1", "0", "0", "2", "0", "1", "0", "1", "4", "6", "7", "0"],
+            ["1", "0", "1", "29", "0", "0", "0", "1", "0", "1", "0", "3", "3", "5", "0", "0", "11", "5", "5", "1"]
           ]
         }
       },
@@ -1402,10 +1411,10 @@
           size: "约 140 MB",
           fileList: ["train_history.csv", "valid_history.csv"],
           preview: [
-            ["user_id", "item_price_level", "hour", "purchase"],
-            ["10021", "3", "21", "0"],
-            ["10021", "2", "22", "1"],
-            ["31088", "7", "10", "0"]
+            ["user_id", "item_id", "shop_id", "category", "brand", "price_level", "user_avg_price", "price_gap", "sales", "pv", "hour", "purchase"],
+            ["10021", "53124", "812", "5001", "77", "3", "2.4", "0.6", "12", "18", "21", "0"],
+            ["10021", "90412", "812", "5001", "77", "2", "2.4", "-0.4", "16", "21", "22", "1"],
+            ["31088", "77120", "405", "1203", "91", "7", "4.1", "2.9", "5", "9", "10", "0"]
           ]
         }
       }

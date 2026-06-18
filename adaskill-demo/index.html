@@ -424,6 +424,15 @@
       border-radius: 999px;
       padding: 4px 8px;
       background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .file-chip.active {
+      border-color: var(--blue);
+      background: #eef5ff;
+      color: var(--blue);
+      font-weight: 800;
     }
 
     .table-wrap {
@@ -590,6 +599,7 @@
       padding: 12px;
       background: rgba(255,255,255,.045);
       animation: rise .22s ease-out;
+      cursor: pointer;
     }
 
     @keyframes rise {
@@ -619,6 +629,48 @@
       margin: 0;
       color: #dce8f4;
       font-size: 14px;
+    }
+
+    .event-hint {
+      color: #8fa0b0;
+      font-size: 11px;
+      margin-top: 8px;
+    }
+
+    .event-detail {
+      display: none;
+      margin-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 10px;
+    }
+
+    .event.open .event-detail {
+      display: block;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .detail-cell {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 8px;
+      padding: 9px;
+      background: rgba(0,0,0,.18);
+      font-size: 12px;
+    }
+
+    .detail-cell label {
+      display: block;
+      color: #9eafbf;
+      margin-bottom: 4px;
+    }
+
+    .detail-cell span {
+      color: #edf4fb;
     }
 
     .event pre {
@@ -708,6 +760,7 @@
       h1 { font-size: 31px; }
       .stats, .result-cards, .mobile-cases { grid-template-columns: 1fr; }
       .task-tabs, .data-grid, .effort-grid { grid-template-columns: 1fr; }
+      .detail-grid { grid-template-columns: 1fr; }
       .panel-head { align-items: flex-start; flex-direction: column; }
     }
   </style>
@@ -1360,6 +1413,7 @@
 
     let current = "text2sql";
     let taskIndex = 0;
+    let selectedFileIndex = 0;
     let timer = null;
     let running = false;
 
@@ -1401,6 +1455,7 @@
       if (running) stopRun();
       current = key;
       taskIndex = 0;
+      selectedFileIndex = 0;
       render();
       resetConsole();
     }
@@ -1408,6 +1463,7 @@
     function setTask(index) {
       if (running) stopRun();
       taskIndex = index;
+      selectedFileIndex = 0;
       render();
       resetConsole();
     }
@@ -1459,19 +1515,46 @@
           <strong>${value}</strong>
         </div>
       `).join("");
-      document.getElementById("fileList").innerHTML = (data.fileList || []).map(file => `<span class="file-chip">${file}</span>`).join("");
+      document.getElementById("fileList").innerHTML = (data.fileList || []).map((file, index) => `
+        <button class="file-chip ${index === selectedFileIndex ? "active" : ""}" onclick="showFile(${index})">${file}</button>
+      `).join("");
       const rows = data.preview || [];
       document.getElementById("previewTable").innerHTML = rows.map((row, index) => `
         <tr>${row.map(cell => index === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`).join("")}</tr>
       `).join("");
-      document.getElementById("rawFileName").textContent = data.rawName || (data.fileList && data.fileList[0]) || "raw preview";
-      document.getElementById("rawPreview").textContent = data.raw || makeRawPreview(data);
+      const files = data.fileList || [];
+      const activeFile = files[selectedFileIndex] || data.rawName || "raw preview";
+      document.getElementById("rawFileName").textContent = activeFile;
+      document.getElementById("rawPreview").textContent = makeFileContent(task, activeFile, selectedFileIndex);
+    }
+
+    function showFile(index) {
+      selectedFileIndex = index;
+      renderDataViewer(activeTask());
     }
 
     function makeRawPreview(data) {
       const rows = data.preview || [];
       if (!rows.length) return "暂无预览片段";
       return rows.map(row => row.join(",")).join("\n");
+    }
+
+    function makeFileContent(task, file, index) {
+      const data = task.data || {};
+      if (index === 0 && data.raw) return data.raw;
+      if (file && file.includes("schema")) {
+        return `{\n  "tables": ${JSON.stringify((data.preview || []).slice(1).map(r => r[0]))},\n  "columns": "${data.cols}",\n  "note": "这里通常包含字段含义、样例值、主键/外键。AI 助手会先读它，避免把同名字段用错。"\n}`;
+      }
+      if (file && (file.includes("ground_truth") || file.includes("metadata") || file.includes("description") || file.includes("prompt"))) {
+        return `# ${file}\n任务说明 / 标准答案 / 评测配置片段\n\n- difficulty: ${task.level}\n- rows: ${data.rows}\n- columns: ${data.cols}\n- scoring: 用于判断最终答案是否真的正确\n\n这个文件不会直接给出可抄答案，但会定义评分口径和任务边界。`;
+      }
+      if (file && file.includes("history")) {
+        return `user_id,item_id,shop_id,item_price_level,hour,target\n10021,53124,812,3,21,0\n10021,90412,812,2,22,1\n31088,77120,405,7,10,0\n\n说明：history 文件只能用来统计历史行为，不能偷看 test label。`;
+      }
+      if (file && (file.includes("sqlite") || file.includes("database"))) {
+        return `SQLite database: ${file}\n\n.tables\n  schools\n  frpm\n  customers\n  orders\n\nPRAGMA table_info(...)\n  返回字段名、类型、是否为空、主键。\n\nAI 助手不会把数据库全塞进上下文，而是通过 execute_sql 分批探查。`;
+      }
+      return data.raw || makeRawPreview(data);
     }
 
     function renderEffort(task) {
@@ -1547,6 +1630,7 @@
       const node = document.createElement("div");
       node.className = `event ${type}`;
       const elapsed = `${(index * 0.7 + 0.4).toFixed(1)}s`;
+      const detail = makeEventDetail(ev, index);
       node.innerHTML = `
         <div class="event-head">
           <span class="event-type">${eventIcon(type)} ${title}</span>
@@ -1555,9 +1639,61 @@
         <p>${text}</p>
         ${extra && extra.cards ? `<div class="result-cards">${extra.cards.map(([a,b]) => `<div class="mini"><label>${a}</label><strong>${b}</strong></div>`).join("")}</div>` : ""}
         ${extra && extra.code ? `<pre>${escapeHtml(extra.code)}</pre>` : ""}
+        <div class="event-hint">点击展开：查看这一步的输入、输出和判断依据</div>
+        <div class="event-detail">
+          <div class="detail-grid">
+            <div class="detail-cell"><label>输入</label><span>${escapeHtml(detail.input)}</span></div>
+            <div class="detail-cell"><label>输出</label><span>${escapeHtml(detail.output)}</span></div>
+            <div class="detail-cell"><label>判断依据</label><span>${escapeHtml(detail.evidence)}</span></div>
+            <div class="detail-cell"><label>影响下一步</label><span>${escapeHtml(detail.next)}</span></div>
+          </div>
+          <pre>${escapeHtml(detail.log)}</pre>
+        </div>
       `;
+      node.addEventListener("click", () => node.classList.toggle("open"));
       consoleEl.appendChild(node);
       consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function makeEventDetail(ev, index) {
+      const [type, title, text, extra] = ev;
+      const task = activeTask();
+      const data = task.data || {};
+      const effort = task.effort || inferEffort(task);
+      const base = {
+        input: `任务《${task.name}》；文件 ${data.files}；数据 ${data.rows}`,
+        output: text,
+        evidence: "来自 raw 文件片段、schema/metadata、工具返回值和技能卡规则。",
+        next: "决定下一步工具调用或候选方案筛选。",
+        log: `[step ${index}] ${type.toUpperCase()} ${title}\n${text}`
+      };
+      if (type === "tool") {
+        base.input = `工具调用上下文：${(data.fileList || []).join(", ")}`;
+        base.output = extra && extra.code ? extra.code : text;
+        base.evidence = "工具输出是后续推理的硬证据；如果与直觉冲突，优先相信工具结果。";
+        base.next = "把返回结果写入候选方案表，继续验证或修正。";
+        base.log = `COMMAND / TOOL\n${title}\n\nINPUT FILES\n${(data.fileList || []).join("\n")}\n\nSTDOUT / RESULT\n${text}`;
+      }
+      if (type === "observe") {
+        base.input = "上一轮工具输出或数据预览。";
+        base.output = text;
+        base.evidence = "观察结果必须能追溯到上一条工具调用或 raw 文件。";
+        base.next = "把观察结果转成约束，例如过滤条件、JOIN 决策或方法排除。";
+      }
+      if (type === "reason") {
+        base.input = `技能卡规则 + 当前证据；候选数 ${effort.candidates}`;
+        base.output = text;
+        base.evidence = "不是最终答案，只是用规则排除错误路线。";
+        base.next = "选择下一次工具调用，或收敛到最终候选。";
+      }
+      if (type === "final") {
+        base.input = `前面全部步骤；工具调用 ${effort.toolCalls}；修正 ${effort.fixes}`;
+        base.output = extra && extra.code ? extra.code : text;
+        base.evidence = "最终答案必须能回溯到数据、工具结果、候选比较和评分约束。";
+        base.next = "进入 benchmark 评分：精确匹配、F1、AUC、ATE 误差或 DAG 指标。";
+        base.log = `FINAL ARTIFACT\n${extra && extra.code ? extra.code : text}\n\nTRACE SUMMARY\n${(effort.audit || []).map(([a,b]) => `${a}: ${b}`).join("\n")}`;
+      }
+      return base;
     }
 
     function escapeHtml(s) {

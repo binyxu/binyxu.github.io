@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdaSkill Agent Live Demo</title>
+  <style>
+    :root {
+      --ink: #15202b;
+      --muted: #64717f;
+      --line: #dce4eb;
+      --bg: #f5f7fa;
+      --panel: #ffffff;
+      --green: #13845b;
+      --blue: #2b67b2;
+      --teal: #167b8f;
+      --amber: #c98516;
+      --red: #bc4a3a;
+      --purple: #7457a6;
+      --shadow: 0 18px 45px rgba(21, 32, 43, .10);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    button, textarea { font: inherit; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 292px 1fr;
+    }
+
+    aside {
+      background: #111922;
+      color: #e8eef4;
+      padding: 20px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 4px 2px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      background: linear-gradient(135deg, #26a77d, #3070ba);
+    }
+
+    .brand strong { display: block; font-size: 15px; }
+    .brand span { display: block; color: #aebac6; font-size: 12px; }
+
+    .case-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .case-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: #d8e2eb;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      display: grid;
+      gap: 5px;
+    }
+
+    .case-btn:hover, .case-btn.active {
+      background: rgba(255,255,255,.11);
+      color: #fff;
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .case-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .case-btn small { color: #aebac6; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      color: #fff;
+      font-size: 11px;
+      white-space: nowrap;
+      background: var(--green);
+    }
+
+    .side-note {
+      margin-top: auto;
+      color: #b9c5d1;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255,255,255,.05);
+    }
+
+    main {
+      padding: 24px;
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      font-size: clamp(32px, 4.4vw, 58px);
+      line-height: 1.03;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+      max-width: 840px;
+    }
+
+    .lead {
+      color: #42505d;
+      max-width: 830px;
+      font-size: 17px;
+      margin-bottom: 0;
+    }
+
+    .paper {
+      color: var(--blue);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .demo-badge {
+      display: grid;
+      gap: 8px;
+      min-width: 235px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 10px 26px rgba(21,32,43,.07);
+    }
+
+    .demo-badge b { font-size: 13px; }
+    .demo-badge span { color: var(--muted); font-size: 13px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(470px, 1.08fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 15px 17px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-head h2, .panel-head h3 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .panel-body { padding: 17px; }
+
+    .prompt-box {
+      display: grid;
+      gap: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 126px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .send-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .send-btn, .ghost-btn {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .send-btn {
+      background: #17212b;
+      color: #fff;
+      min-width: 132px;
+      justify-content: center;
+    }
+
+    .send-btn:disabled {
+      opacity: .7;
+      cursor: default;
+    }
+
+    .ghost-btn {
+      background: #edf2f6;
+      color: #2f3c48;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 88px;
+      background: #fff;
+    }
+
+    .stat label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.05;
+    }
+
+    .stat small {
+      display: block;
+      color: var(--muted);
+      margin-top: 7px;
+    }
+
+    .skill-strip {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fafc;
+      padding: 13px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .skill-strip b { font-size: 14px; }
+    .skill-strip p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .console {
+      background: #101720;
+      color: #dce8f4;
+      min-height: 640px;
+      max-height: 760px;
+      overflow: auto;
+      padding: 16px;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+    }
+
+    .agent-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #aebdca;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #657282;
+      margin-right: 7px;
+    }
+
+    .running .status-dot {
+      background: #22c17a;
+      box-shadow: 0 0 0 6px rgba(34,193,122,.11);
+    }
+
+    .event {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255,255,255,.045);
+      animation: rise .22s ease-out;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .event-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 7px;
+      font-size: 12px;
+      color: #aebdca;
+    }
+
+    .event-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .event p {
+      margin: 0;
+      color: #dce8f4;
+      font-size: 14px;
+    }
+
+    .event pre {
+      white-space: pre-wrap;
+      overflow: auto;
+      margin: 9px 0 0;
+      padding: 11px;
+      border-radius: 8px;
+      color: #e7f0f8;
+      background: rgba(0,0,0,.32);
+      font-size: 12px;
+      line-height: 1.45;
+      max-height: 230px;
+    }
+
+    .event.tool { border-color: rgba(43,103,178,.45); }
+    .event.observe { border-color: rgba(22,123,143,.55); }
+    .event.reason { border-color: rgba(201,133,22,.55); }
+    .event.final { border-color: rgba(19,132,91,.75); background: rgba(19,132,91,.12); }
+
+    .result-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .mini {
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 8px;
+      padding: 10px;
+      background: rgba(255,255,255,.05);
+    }
+
+    .mini label { display: block; color: #aebdca; font-size: 11px; margin-bottom: 5px; }
+    .mini strong { display: block; color: #fff; font-size: 20px; }
+
+    .explain {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .explain-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 142px;
+    }
+
+    .explain-card h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .explain-card p {
+      color: var(--muted);
+      margin-bottom: 0;
+      font-size: 13px;
+    }
+
+    .mobile-cases { display: none; }
+
+    @media (max-width: 1050px) {
+      .app { grid-template-columns: 1fr; }
+      aside {
+        position: static;
+        height: auto;
+        padding: 14px;
+      }
+      .case-list, .side-note { display: none; }
+      .mobile-cases {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin: 12px 0;
+      }
+      .hero, .layout, .explain { grid-template-columns: 1fr; }
+      .demo-badge { min-width: 0; }
+      main { padding: 18px; }
+      .console { min-height: 560px; }
+    }
+
+    @media (max-width: 620px) {
+      h1 { font-size: 31px; }
+      .stats, .result-cards, .mobile-cases { grid-template-columns: 1fr; }
+      .panel-head { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <div class="mark">AS</div>
+        <div>
+          <strong>AdaSkill Live Demo</strong>
+          <span>Mock agent run, no API needed</span>
+        </div>
+      </div>
+      <div class="case-list" id="caseList"></div>
+      <div class="side-note">
+        用法：上课时选一个 case，点 Send。页面会模拟 agent 调 skill、跑工具、看中间结果、最后交付答案。
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h1>看起来像真的 agent 在跑，但完全不需要内网 API</h1>
+          <p class="lead">
+            这个 GitHub Pages demo 用预录结果模拟 single agent 的运行过程。重点给高中生看懂：
+            skill 不是魔法，而是一张专家解题卡，让一个 agent 也能像团队一样完成复杂 benchmark。
+            <a class="paper" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer">Paper</a>
+          </p>
+          <div class="mobile-cases" id="mobileCases"></div>
+        </div>
+        <div class="demo-badge">
+          <b>演示模式</b>
+          <span>LLM output 已提前写好；点击 Send 只播放 mock trace。</span>
+          <span>Multi-agent 对比数字如出现，会标注为课堂模拟。</span>
+        </div>
+      </section>
+
+      <section class="layout">
+        <div>
+          <div class="panel">
+            <div class="panel-head">
+              <h2 id="caseName">Running Case</h2>
+              <span class="pill" id="caseTag">single agent</span>
+            </div>
+            <div class="panel-body">
+              <div class="prompt-box">
+                <label for="prompt"><b>Send to agent</b></label>
+                <textarea id="prompt"></textarea>
+                <div class="send-row">
+                  <button class="send-btn" id="sendBtn">Send ▶</button>
+                  <button class="ghost-btn" id="resetBtn">Reset</button>
+                  <p class="hint" id="caseHint"></p>
+                </div>
+              </div>
+
+              <div class="stats" id="stats"></div>
+
+              <div class="skill-strip">
+                <b>Loaded skill</b>
+                <p id="skillLine"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="explain">
+            <div class="explain-card">
+              <h3>Raw agent</h3>
+              <p>只靠题目和模型常识，能尝试，但容易漏掉数据探索和 benchmark 的隐藏评分点。</p>
+            </div>
+            <div class="explain-card">
+              <h3>Multi-agent</h3>
+              <p>多个专家角色更稳，但需要互相传话、反复总结上下文，课堂中可解释为“开会成本”。</p>
+            </div>
+            <div class="explain-card">
+              <h3>Single agent + skill</h3>
+              <p>把多智能体的专家经验蒸馏到一份明文 skill 中，一个 agent 就能调用工具并做决策。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Agent Console</h2>
+            <span id="runStatus"><span class="status-dot"></span>idle</span>
+          </div>
+          <div class="console" id="console"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const cases = {
+      text2sql: {
+        name: "Text-to-SQL: California Schools",
+        short: "Text2SQL",
+        color: "#2b67b2",
+        tag: "SQL 满分样例",
+        hint: "适合开场：学生能直观看到 agent 先查数据再写 SQL。",
+        prompt: "List the lowest three eligible free rates for continuation schools. Return valid SQLite only.",
+        skill: "adaptive_text2sql_bird: execute_sql + schema descriptions + tip selector + reward model。Skill 强调先探索真实数据，再写可执行 SQL。",
+        stats: [
+          ["EX", "1.00", "example score"],
+          ["NSF", "1.00", "semantic F1"],
+          ["运行步数", "7", "mock trace"],
+          ["成本", "$0.93", "recorded case"]
+        ],
+        events: [
+          ["reason", "Parse question", "The target is an eligible free rate, so the answer should be a computed ratio, not school names."],
+          ["tool", "execute_sql", "SELECT DISTINCT \"Educational Option Type\" FROM frpm WHERE \"Educational Option Type\" LIKE '%Continuation%';"],
+          ["observe", "Tool result", "Found exact value: Continuation School. Also found NULL numerators and denominators in this subset."],
+          ["reason", "Avoid common failure", "Use IS NOT NULL instead of Enrollment > 0. The benchmark checks semantic filtering, not just runtime safety."],
+          ["tool", "candidate verification", "Run candidate SQL and inspect the top three rows. Confirm no extra columns are selected."],
+          ["final", "Final answer", "The agent returns a compact SQL query with the right table, filter, CAST, NULL handling, ordering, and limit.", {
+            cards: [["SRR", "1.00"], ["NSP", "1.00"], ["NSF", "1.00"]],
+            code: "SELECT CAST(\"Free Meal Count (Ages 5-17)\" AS REAL)\n       / \"Enrollment (Ages 5-17)\" AS eligible_free_rate\nFROM frpm\nWHERE \"Educational Option Type\" = 'Continuation School'\n  AND \"Free Meal Count (Ages 5-17)\" IS NOT NULL\n  AND \"Enrollment (Ages 5-17)\" IS NOT NULL\nORDER BY eligible_free_rate ASC\nLIMIT 3;"
+          }]
+        ]
+      },
+      causalEstimate: {
+        name: "Causal Estimation: Method Selection",
+        short: "Causal Estimate",
+        color: "#13845b",
+        tag: "因果方法选择",
+        hint: "适合讲“相关不等于因果”：agent 要先判断研究设计。",
+        prompt: "Given this study description and CSV, estimate the treatment effect and choose the correct causal method.",
+        skill: "adaptive_causal_estimate: analyze_dataset + diagnostics + estimators。Skill 明确写了 RCT 禁止 Matching、IV 要检查强度、DiD 要检验平行趋势。",
+        stats: [
+          ["Real MSA", "83.87%", "knowledge skill"],
+          ["QRData MSA", "87.18%", "knowledge skill"],
+          ["Tools-only", "48.39%", "Real MSA"],
+          ["Synthetic MRE", "4.26%", "knowledge skill"]
+        ],
+        events: [
+          ["reason", "Read design", "The description says treatment was randomly assigned. That immediately changes the method choice."],
+          ["tool", "analyze_dataset", "{ panel_detected: false, treatment: 'program', outcome: 'score', covariates: ['age','income','pre_score'] }"],
+          ["observe", "Dataset diagnosis", "Covariates exist, but random assignment means matching is not needed and can even hurt the selected_method score."],
+          ["tool", "estimate_ols", "Run OLS with robust standard errors using treatment + covariates for precision."],
+          ["reason", "Decision", "Because this is an RCT, OLS/difference-in-means is valid. Matching is rejected even if it converges."],
+          ["final", "Final answer", "The agent outputs the selected method, numeric ATE, and a short causal justification.", {
+            cards: [["Method", "OLS"], ["ATE", "0.184"], ["MSA", "correct"]],
+            code: "{\n  \"selected_method\": \"ols\",\n  \"ate\": 0.184,\n  \"reasoning\": \"Randomized assignment detected; matching is forbidden. OLS with covariates is used for precision.\"\n}"
+          }]
+        ]
+      },
+      causalDiscovery: {
+        name: "Causal Discovery: Build a DAG",
+        short: "Causal Discovery",
+        color: "#c98516",
+        tag: "因果图推断",
+        hint: "适合展示“AI 不只是聊天，也能调用统计工具画图”。",
+        prompt: "Infer a causal DAG from this observational table. Return the adjacency matrix and explain the key constraints.",
+        skill: "adaptive_causal_discovery: load_and_normalize + run_scd + validate_and_fix_dag。Skill 教 agent 根据变量类型选 PC / Exact-Search / DirectLiNGAM。",
+        stats: [
+          ["Asia F1", "1.00", "skill run"],
+          ["Child F1", "0.90", "avg skill"],
+          ["DWD F1", "0.74", "avg skill"],
+          ["AutoMPG F1", "0.70", "avg skill"]
+        ],
+        events: [
+          ["tool", "load_and_normalize", "Detected mixed variable types; several variables are discrete, so DirectLiNGAM is forbidden."],
+          ["reason", "Choose algorithm", "Use PC with alpha=0.1 because the graph is moderately dense and recall matters."],
+          ["tool", "run_scd(method='pc')", "Initial graph has plausible skeleton but two directions are unresolved."],
+          ["observe", "Domain constraints", "Temporal variables cannot be caused by downstream outcomes. A definitional edge is required."],
+          ["tool", "validate_and_fix_dag", "Removed a bidirectional edge and confirmed the final graph is acyclic."],
+          ["final", "Final DAG", "The final output is a legal adjacency matrix plus the algorithm and constraints used.", {
+            cards: [["F1", "0.90"], ["SHD", "lower"], ["DAG", "valid"]],
+            code: "```matrix\n0, 1, 0, 0\n0, 0, 1, 0\n0, 0, 0, 1\n0, 0, 0, 0\n```\nUsed PC because variables are discrete/mixed. Key constraint: forbid outcome -> earlier measurement."
+          }]
+        ]
+      },
+      featureEngineering: {
+        name: "Feature Engineering: Taobao Conversion",
+        short: "Feature Eng.",
+        color: "#7457a6",
+        tag: "自动造特征",
+        hint: "适合结尾：最后结果是 AUC 提升，看起来很直观。",
+        prompt: "Improve AUC on the Taobao ad conversion benchmark by creating useful features and stopping when no longer improving.",
+        skill: "adaptive_feature_engineering: Taobao/Dia 领域特征 + evaluate API + 防数据泄漏规则。Skill 强调 CVR 平滑、计数、交叉特征和早停。",
+        stats: [
+          ["Baseline AUC", "0.6300", "Taobao"],
+          ["Best AUC", "0.6594", "Taobao"],
+          ["提升", "+0.0294", "absolute"],
+          ["特征数", "37", "best run"]
+        ],
+        events: [
+          ["reason", "Detect dataset", "bench.dataset == 'taobao'. This is sparse ad conversion prediction with high-cardinality IDs."],
+          ["tool", "build features", "Add item/shop/user CVR with Bayesian smoothing, log-count activity, price deviation, and quality composites."],
+          ["observe", "Evaluation 26", "AUC improves from 0.6300 to 0.6474 after entity CVR and count features."],
+          ["tool", "ablation loop", "Remove noisy raw ID columns after CVR features are available; keep 37 strongest features."],
+          ["observe", "Evaluation 67", "Best validation AUC reaches 0.6594. Early-stop patience prevents over-searching."],
+          ["final", "Final feature set", "The agent returns a compact feature recipe and the benchmark score improvement.", {
+            cards: [["AUC", "0.6594"], ["Δ", "+0.0294"], ["Features", "37"]],
+            code: "add_cvr('item_id', 'item_cvr', k=20)\nadd_cvr('shop_id', 'shop_cvr', k=20)\nadd_count('user_id', 'user_activity')\nX['price_gap'] = item_price_level - user_avg_price\nX['quality_score'] = sales + collected + pv\nauc = bench.evaluate(best_37_features)"
+          }]
+        ]
+      }
+    };
+
+    let current = "text2sql";
+    let timer = null;
+    let running = false;
+
+    const caseList = document.getElementById("caseList");
+    const mobileCases = document.getElementById("mobileCases");
+    const consoleEl = document.getElementById("console");
+    const sendBtn = document.getElementById("sendBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const runStatus = document.getElementById("runStatus");
+
+    function renderCases() {
+      caseList.innerHTML = "";
+      mobileCases.innerHTML = "";
+      Object.entries(cases).forEach(([key, item]) => {
+        const html = `<div class="case-title"><span>${item.short}</span><span class="pill" style="background:${item.color}">${item.tag}</span></div><small>${item.name}</small>`;
+        const btn = document.createElement("button");
+        btn.className = `case-btn ${key === current ? "active" : ""}`;
+        btn.innerHTML = html;
+        btn.onclick = () => setCase(key);
+        caseList.appendChild(btn);
+
+        const mob = document.createElement("button");
+        mob.className = `case-btn ${key === current ? "active" : ""}`;
+        mob.style.background = key === current ? "#17212b" : "#fff";
+        mob.style.color = key === current ? "#fff" : "#17212b";
+        mob.innerHTML = html;
+        mob.onclick = () => setCase(key);
+        mobileCases.appendChild(mob);
+      });
+    }
+
+    function setCase(key) {
+      if (running) stopRun();
+      current = key;
+      render();
+      resetConsole();
+    }
+
+    function render() {
+      const c = cases[current];
+      renderCases();
+      document.getElementById("caseName").textContent = c.name;
+      document.getElementById("caseTag").textContent = c.tag;
+      document.getElementById("caseTag").style.background = c.color;
+      document.getElementById("prompt").value = c.prompt;
+      document.getElementById("caseHint").textContent = c.hint;
+      document.getElementById("skillLine").textContent = c.skill;
+      document.getElementById("stats").innerHTML = c.stats.map(([label, value, note]) => `
+        <div class="stat">
+          <label>${label}</label>
+          <strong style="color:${c.color}">${value}</strong>
+          <small>${note}</small>
+        </div>
+      `).join("");
+    }
+
+    function resetConsole() {
+      consoleEl.innerHTML = `
+        <div class="agent-top">
+          <span>Ready. Choose a case and click Send.</span>
+          <span>offline mock</span>
+        </div>
+      `;
+      runStatus.classList.remove("running");
+      runStatus.innerHTML = `<span class="status-dot"></span>idle`;
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send ▶";
+    }
+
+    function stopRun() {
+      if (timer) clearTimeout(timer);
+      timer = null;
+      running = false;
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send ▶";
+      runStatus.classList.remove("running");
+      runStatus.innerHTML = `<span class="status-dot"></span>idle`;
+    }
+
+    function eventIcon(type) {
+      return {
+        tool: "▣",
+        observe: "◉",
+        reason: "◆",
+        final: "✓"
+      }[type] || "•";
+    }
+
+    function appendEvent(ev, index) {
+      const [type, title, text, extra] = ev;
+      const node = document.createElement("div");
+      node.className = `event ${type}`;
+      const elapsed = `${(index * 0.7 + 0.4).toFixed(1)}s`;
+      node.innerHTML = `
+        <div class="event-head">
+          <span class="event-type">${eventIcon(type)} ${title}</span>
+          <span>${elapsed}</span>
+        </div>
+        <p>${text}</p>
+        ${extra && extra.cards ? `<div class="result-cards">${extra.cards.map(([a,b]) => `<div class="mini"><label>${a}</label><strong>${b}</strong></div>`).join("")}</div>` : ""}
+        ${extra && extra.code ? `<pre>${escapeHtml(extra.code)}</pre>` : ""}
+      `;
+      consoleEl.appendChild(node);
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[ch]));
+    }
+
+    function runDemo() {
+      if (running) return;
+      const c = cases[current];
+      running = true;
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Running...";
+      runStatus.classList.add("running");
+      runStatus.innerHTML = `<span class="status-dot"></span>running`;
+      consoleEl.innerHTML = `
+        <div class="agent-top">
+          <span>Loaded ${c.short} skill · received user prompt</span>
+          <span>mock live trace</span>
+        </div>
+      `;
+
+      let i = 0;
+      const tick = () => {
+        appendEvent(c.events[i], i);
+        i += 1;
+        if (i < c.events.length) {
+          timer = setTimeout(tick, i === c.events.length - 1 ? 900 : 650);
+        } else {
+          running = false;
+          sendBtn.disabled = false;
+          sendBtn.textContent = "Replay ▶";
+          runStatus.classList.remove("running");
+          runStatus.innerHTML = `<span class="status-dot"></span>complete`;
+        }
+      };
+      timer = setTimeout(tick, 300);
+    }
+
+    sendBtn.onclick = runDemo;
+    resetBtn.onclick = () => {
+      stopRun();
+      resetConsole();
+    };
+
+    render();
+    resetConsole();
+  </script>
+</body>
+</html>

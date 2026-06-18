@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdaSkill Agent Live Demo</title>
+  <title>会使用技能的 AI 助手</title>
   <style>
     :root {
       --ink: #15202b;
@@ -484,31 +484,32 @@
       <div class="brand">
         <div class="mark">AS</div>
         <div>
-          <strong>AdaSkill Live Demo</strong>
-          <span>Mock agent run, no API needed</span>
+          <strong>技能型 AI 助手</strong>
+          <span>高中人工智能导论演示</span>
         </div>
       </div>
       <div class="case-list" id="caseList"></div>
       <div class="side-note">
-        用法：上课时选一个 case，点 Send。页面会模拟 agent 调 skill、跑工具、看中间结果、最后交付答案。
+        课堂用法：选择一个任务，点击“发送任务”。右侧会展示 AI 助手如何读取技能、调用工具、观察结果并给出答案。
       </div>
     </aside>
 
     <main>
       <section class="hero">
         <div>
-          <h1>看起来像真的 agent 在跑，但完全不需要内网 API</h1>
+          <h1>一个 AI 助手，如何带着“技能卡”完成复杂任务</h1>
           <p class="lead">
-            这个 GitHub Pages demo 用预录结果模拟 single agent 的运行过程。重点给高中生看懂：
-            skill 不是魔法，而是一张专家解题卡，让一个 agent 也能像团队一样完成复杂 benchmark。
-            <a class="paper" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer">Paper</a>
+            今天我们不只看 AI 聊天，而是看它怎样像一个会做研究的小助手：
+            先读任务，再查数据、调用工具、修正思路，最后交出可验证的结果。
+            这里的“技能卡”来自我们的研究：
+            <a class="paper" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer">From Multi-Agent to Single-Agent</a>。
           </p>
           <div class="mobile-cases" id="mobileCases"></div>
         </div>
         <div class="demo-badge">
-          <b>演示模式</b>
-          <span>LLM output 已提前写好；点击 Send 只播放 mock trace。</span>
-          <span>Multi-agent 对比数字如出现，会标注为课堂模拟。</span>
+          <b>本节课主旨</b>
+          <span>把专家经验写成明文技能卡，一个 AI 助手也能完成复杂任务。</span>
+          <span>演示中的运行过程已预先整理，便于课堂稳定展示。</span>
         </div>
       </section>
 
@@ -516,16 +517,16 @@
         <div>
           <div class="panel">
             <div class="panel-head">
-              <h2 id="caseName">Running Case</h2>
+              <h2 id="caseName">任务案例</h2>
               <span class="pill" id="caseTag">single agent</span>
             </div>
             <div class="panel-body">
               <div class="prompt-box">
-                <label for="prompt"><b>Send to agent</b></label>
+                <label for="prompt"><b>发送给 AI 助手的任务</b></label>
                 <textarea id="prompt"></textarea>
                 <div class="send-row">
-                  <button class="send-btn" id="sendBtn">Send ▶</button>
-                  <button class="ghost-btn" id="resetBtn">Reset</button>
+                  <button class="send-btn" id="sendBtn">发送任务 ▶</button>
+                  <button class="ghost-btn" id="resetBtn">重新开始</button>
                   <p class="hint" id="caseHint"></p>
                 </div>
               </div>
@@ -533,7 +534,7 @@
               <div class="stats" id="stats"></div>
 
               <div class="skill-strip">
-                <b>Loaded skill</b>
+                <b>AI 助手读取的技能卡</b>
                 <p id="skillLine"></p>
               </div>
             </div>
@@ -541,24 +542,24 @@
 
           <div class="explain">
             <div class="explain-card">
-              <h3>Raw agent</h3>
-              <p>只靠题目和模型常识，能尝试，但容易漏掉数据探索和 benchmark 的隐藏评分点。</p>
+              <h3>普通 AI 助手</h3>
+              <p>只靠题目和模型常识，能尝试，但容易漏掉数据探索、方法禁忌和验证步骤。</p>
             </div>
             <div class="explain-card">
-              <h3>Multi-agent</h3>
-              <p>多个专家角色更稳，但需要互相传话、反复总结上下文，课堂中可解释为“开会成本”。</p>
+              <h3>多智能体团队</h3>
+              <p>多个专家角色一起讨论，思路更全面，但会产生沟通、协调和重复阅读的成本。</p>
             </div>
             <div class="explain-card">
-              <h3>Single agent + skill</h3>
-              <p>把多智能体的专家经验蒸馏到一份明文 skill 中，一个 agent 就能调用工具并做决策。</p>
+              <h3>一个助手 + 技能卡</h3>
+              <p>把专家团队的经验整理成一份明文技能卡，让一个 AI 助手也能调用工具并做决策。</p>
             </div>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-head">
-            <h2>Agent Console</h2>
-            <span id="runStatus"><span class="status-dot"></span>idle</span>
+            <h2>AI 助手工作台</h2>
+            <span id="runStatus"><span class="status-dot"></span>等待任务</span>
           </div>
           <div class="console" id="console"></div>
         </div>
@@ -574,48 +575,48 @@
         color: "#2b67b2",
         tag: "SQL 满分样例",
         hint: "适合开场：学生能直观看到 agent 先查数据再写 SQL。",
-        prompt: "List the lowest three eligible free rates for continuation schools. Return valid SQLite only.",
-        skill: "adaptive_text2sql_bird: execute_sql + schema descriptions + tip selector + reward model。Skill 强调先探索真实数据，再写可执行 SQL。",
+        prompt: "请找出 continuation school 中 eligible free rate 最低的三条记录，并返回可以执行的 SQLite 查询。",
+        skill: "adaptive_text2sql_bird：SQL 执行工具 + 数据表说明 + 经验提示 + 候选答案评分器。技能卡强调先探索真实数据，再写可执行 SQL。",
         stats: [
-          ["EX", "1.00", "example score"],
-          ["NSF", "1.00", "semantic F1"],
-          ["运行步数", "7", "mock trace"],
-          ["成本", "$0.93", "recorded case"]
+          ["精确匹配", "1.00", "示例得分"],
+          ["语义得分", "1.00", "SQL 语义 F1"],
+          ["推理步骤", "7", "课堂演示"],
+          ["成本", "$0.93", "记录样例"]
         ],
         events: [
-          ["reason", "Parse question", "The target is an eligible free rate, so the answer should be a computed ratio, not school names."],
+          ["reason", "理解题目", "目标是 eligible free rate，所以答案应该是一个比例计算，而不是简单列出学校名称。"],
           ["tool", "execute_sql", "SELECT DISTINCT \"Educational Option Type\" FROM frpm WHERE \"Educational Option Type\" LIKE '%Continuation%';"],
-          ["observe", "Tool result", "Found exact value: Continuation School. Also found NULL numerators and denominators in this subset."],
-          ["reason", "Avoid common failure", "Use IS NOT NULL instead of Enrollment > 0. The benchmark checks semantic filtering, not just runtime safety."],
-          ["tool", "candidate verification", "Run candidate SQL and inspect the top three rows. Confirm no extra columns are selected."],
-          ["final", "Final answer", "The agent returns a compact SQL query with the right table, filter, CAST, NULL handling, ordering, and limit.", {
+          ["observe", "观察结果", "找到了精确取值：Continuation School。同时发现这个子集中有缺失的分子和分母。"],
+          ["reason", "避开常见错误", "这里应该用 IS NOT NULL，而不是只写 Enrollment > 0。评分会检查语义过滤是否正确。"],
+          ["tool", "验证候选 SQL", "运行候选 SQL，检查前三行结果，并确认没有多选无关列。"],
+          ["final", "最终答案", "AI 助手返回了一条简洁 SQL：表、过滤条件、小数除法、缺失值处理、排序和 LIMIT 都正确。", {
             cards: [["SRR", "1.00"], ["NSP", "1.00"], ["NSF", "1.00"]],
             code: "SELECT CAST(\"Free Meal Count (Ages 5-17)\" AS REAL)\n       / \"Enrollment (Ages 5-17)\" AS eligible_free_rate\nFROM frpm\nWHERE \"Educational Option Type\" = 'Continuation School'\n  AND \"Free Meal Count (Ages 5-17)\" IS NOT NULL\n  AND \"Enrollment (Ages 5-17)\" IS NOT NULL\nORDER BY eligible_free_rate ASC\nLIMIT 3;"
           }]
         ]
       },
       causalEstimate: {
-        name: "Causal Estimation: Method Selection",
+        name: "因果效应估计：选择正确方法",
         short: "Causal Estimate",
         color: "#13845b",
         tag: "因果方法选择",
         hint: "适合讲“相关不等于因果”：agent 要先判断研究设计。",
-        prompt: "Given this study description and CSV, estimate the treatment effect and choose the correct causal method.",
-        skill: "adaptive_causal_estimate: analyze_dataset + diagnostics + estimators。Skill 明确写了 RCT 禁止 Matching、IV 要检查强度、DiD 要检验平行趋势。",
+        prompt: "给定一段研究描述和一份 CSV 数据，请估计处理效应，并选择正确的因果推断方法。",
+        skill: "adaptive_causal_estimate：数据分析工具 + 诊断工具 + 因果估计器。技能卡明确写了：随机实验不能随便 Matching，工具变量要检查强度，双重差分要检验平行趋势。",
         stats: [
-          ["Real MSA", "83.87%", "knowledge skill"],
-          ["QRData MSA", "87.18%", "knowledge skill"],
-          ["Tools-only", "48.39%", "Real MSA"],
-          ["Synthetic MRE", "4.26%", "knowledge skill"]
+          ["真实题准确率", "83.87%", "知识型技能卡"],
+          ["QRData 准确率", "87.18%", "知识型技能卡"],
+          ["只给工具", "48.39%", "真实题准确率"],
+          ["合成题误差", "4.26%", "知识型技能卡"]
         ],
         events: [
-          ["reason", "Read design", "The description says treatment was randomly assigned. That immediately changes the method choice."],
+          ["reason", "阅读研究设计", "描述中出现“随机分配”。这会直接改变方法选择：不能把它当普通观察数据处理。"],
           ["tool", "analyze_dataset", "{ panel_detected: false, treatment: 'program', outcome: 'score', covariates: ['age','income','pre_score'] }"],
-          ["observe", "Dataset diagnosis", "Covariates exist, but random assignment means matching is not needed and can even hurt the selected_method score."],
-          ["tool", "estimate_ols", "Run OLS with robust standard errors using treatment + covariates for precision."],
-          ["reason", "Decision", "Because this is an RCT, OLS/difference-in-means is valid. Matching is rejected even if it converges."],
-          ["final", "Final answer", "The agent outputs the selected method, numeric ATE, and a short causal justification.", {
-            cards: [["Method", "OLS"], ["ATE", "0.184"], ["MSA", "correct"]],
+          ["observe", "数据诊断", "数据里确实有协变量，但随机分配已经保证了处理组和对照组的可比性。"],
+          ["tool", "estimate_ols", "使用 treatment + covariates 运行 OLS，并采用稳健标准误提高估计可靠性。"],
+          ["reason", "做出选择", "因为这是随机实验，OLS 或均值差是合理方法；即使 Matching 能跑通，也应该拒绝。"],
+          ["final", "最终答案", "AI 助手输出所选方法、ATE 数值，以及一句可以解释给人的因果理由。", {
+            cards: [["方法", "OLS"], ["ATE", "0.184"], ["方法选择", "正确"]],
             code: "{\n  \"selected_method\": \"ols\",\n  \"ate\": 0.184,\n  \"reasoning\": \"Randomized assignment detected; matching is forbidden. OLS with covariates is used for precision.\"\n}"
           }]
         ]
@@ -626,48 +627,48 @@
         color: "#c98516",
         tag: "因果图推断",
         hint: "适合展示“AI 不只是聊天，也能调用统计工具画图”。",
-        prompt: "Infer a causal DAG from this observational table. Return the adjacency matrix and explain the key constraints.",
-        skill: "adaptive_causal_discovery: load_and_normalize + run_scd + validate_and_fix_dag。Skill 教 agent 根据变量类型选 PC / Exact-Search / DirectLiNGAM。",
+        prompt: "请根据这张观察数据表推断因果图，返回邻接矩阵，并解释最关键的约束。",
+        skill: "adaptive_causal_discovery：读取变量类型 + 统计因果发现算法 + DAG 合法性检查。技能卡教 AI 根据变量类型选择 PC、Exact-Search 或 DirectLiNGAM。",
         stats: [
-          ["Asia F1", "1.00", "skill run"],
-          ["Child F1", "0.90", "avg skill"],
-          ["DWD F1", "0.74", "avg skill"],
-          ["AutoMPG F1", "0.70", "avg skill"]
+          ["Asia F1", "1.00", "技能卡运行"],
+          ["Child F1", "0.90", "技能卡平均"],
+          ["DWD F1", "0.74", "技能卡平均"],
+          ["AutoMPG F1", "0.70", "技能卡平均"]
         ],
         events: [
-          ["tool", "load_and_normalize", "Detected mixed variable types; several variables are discrete, so DirectLiNGAM is forbidden."],
-          ["reason", "Choose algorithm", "Use PC with alpha=0.1 because the graph is moderately dense and recall matters."],
-          ["tool", "run_scd(method='pc')", "Initial graph has plausible skeleton but two directions are unresolved."],
-          ["observe", "Domain constraints", "Temporal variables cannot be caused by downstream outcomes. A definitional edge is required."],
-          ["tool", "validate_and_fix_dag", "Removed a bidirectional edge and confirmed the final graph is acyclic."],
-          ["final", "Final DAG", "The final output is a legal adjacency matrix plus the algorithm and constraints used.", {
-            cards: [["F1", "0.90"], ["SHD", "lower"], ["DAG", "valid"]],
-            code: "```matrix\n0, 1, 0, 0\n0, 0, 1, 0\n0, 0, 0, 1\n0, 0, 0, 0\n```\nUsed PC because variables are discrete/mixed. Key constraint: forbid outcome -> earlier measurement."
+          ["tool", "load_and_normalize", "检测到混合变量类型；其中一些变量是离散变量，因此不能使用 DirectLiNGAM。"],
+          ["reason", "选择算法", "使用 PC 算法，并把 alpha 设为 0.1，因为这张图比较密，需要更重视召回。"],
+          ["tool", "run_scd(method='pc')", "初始图的骨架比较合理，但还有两条边的方向无法仅靠统计测试确定。"],
+          ["observe", "加入领域约束", "后发生的结果不能反过来导致更早的测量变量；定义关系对应的边必须保留。"],
+          ["tool", "validate_and_fix_dag", "删除一条双向边，并确认最终图没有环。"],
+          ["final", "最终因果图", "最终输出是一张合法的邻接矩阵，并附带使用的算法和关键约束。", {
+            cards: [["F1", "0.90"], ["结构错误", "更低"], ["DAG", "合法"]],
+            code: "```matrix\n0, 1, 0, 0\n0, 0, 1, 0\n0, 0, 0, 1\n0, 0, 0, 0\n```\n使用 PC 算法，因为变量是离散/混合类型。关键约束：禁止“结果变量 → 更早测量变量”。"
           }]
         ]
       },
       featureEngineering: {
         name: "Feature Engineering: Taobao Conversion",
-        short: "Feature Eng.",
+        short: "特征工程",
         color: "#7457a6",
         tag: "自动造特征",
-        hint: "适合结尾：最后结果是 AUC 提升，看起来很直观。",
-        prompt: "Improve AUC on the Taobao ad conversion benchmark by creating useful features and stopping when no longer improving.",
-        skill: "adaptive_feature_engineering: Taobao/Dia 领域特征 + evaluate API + 防数据泄漏规则。Skill 强调 CVR 平滑、计数、交叉特征和早停。",
+        hint: "适合结尾：最后结果是 AUC 提升，学生能直观看到效果。",
+        prompt: "请在淘宝广告转化预测任务上构造有用特征，提升 AUC；如果多轮没有提升就停止。",
+        skill: "adaptive_feature_engineering: Taobao/Dia 领域特征 + 评测接口 + 防数据泄漏规则。Skill 强调 CVR 平滑、计数、交叉特征和早停。",
         stats: [
-          ["Baseline AUC", "0.6300", "Taobao"],
-          ["Best AUC", "0.6594", "Taobao"],
+          ["初始 AUC", "0.6300", "Taobao"],
+          ["最佳 AUC", "0.6594", "Taobao"],
           ["提升", "+0.0294", "absolute"],
-          ["特征数", "37", "best run"]
+          ["特征数", "37", "最佳运行"]
         ],
         events: [
-          ["reason", "Detect dataset", "bench.dataset == 'taobao'. This is sparse ad conversion prediction with high-cardinality IDs."],
-          ["tool", "build features", "Add item/shop/user CVR with Bayesian smoothing, log-count activity, price deviation, and quality composites."],
-          ["observe", "Evaluation 26", "AUC improves from 0.6300 to 0.6474 after entity CVR and count features."],
-          ["tool", "ablation loop", "Remove noisy raw ID columns after CVR features are available; keep 37 strongest features."],
-          ["observe", "Evaluation 67", "Best validation AUC reaches 0.6594. Early-stop patience prevents over-searching."],
-          ["final", "Final feature set", "The agent returns a compact feature recipe and the benchmark score improvement.", {
-            cards: [["AUC", "0.6594"], ["Δ", "+0.0294"], ["Features", "37"]],
+          ["reason", "识别数据集", "bench.dataset == 'taobao'。这是稀疏的广告转化预测问题，并且有很多高基数 ID。"],
+          ["tool", "构造特征", "加入商品/店铺/用户 CVR、贝叶斯平滑、访问次数、价格偏差和质量综合分。"],
+          ["observe", "第 26 次评测", "加入实体 CVR 和计数特征后，AUC 从 0.6300 提升到 0.6474。"],
+          ["tool", "消融循环", "有了 CVR 特征后，移除噪声较大的原始 ID 列，保留最强的 37 个特征。"],
+          ["observe", "第 67 次评测", "最佳验证 AUC 达到 0.6594。早停机制避免无意义地继续搜索。"],
+          ["final", "最终特征方案", "AI 助手返回一套简洁的特征构造方案，以及 benchmark 上的分数提升。", {
+            cards: [["AUC", "0.6594"], ["提升", "+0.0294"], ["特征", "37"]],
             code: "add_cvr('item_id', 'item_cvr', k=20)\nadd_cvr('shop_id', 'shop_cvr', k=20)\nadd_count('user_id', 'user_activity')\nX['price_gap'] = item_price_level - user_avg_price\nX['quality_score'] = sales + collected + pv\nauc = bench.evaluate(best_37_features)"
           }]
         ]
@@ -734,14 +735,14 @@
     function resetConsole() {
       consoleEl.innerHTML = `
         <div class="agent-top">
-          <span>Ready. Choose a case and click Send.</span>
-          <span>offline mock</span>
+          <span>请选择左侧任务，然后点击“发送任务”。</span>
+          <span>课堂演示</span>
         </div>
       `;
       runStatus.classList.remove("running");
-      runStatus.innerHTML = `<span class="status-dot"></span>idle`;
+      runStatus.innerHTML = `<span class="status-dot"></span>等待任务`;
       sendBtn.disabled = false;
-      sendBtn.textContent = "Send ▶";
+      sendBtn.textContent = "发送任务 ▶";
     }
 
     function stopRun() {
@@ -749,9 +750,9 @@
       timer = null;
       running = false;
       sendBtn.disabled = false;
-      sendBtn.textContent = "Send ▶";
+      sendBtn.textContent = "发送任务 ▶";
       runStatus.classList.remove("running");
-      runStatus.innerHTML = `<span class="status-dot"></span>idle`;
+      runStatus.innerHTML = `<span class="status-dot"></span>等待任务`;
     }
 
     function eventIcon(type) {
@@ -796,13 +797,13 @@
       const c = cases[current];
       running = true;
       sendBtn.disabled = true;
-      sendBtn.textContent = "Running...";
+      sendBtn.textContent = "运行中...";
       runStatus.classList.add("running");
-      runStatus.innerHTML = `<span class="status-dot"></span>running`;
+      runStatus.innerHTML = `<span class="status-dot"></span>运行中`;
       consoleEl.innerHTML = `
         <div class="agent-top">
-          <span>Loaded ${c.short} skill · received user prompt</span>
-          <span>mock live trace</span>
+          <span>已读取 ${c.short} 技能卡 · 已收到任务</span>
+          <span>工作过程</span>
         </div>
       `;
 
@@ -815,9 +816,9 @@
         } else {
           running = false;
           sendBtn.disabled = false;
-          sendBtn.textContent = "Replay ▶";
+          sendBtn.textContent = "再次演示 ▶";
           runStatus.classList.remove("running");
-          runStatus.innerHTML = `<span class="status-dot"></span>complete`;
+          runStatus.innerHTML = `<span class="status-dot"></span>已完成`;
         }
       };
       timer = setTimeout(tick, 300);

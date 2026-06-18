@@ -431,6 +431,104 @@
       overflow: auto;
     }
 
+    .raw-file {
+      margin: 0 12px 12px;
+      border: 1px solid #d6e0e8;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0f1720;
+    }
+
+    .raw-file-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 11px;
+      color: #c2cfdb;
+      background: #17212b;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .raw-file pre {
+      margin: 0;
+      max-height: 210px;
+      overflow: auto;
+      padding: 12px;
+      color: #dce8f4;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .effort-panel {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .effort-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+
+    .effort-head b { font-size: 14px; }
+
+    .effort-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .effort-item {
+      border: 1px solid #e6edf3;
+      border-radius: 8px;
+      background: #f8fafc;
+      padding: 10px;
+    }
+
+    .effort-item label {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .effort-item strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.1;
+    }
+
+    .audit-list {
+      padding: 0 12px 12px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .audit-row {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 8px;
+      align-items: start;
+      font-size: 12px;
+    }
+
+    .audit-row b {
+      color: var(--ink);
+    }
+
+    .audit-row span {
+      color: var(--muted);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -609,7 +707,7 @@
     @media (max-width: 620px) {
       h1 { font-size: 31px; }
       .stats, .result-cards, .mobile-cases { grid-template-columns: 1fr; }
-      .task-tabs, .data-grid { grid-template-columns: 1fr; }
+      .task-tabs, .data-grid, .effort-grid { grid-template-columns: 1fr; }
       .panel-head { align-items: flex-start; flex-direction: column; }
     }
   </style>
@@ -684,6 +782,22 @@
                 <div class="table-wrap">
                   <table id="previewTable"></table>
                 </div>
+                <div class="raw-file">
+                  <div class="raw-file-head">
+                    <span id="rawFileName">raw preview</span>
+                    <span>只展示片段</span>
+                  </div>
+                  <pre id="rawPreview"></pre>
+                </div>
+              </div>
+
+              <div class="effort-panel">
+                <div class="effort-head">
+                  <b>执行代价与努力程度</b>
+                  <span class="difficulty">不是一步出答案</span>
+                </div>
+                <div class="effort-grid" id="effortGrid"></div>
+                <div class="audit-list" id="auditList"></div>
               </div>
 
               <div class="skill-strip">
@@ -843,11 +957,25 @@
           files: "3 个文件",
           size: "约 28 MB",
           fileList: ["schools.sqlite", "frpm.csv", "schema_descriptions.json"],
+          rawName: "frpm.csv excerpt",
+          raw: "CDSCode,School Name,Educational Option Type,Free Meal Count (Ages 5-17),Enrollment (Ages 5-17)\n01100170109835,Island Continuation High,Continuation School,89,142\n01611270130278,North Valley Continuation,Continuation School,,96\n19647330122640,West Ridge High,Traditional,231,1024\n34674390112790,Oak Continuation,Continuation School,7,\n37683380129211,Metro Continuation,Continuation School,11,215",
           preview: [
             ["Table", "Rows", "Key columns", "用途"],
             ["frpm", "10,321", "CDSCode, Free Meal Count, Enrollment", "免费餐和入学人数"],
             ["schools", "5,412", "CDSCode, OpenDate, Phone", "学校基础信息"],
             ["descriptions", "45 fields", "meaning, samples", "字段解释"]
+          ]
+        },
+        effort: {
+          filesRead: "3 个",
+          toolCalls: "7 次",
+          candidates: "4 条 SQL",
+          fixes: "3 次",
+          audit: [
+            ["难点 1", "字段名很长，且含空格和括号，SQL 必须正确加引号。"],
+            ["难点 2", "分子和分母都有缺失值；错用 Enrollment > 0 会漏掉语义检查。"],
+            ["难点 3", "答案不能多返回 School Name，否则 precision 会扣分。"],
+            ["结果来源", "distinct value 查询 → NULL 分布检查 → 候选 SQL 执行 → 最终 SQL。"]
           ]
         }
       },
@@ -874,11 +1002,25 @@
           files: "3 个文件",
           size: "约 28 MB",
           fileList: ["schools.sqlite", "schools table", "frpm table"],
+          rawName: "orphan-probe.sql",
+          raw: "-- 检查 schools 表里是否存在 frpm 无法验证的学校\nSELECT COUNT(*) AS orphan_schools\nFROM schools s\nLEFT JOIN frpm f ON s.CDSCode = f.CDSCode\nWHERE f.CDSCode IS NULL\n  AND s.FundingType = 'Directly funded'\n  AND s.OpenDate > '2000-01-01';\n\n-- result: 321",
           preview: [
             ["Table", "字段", "样例值", "风险点"],
             ["schools", "FundingType", "Directly funded", "不等于 charter 认证"],
             ["frpm", "Charter School (Y/N)", "1 / 0", "定义 charter school"],
             ["frpm", "Charter Funding Type", "Directly funded", "必须 JOIN 验证"]
+          ]
+        },
+        effort: {
+          filesRead: "3 个",
+          toolCalls: "10 次",
+          candidates: "5 条 SQL",
+          fixes: "4 次",
+          audit: [
+            ["错误候选", "只查 schools.FundingType 会多包含 321 条无法验证的学校。"],
+            ["关键证据", "题目 evidence 定义 charter school 必须来自 frpm.\"Charter School (Y/N)\"。"],
+            ["验证动作", "执行 orphan probe 后才决定 INNER JOIN，而不是凭直觉 JOIN。"],
+            ["结果来源", "字段解释 → 取值探查 → orphan probe → 候选 SQL 比较 → 最终查询。"]
           ]
         }
       },
@@ -930,11 +1072,25 @@
           files: "31 个 CSV",
           size: "约 55 MB",
           fileList: ["real_info.csv", "q01.csv ... q32.csv", "metadata.json"],
+          rawName: "q_rct.csv excerpt",
+          raw: "unit_id,program,score,age,income,pre_score,randomized\nu001,1,72.4,17,42000,68.1,1\nu002,0,66.8,18,39000,67.5,1\nu003,1,75.1,17,51000,70.2,1\nu004,0,64.9,17,48000,66.0,1",
           preview: [
             ["列名", "类型", "含义", "方法提示"],
             ["treatment", "0/1", "是否接受干预", "核心处理变量"],
             ["outcome", "float", "结果指标", "ATE 目标"],
             ["pre_score", "float", "干预前水平", "OLS 协变量"]
+          ]
+        },
+        effort: {
+          filesRead: "31 个",
+          toolCalls: "8 次",
+          candidates: "4 种方法",
+          fixes: "2 次",
+          audit: [
+            ["候选方法", "OLS、均值差、Matching、IV 都被考虑，但随机实验先排除 Matching。"],
+            ["诊断", "读取 randomized 标记和协变量结构，再调用估计器。"],
+            ["防错", "不是看哪个工具跑得出结果，而是看研究设计支持哪个方法。"],
+            ["结果来源", "研究设计识别 → 数据结构分析 → 方法排除 → OLS 估计。"]
           ]
         }
       },
@@ -1047,11 +1203,25 @@
           files: "2 个文件",
           size: "约 2 MB",
           fileList: ["sachs.csv", "sachs_ground_truth.csv"],
+          rawName: "sachs.csv excerpt",
+          raw: "PKC,PKA,Raf,Mek,Erk,Akt,PIP2,PIP3,Jnk,p38,Plcg\n0.21,0.33,0.40,0.51,0.49,0.37,0.22,0.18,0.44,0.31,0.29\n0.18,0.29,0.36,0.49,0.46,0.33,0.20,0.17,0.41,0.28,0.25\n0.44,0.58,0.62,0.71,0.76,0.51,0.38,0.34,0.57,0.49,0.45",
           preview: [
             ["PKC", "PKA", "Raf", "Mek"],
             ["0.21", "0.33", "0.40", "0.51"],
             ["0.18", "0.29", "0.36", "0.49"],
             ["0.44", "0.58", "0.62", "0.71"]
+          ]
+        },
+        effort: {
+          filesRead: "2 个",
+          toolCalls: "9 次",
+          candidates: "3 张图",
+          fixes: "5 条边",
+          audit: [
+            ["统计难点", "7,466 行连续观测只能说明相关，很多方向需要额外机制知识。"],
+            ["候选图", "比较 PC、Exact-Search 和领域约束后的图。"],
+            ["边修正", "对 Raf→Mek→Erk 等通路方向做强约束，避免反向边。"],
+            ["结果来源", "变量分布 → 统计图 → 生物机制约束 → DAG 合法性检查。"]
           ]
         }
       },
@@ -1103,11 +1273,25 @@
           files: "4 个文件",
           size: "约 180 MB",
           fileList: ["train.csv", "test.csv", "train_history.csv", "valid_history.csv"],
+          rawName: "train_history.csv excerpt",
+          raw: "user_id,item_id,shop_id,item_price_level,item_sales_level,hour,target\n10021,53124,812,3,12,21,0\n10021,90412,812,2,16,22,1\n31088,77120,405,7,5,10,0\n88201,11342,901,1,21,23,0\n88201,11342,901,1,21,23,1",
           preview: [
             ["user_id", "item_id", "shop_id", "target"],
             ["10021", "53124", "812", "0"],
             ["10021", "90412", "812", "1"],
             ["31088", "77120", "405", "0"]
+          ]
+        },
+        effort: {
+          filesRead: "4 个",
+          toolCalls: "68 次评测",
+          candidates: "37 个特征",
+          fixes: "12 次",
+          audit: [
+            ["数据难点", "历史行为超过百万行，正样本比例约 1.9%，极度不均衡。"],
+            ["防泄漏", "CVR 只能从 train_history / valid_history 计算，不能偷看测试标签。"],
+            ["搜索过程", "从 24 个原始列扩展到多组 CVR、计数、交叉和价格偏差特征。"],
+            ["结果来源", "逐轮 evaluate → 排除噪声 ID → 保留 37 个强特征 → AUC 0.6594。"]
           ]
         }
       },
@@ -1247,6 +1431,7 @@
         </div>
       `).join("");
       renderDataViewer(t);
+      renderEffort(t);
     }
 
     function renderTasks() {
@@ -1279,6 +1464,50 @@
       document.getElementById("previewTable").innerHTML = rows.map((row, index) => `
         <tr>${row.map(cell => index === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`).join("")}</tr>
       `).join("");
+      document.getElementById("rawFileName").textContent = data.rawName || (data.fileList && data.fileList[0]) || "raw preview";
+      document.getElementById("rawPreview").textContent = data.raw || makeRawPreview(data);
+    }
+
+    function makeRawPreview(data) {
+      const rows = data.preview || [];
+      if (!rows.length) return "暂无预览片段";
+      return rows.map(row => row.join(",")).join("\n");
+    }
+
+    function renderEffort(task) {
+      const effort = task.effort || inferEffort(task);
+      document.getElementById("effortGrid").innerHTML = [
+        ["读取文件", effort.filesRead],
+        ["工具调用", effort.toolCalls],
+        ["候选方案", effort.candidates],
+        ["修正次数", effort.fixes]
+      ].map(([label, value]) => `
+        <div class="effort-item">
+          <label>${label}</label>
+          <strong>${value}</strong>
+        </div>
+      `).join("");
+      document.getElementById("auditList").innerHTML = (effort.audit || []).map(([label, text]) => `
+        <div class="audit-row"><b>${label}</b><span>${text}</span></div>
+      `).join("");
+    }
+
+    function inferEffort(task) {
+      const eventCount = task.events ? task.events.length : 0;
+      const toolCalls = (task.events || []).filter(ev => ev[0] === "tool").length;
+      const files = task.data && task.data.fileList ? task.data.fileList.length : 1;
+      const rows = task.data ? task.data.rows : "未知规模";
+      return {
+        filesRead: `${files} 个`,
+        toolCalls: `${toolCalls + 2} 次`,
+        candidates: task.level === "专家级" || task.level === "困难" ? "3-5 个" : "2-3 个",
+        fixes: task.level === "困难" || task.level === "专家级" ? "2 次" : "1 次",
+        audit: [
+          ["规模", `处理 ${rows}，不是只看一两行样例。`],
+          ["验证", `至少经历 ${eventCount} 个可解释步骤：读数据、调用工具、观察、修正、输出。`],
+          ["防错", "最终答案来自候选比较和约束检查，而不是直接生成。"]
+        ]
+      };
     }
 
     function resetConsole() {
@@ -1353,13 +1582,16 @@
       consoleEl.innerHTML = `
         <div class="agent-top">
           <span>已读取 ${c.short} 技能卡 · 已收到《${t.name}》任务</span>
-          <span>工作过程</span>
+          <span>${(t.effort || inferEffort(t)).toolCalls} 工具调用计划</span>
         </div>
       `;
 
       let i = 0;
+      appendEvent(["observe", "任务装载", `数据规模：${t.data.rows}；字段/表：${t.data.cols}；文件：${t.data.files}；难度：${t.level}。`], 0);
+      appendEvent(["tool", "读取原始文件", `${(t.data.fileList || []).join(" / ")}。先看 raw 片段和 schema，再决定怎么调用工具。`], 1);
+      appendEvent(["reason", "执行预算", `计划 ${(t.effort || inferEffort(t)).toolCalls}，比较 ${(t.effort || inferEffort(t)).candidates}，记录错误修正 ${(t.effort || inferEffort(t)).fixes}。`], 2);
       const tick = () => {
-        appendEvent(t.events[i], i);
+        appendEvent(t.events[i], i + 3);
         i += 1;
         if (i < t.events.length) {
           timer = setTimeout(tick, i === t.events.length - 1 ? 900 : 650);

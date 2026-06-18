@@ -315,6 +315,141 @@
     .skill-strip b { font-size: 14px; }
     .skill-strip p { margin: 0; color: var(--muted); font-size: 13px; }
 
+    .task-picker {
+      margin-top: 14px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .task-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .task-tab {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+      min-height: 74px;
+    }
+
+    .task-tab.active {
+      border-color: var(--blue);
+      box-shadow: inset 0 0 0 1px var(--blue);
+      background: #f3f7fe;
+    }
+
+    .task-tab b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .task-tab span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .data-viewer {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .data-viewer-head {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .data-viewer-head b { font-size: 14px; }
+    .difficulty {
+      border-radius: 999px;
+      padding: 4px 9px;
+      color: #fff;
+      background: var(--amber);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .data-kv {
+      background: #f8fafc;
+      border: 1px solid #e6edf3;
+      border-radius: 8px;
+      padding: 9px;
+    }
+
+    .data-kv label {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .data-kv strong {
+      font-size: 16px;
+      line-height: 1.1;
+    }
+
+    .file-list {
+      padding: 0 12px 12px;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .file-chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fff;
+    }
+
+    .table-wrap {
+      padding: 0 12px 12px;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 420px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #e6edf3;
+      text-align: left;
+      padding: 7px 8px;
+      white-space: nowrap;
+    }
+
+    th {
+      color: #33404c;
+      background: #f8fafc;
+    }
+
     .console {
       background: #101720;
       color: #dce8f4;
@@ -474,6 +609,7 @@
     @media (max-width: 620px) {
       h1 { font-size: 31px; }
       .stats, .result-cards, .mobile-cases { grid-template-columns: 1fr; }
+      .task-tabs, .data-grid { grid-template-columns: 1fr; }
       .panel-head { align-items: flex-start; flex-direction: column; }
     }
   </style>
@@ -533,6 +669,23 @@
 
               <div class="stats" id="stats"></div>
 
+              <div class="task-picker">
+                <b>任务样例</b>
+                <div class="task-tabs" id="taskList"></div>
+              </div>
+
+              <div class="data-viewer">
+                <div class="data-viewer-head">
+                  <b id="dataTitle">数据查看器</b>
+                  <span class="difficulty" id="difficulty">中等</span>
+                </div>
+                <div class="data-grid" id="dataGrid"></div>
+                <div class="file-list" id="fileList"></div>
+                <div class="table-wrap">
+                  <table id="previewTable"></table>
+                </div>
+              </div>
+
               <div class="skill-strip">
                 <b>AI 助手读取的技能卡</b>
                 <p id="skillLine"></p>
@@ -570,8 +723,8 @@
   <script>
     const cases = {
       text2sql: {
-        name: "Text-to-SQL: California Schools",
-        short: "Text2SQL",
+        name: "文本转 SQL：学校数据库",
+        short: "文本转 SQL",
         color: "#2b67b2",
         tag: "SQL 满分样例",
         hint: "适合开场：学生能直观看到 agent 先查数据再写 SQL。",
@@ -622,8 +775,8 @@
         ]
       },
       causalDiscovery: {
-        name: "Causal Discovery: Build a DAG",
-        short: "Causal Discovery",
+        name: "因果发现：画出因果图",
+        short: "因果发现",
         color: "#c98516",
         tag: "因果图推断",
         hint: "适合展示“AI 不只是聊天，也能调用统计工具画图”。",
@@ -648,7 +801,7 @@
         ]
       },
       featureEngineering: {
-        name: "Feature Engineering: Taobao Conversion",
+        name: "特征工程：淘宝广告转化",
         short: "特征工程",
         color: "#7457a6",
         tag: "自动造特征",
@@ -675,7 +828,354 @@
       }
     };
 
+    cases.text2sql.tasks = [
+      {
+        name: "学校免费餐比例",
+        level: "中等",
+        prompt: cases.text2sql.prompt,
+        hint: cases.text2sql.hint,
+        stats: cases.text2sql.stats,
+        events: cases.text2sql.events,
+        data: {
+          title: "California Schools 数据库",
+          rows: "约 15K 行",
+          cols: "2 张表 / 45 列",
+          files: "3 个文件",
+          size: "约 28 MB",
+          fileList: ["schools.sqlite", "frpm.csv", "schema_descriptions.json"],
+          preview: [
+            ["Table", "Rows", "Key columns", "用途"],
+            ["frpm", "10,321", "CDSCode, Free Meal Count, Enrollment", "免费餐和入学人数"],
+            ["schools", "5,412", "CDSCode, OpenDate, Phone", "学校基础信息"],
+            ["descriptions", "45 fields", "meaning, samples", "字段解释"]
+          ]
+        }
+      },
+      {
+        name: "特许学校电话查询",
+        level: "困难",
+        prompt: "请返回 2000-01-01 后开办、直接经费资助的 charter schools 的联系电话。",
+        hint: "这个例子难在两个表都像有答案，但只有 JOIN 后才语义正确。",
+        stats: [["精确匹配", "1.00", "示例得分"], ["表连接", "必须", "schools + frpm"], ["孤儿记录", "321", "需排除"], ["成本", "$1.41", "记录样例"]],
+        events: [
+          ["reason", "识别歧义", "“direct charter-funded”不是简单的 FundingType='Directly funded'，还必须满足 charter school 定义。"],
+          ["tool", "查看字段含义", "读取 schools.FundingType 与 frpm.\"Charter Funding Type\" 的说明和样例值。"],
+          ["observe", "发现证据定义", "题目证据说明 charter schools = frpm.\"Charter School (Y/N)\" = 1，这是绑定条件。"],
+          ["tool", "孤儿记录检查", "发现 321 所 schools 表里的学校没有 frpm 记录，因此无法验证是否为 charter school。"],
+          ["final", "最终答案", "AI 助手选择 INNER JOIN，避免把无法验证的学校误加入答案。", {
+            cards: [["SQL", "正确"], ["JOIN", "INNER"], ["排除孤儿", "321"]],
+            code: "SELECT s.Phone\nFROM schools s\nJOIN frpm f ON s.CDSCode = f.CDSCode\nWHERE f.\"Charter School (Y/N)\" = 1\n  AND f.\"Charter Funding Type\" = 'Directly funded'\n  AND s.OpenDate > '2000-01-01';"
+          }]
+        ],
+        data: {
+          title: "California Schools 多表查询",
+          rows: "约 15K 行",
+          cols: "2 张表 / 45 列",
+          files: "3 个文件",
+          size: "约 28 MB",
+          fileList: ["schools.sqlite", "schools table", "frpm table"],
+          preview: [
+            ["Table", "字段", "样例值", "风险点"],
+            ["schools", "FundingType", "Directly funded", "不等于 charter 认证"],
+            ["frpm", "Charter School (Y/N)", "1 / 0", "定义 charter school"],
+            ["frpm", "Charter Funding Type", "Directly funded", "必须 JOIN 验证"]
+          ]
+        }
+      },
+      {
+        name: "订单统计 SQL",
+        level: "中等偏难",
+        prompt: "请在 Spider 风格数据库中统计每个客户的订单数量，并只返回订单数最高的客户。",
+        hint: "这个例子展示候选 SQL 打分：COUNT(*)、COUNT(DISTINCT) 和 JOIN 键都要验证。",
+        stats: [["执行正确率", "0.80", "小样例"], ["候选 SQL", "3", "自动比较"], ["平均轮数", "5.9", "记录运行"], ["语义得分", "0.90", "小样例"]],
+        events: [
+          ["reason", "拆题", "先确定主实体是 customer，统计对象是 order，不是订单明细行。"],
+          ["tool", "schema 检查", "查看 customers、orders、order_items 的主键和外键。"],
+          ["tool", "候选答案评分", "比较 COUNT(*), COUNT(order_id), COUNT(DISTINCT order_id) 三个 SQL。"],
+          ["observe", "选择更稳的候选", "如果 JOIN 到 order_items 会放大行数，应在 orders 表上计数。"],
+          ["final", "最终 SQL", "返回客户 ID、客户名和订单数，按订单数降序取第一名。", {
+            cards: [["候选数", "3"], ["最终排名", "第 1"], ["语义", "通过"]],
+            code: "SELECT c.customer_id, c.name, COUNT(o.order_id) AS order_count\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nGROUP BY c.customer_id, c.name\nORDER BY order_count DESC\nLIMIT 1;"
+          }]
+        ],
+        data: {
+          title: "Spider 风格关系数据库",
+          rows: "约 8K 行",
+          cols: "5 张表 / 62 列",
+          files: "2 个文件",
+          size: "约 12 MB",
+          fileList: ["database.sqlite", "schema.json"],
+          preview: [
+            ["Table", "Rows", "Key", "说明"],
+            ["customers", "1,204", "customer_id", "客户信息"],
+            ["orders", "3,918", "order_id", "订单"],
+            ["order_items", "9,740", "order_id", "订单明细，可能造成重复计数"]
+          ]
+        }
+      }
+    ];
+
+    cases.causalEstimate.tasks = [
+      {
+        name: "随机实验处理效应",
+        level: "中等",
+        prompt: cases.causalEstimate.prompt,
+        hint: cases.causalEstimate.hint,
+        stats: cases.causalEstimate.stats,
+        events: cases.causalEstimate.events,
+        data: {
+          title: "真实因果问题数据",
+          rows: "约 32 个问题",
+          cols: "每题 8-40 列",
+          files: "31 个 CSV",
+          size: "约 55 MB",
+          fileList: ["real_info.csv", "q01.csv ... q32.csv", "metadata.json"],
+          preview: [
+            ["列名", "类型", "含义", "方法提示"],
+            ["treatment", "0/1", "是否接受干预", "核心处理变量"],
+            ["outcome", "float", "结果指标", "ATE 目标"],
+            ["pre_score", "float", "干预前水平", "OLS 协变量"]
+          ]
+        }
+      },
+      {
+        name: "政策前后双重差分",
+        level: "困难",
+        prompt: "给定多个地区在政策前后的面板数据，请估计政策对结果变量的影响。",
+        hint: "这个任务难在要识别 panel structure，并检查平行趋势。",
+        stats: [["方法", "DiD", "双重差分"], ["时间列", "12 期", "政策前后"], ["平行趋势", "已检查", "诊断工具"], ["输出", "ATE", "数值估计"]],
+        events: [
+          ["tool", "analyze_dataset", "检测到 unit_id × year 的面板结构，以及政策在第 8 期开始。"],
+          ["reason", "选择 DiD", "同一地区有多期观察，并且存在处理组和对照组，适合双重差分。"],
+          ["tool", "test_parallel_trends", "使用政策前 7 期数据检查处理组和对照组趋势是否接近。"],
+          ["observe", "诊断通过", "平行趋势检验没有明显失败，可以继续估计。"],
+          ["final", "最终答案", "选择 DiD，输出政策影响和假设说明。", {
+            cards: [["方法", "DiD"], ["ATE", "-2.31"], ["趋势", "通过"]],
+            code: "{\n  \"selected_method\": \"did\",\n  \"ate\": -2.31,\n  \"reasoning\": \"Panel data with treatment timing; pre-trend diagnostic passed.\"\n}"
+          }]
+        ],
+        data: {
+          title: "政策面板数据",
+          rows: "18,240 行",
+          cols: "14 列",
+          files: "2 个文件",
+          size: "约 8 MB",
+          fileList: ["policy_panel.csv", "description.txt"],
+          preview: [
+            ["unit_id", "year", "treated", "outcome"],
+            ["A001", "2011", "0", "53.2"],
+            ["A001", "2012", "0", "52.7"],
+            ["B014", "2018", "1", "47.9"]
+          ]
+        }
+      },
+      {
+        name: "阈值录取 RDD",
+        level: "困难",
+        prompt: "学生分数超过 cutoff 才能进入项目，请估计项目对后续成绩的局部影响。",
+        hint: "这个例子展示 running variable、cutoff 和 bandwidth 的作用。",
+        stats: [["方法", "RDD", "断点回归"], ["cutoff", "80", "分数阈值"], ["带宽", "±8", "局部估计"], ["样本", "1.2K", "阈值附近"]],
+        events: [
+          ["reason", "识别阈值设计", "处理变量由 score 是否超过 80 决定，这是典型 RDD。"],
+          ["tool", "estimate_rdd", "在 cutoff=80 附近选择默认带宽，并检查带宽内样本数是否足够。"],
+          ["observe", "局部样本充足", "阈值附近有 1,200 多个样本，估计比较稳定。"],
+          ["final", "最终答案", "输出的是 cutoff 附近的局部平均处理效应，不是全体学生的平均效果。", {
+            cards: [["方法", "RDD"], ["LATE", "5.8"], ["样本", "1.2K"]],
+            code: "{\n  \"selected_method\": \"rdd\",\n  \"ate\": 5.8,\n  \"reasoning\": \"Treatment assigned by score cutoff; estimate is local near cutoff=80.\"\n}"
+          }]
+        ],
+        data: {
+          title: "阈值录取数据",
+          rows: "9,860 行",
+          cols: "11 列",
+          files: "1 个 CSV",
+          size: "约 3 MB",
+          fileList: ["score_cutoff_study.csv"],
+          preview: [
+            ["student_id", "score", "program", "final_grade"],
+            ["S102", "79.5", "0", "82.1"],
+            ["S205", "80.3", "1", "88.4"],
+            ["S781", "91.2", "1", "90.5"]
+          ]
+        }
+      }
+    ];
+
+    cases.causalDiscovery.tasks = [
+      {
+        name: "儿童健康因果图",
+        level: "困难",
+        prompt: cases.causalDiscovery.prompt,
+        hint: cases.causalDiscovery.hint,
+        stats: cases.causalDiscovery.stats,
+        events: cases.causalDiscovery.events,
+        data: {
+          title: "Child Bayesian Network",
+          rows: "5,000 行",
+          cols: "20 个变量",
+          files: "3 个文件",
+          size: "约 4 MB",
+          fileList: ["child.csv", "child_ground_truth.csv", "prompt.txt"],
+          preview: [
+            ["变量", "类型", "例子", "因果含义"],
+            ["Disease", "离散", "0/1/2", "潜在病因"],
+            ["Xray", "离散", "normal/abnormal", "检测结果"],
+            ["Dyspnea", "离散", "yes/no", "症状"]
+          ]
+        }
+      },
+      {
+        name: "Sachs 蛋白信号网络",
+        level: "专家级",
+        prompt: "请根据细胞信号通路数据推断蛋白之间的因果方向。",
+        hint: "这个任务适合讲领域知识：统计相关不一定能决定方向，生物机制很关键。",
+        stats: [["变量", "11", "蛋白"], ["样本", "7,466", "细胞观测"], ["F1", "0.94", "高分运行"], ["约束", "机制知识", "方向判断"]],
+        events: [
+          ["tool", "load_and_normalize", "检测到连续蛋白表达数据，变量数量较小，可以比较 PC 和 Exact-Search。"],
+          ["tool", "run_scd", "PC 找到一批统计相关边，但部分方向不确定。"],
+          ["reason", "加入生物知识", "PKC、PKA、Raf、Mek、Erk 存在已知信号传导方向。"],
+          ["tool", "validate_and_fix_dag", "根据机制约束修正方向，并检查 DAG 合法性。"],
+          ["final", "最终因果图", "输出蛋白信号网络的邻接矩阵和关键边解释。", {
+            cards: [["F1", "0.94"], ["变量", "11"], ["图", "合法"]],
+            code: "PKC → PKA\nRaf → Mek → Erk\nPIP2 → PIP3\n\n最终输出为 11×11 邻接矩阵。"
+          }]
+        ],
+        data: {
+          title: "Sachs protein signaling",
+          rows: "7,466 行",
+          cols: "11 列",
+          files: "2 个文件",
+          size: "约 2 MB",
+          fileList: ["sachs.csv", "sachs_ground_truth.csv"],
+          preview: [
+            ["PKC", "PKA", "Raf", "Mek"],
+            ["0.21", "0.33", "0.40", "0.51"],
+            ["0.18", "0.29", "0.36", "0.49"],
+            ["0.44", "0.58", "0.62", "0.71"]
+          ]
+        }
+      },
+      {
+        name: "汽车油耗因果图",
+        level: "中等",
+        prompt: "根据 AutoMPG 数据推断汽车属性之间的因果关系，例如重量、马力和油耗。",
+        hint: "这个任务适合学生理解：车重、马力、油耗之间存在直观因果方向。",
+        stats: [["变量", "6", "汽车属性"], ["样本", "398", "车辆"], ["F1", "0.70", "技能卡平均"], ["难点", "方向", "重量/马力/油耗"]],
+        events: [
+          ["reason", "先用常识约束", "生产年份和气缸数更像上游变量，油耗更像结果变量。"],
+          ["tool", "run_scd(method='Exact-Search')", "用统计搜索得到候选图。"],
+          ["observe", "发现可疑方向", "算法可能给出 mpg → weight，但物理上更合理的是 weight → mpg。"],
+          ["reason", "修正方向", "根据物理常识禁止油耗导致车重。"],
+          ["final", "最终图", "输出更符合汽车常识的因果图。", {
+            cards: [["F1", "0.70"], ["变量", "6"], ["约束", "物理常识"]],
+            code: "cylinders → horsepower\nweight → mpg\nmodel_year → mpg\nhorsepower → mpg"
+          }]
+        ],
+        data: {
+          title: "AutoMPG",
+          rows: "398 行",
+          cols: "6 列",
+          files: "2 个文件",
+          size: "约 120 KB",
+          fileList: ["autompg.csv", "autompg_ground_truth.csv"],
+          preview: [
+            ["mpg", "cylinders", "horsepower", "weight"],
+            ["18.0", "8", "130", "3504"],
+            ["24.0", "4", "95", "2372"],
+            ["32.1", "4", "70", "2120"]
+          ]
+        }
+      }
+    ];
+
+    cases.featureEngineering.tasks = [
+      {
+        name: "淘宝广告转化",
+        level: "困难",
+        prompt: cases.featureEngineering.prompt,
+        hint: cases.featureEngineering.hint,
+        stats: cases.featureEngineering.stats,
+        events: cases.featureEngineering.events,
+        data: {
+          title: "Taobao 广告转化数据",
+          rows: "约 260K 行",
+          cols: "24 原始列 + 37 最佳特征",
+          files: "4 个文件",
+          size: "约 180 MB",
+          fileList: ["train.csv", "test.csv", "train_history.csv", "valid_history.csv"],
+          preview: [
+            ["user_id", "item_id", "shop_id", "target"],
+            ["10021", "53124", "812", "0"],
+            ["10021", "90412", "812", "1"],
+            ["31088", "77120", "405", "0"]
+          ]
+        }
+      },
+      {
+        name: "糖尿病风险预测",
+        level: "中等",
+        prompt: "请在糖尿病健康调查数据上构造特征，提升 AUC，并避免目标泄漏。",
+        hint: "这个任务更贴近生活：BMI、血压、年龄、生活习惯都可能影响风险。",
+        stats: [["初始 AUC", "0.7970", "Dia"], ["最佳 AUC", "0.7991", "Dia"], ["提升", "+0.0021", "小但稳定"], ["特征数", "21", "最佳运行"]],
+        events: [
+          ["reason", "识别数据", "这是健康调查数据，没有历史日志，所有特征都必须从当前表格中构造。"],
+          ["tool", "构造临床特征", "加入 BMI 阈值、心血管风险总分、生活方式风险总分。"],
+          ["observe", "评测结果", "AUC 从 0.7970 提升到 0.7991。这个数据集原始特征已经很强，提升不会特别大。"],
+          ["final", "最终方案", "保留 21 个简洁特征，避免堆很多噪声交叉项。", {
+            cards: [["AUC", "0.7991"], ["提升", "+0.0021"], ["特征", "21"]],
+            code: "risk_score = HighBP + HighChol + HeartDiseaseorAttack + Stroke\nbmi_obese = BMI >= 30\nlifestyle_risk = Smoker + no_activity + poor_diet"
+          }]
+        ],
+        data: {
+          title: "Diabetes Health Indicators",
+          rows: "253,680 行",
+          cols: "21 列",
+          files: "3 个 CSV",
+          size: "约 75 MB",
+          fileList: ["diabetes_binary.csv", "diabetes_012.csv", "balanced_5050.csv"],
+          preview: [
+            ["HighBP", "BMI", "Age", "Diabetes"],
+            ["1", "32", "9", "1"],
+            ["0", "24", "4", "0"],
+            ["1", "29", "11", "1"]
+          ]
+        }
+      },
+      {
+        name: "价格敏感度特征",
+        level: "中等偏难",
+        prompt: "请为广告转化预测构造“用户是否对价格敏感”的特征，并验证它是否提升 AUC。",
+        hint: "这个任务展示 AI 如何把业务直觉变成可计算特征。",
+        stats: [["新增特征", "4", "价格相关"], ["AUC 提升", "+0.006", "局部贡献"], ["数据源", "history", "无泄漏"], ["评测", "通过", "evaluate"]],
+        events: [
+          ["reason", "业务直觉", "如果用户历史上常看低价商品，那么当前商品价格偏高可能降低转化概率。"],
+          ["tool", "计算历史均值", "按 user_id 统计历史浏览商品的平均价格等级。"],
+          ["tool", "构造偏差", "price_gap = item_price_level - user_avg_price_level。"],
+          ["observe", "验证提升", "加入价格偏差和价格交叉特征后，AUC 有稳定小幅提升。"],
+          ["final", "最终特征", "把业务直觉转化为数值特征，并用 benchmark 验证。", {
+            cards: [["价格特征", "4"], ["提升", "+0.006"], ["泄漏", "无"]],
+            code: "user_avg_price = hist.groupby('user_id')['item_price_level'].mean()\nX['price_gap'] = X['item_price_level'] - X['user_avg_price']\nX['price_sensitive'] = X['price_gap'] > 1"
+          }]
+        ],
+        data: {
+          title: "Taobao history log",
+          rows: "约 1.1M 行历史行为",
+          cols: "18 列",
+          files: "2 个 history 文件",
+          size: "约 140 MB",
+          fileList: ["train_history.csv", "valid_history.csv"],
+          preview: [
+            ["user_id", "item_price_level", "hour", "purchase"],
+            ["10021", "3", "21", "0"],
+            ["10021", "2", "22", "1"],
+            ["31088", "7", "10", "0"]
+          ]
+        }
+      }
+    ];
+
     let current = "text2sql";
+    let taskIndex = 0;
     let timer = null;
     let running = false;
 
@@ -685,6 +1185,12 @@
     const sendBtn = document.getElementById("sendBtn");
     const resetBtn = document.getElementById("resetBtn");
     const runStatus = document.getElementById("runStatus");
+    const taskList = document.getElementById("taskList");
+
+    function activeTask() {
+      const c = cases[current];
+      return c.tasks && c.tasks[taskIndex] ? c.tasks[taskIndex] : c;
+    }
 
     function renderCases() {
       caseList.innerHTML = "";
@@ -710,25 +1216,68 @@
     function setCase(key) {
       if (running) stopRun();
       current = key;
+      taskIndex = 0;
+      render();
+      resetConsole();
+    }
+
+    function setTask(index) {
+      if (running) stopRun();
+      taskIndex = index;
       render();
       resetConsole();
     }
 
     function render() {
       const c = cases[current];
+      const t = activeTask();
       renderCases();
-      document.getElementById("caseName").textContent = c.name;
-      document.getElementById("caseTag").textContent = c.tag;
+      renderTasks();
+      document.getElementById("caseName").textContent = t.name;
+      document.getElementById("caseTag").textContent = t.level || c.tag;
       document.getElementById("caseTag").style.background = c.color;
-      document.getElementById("prompt").value = c.prompt;
-      document.getElementById("caseHint").textContent = c.hint;
+      document.getElementById("prompt").value = t.prompt;
+      document.getElementById("caseHint").textContent = t.hint;
       document.getElementById("skillLine").textContent = c.skill;
-      document.getElementById("stats").innerHTML = c.stats.map(([label, value, note]) => `
+      document.getElementById("stats").innerHTML = t.stats.map(([label, value, note]) => `
         <div class="stat">
           <label>${label}</label>
           <strong style="color:${c.color}">${value}</strong>
           <small>${note}</small>
         </div>
+      `).join("");
+      renderDataViewer(t);
+    }
+
+    function renderTasks() {
+      const c = cases[current];
+      taskList.innerHTML = (c.tasks || [c]).map((task, index) => `
+        <button class="task-tab ${index === taskIndex ? "active" : ""}" onclick="setTask(${index})">
+          <b>${task.name}</b>
+          <span>${task.level || "任务"} · ${task.data ? task.data.rows : "数据规模已整理"}</span>
+        </button>
+      `).join("");
+    }
+
+    function renderDataViewer(task) {
+      const data = task.data || { title: "数据查看器", rows: "-", cols: "-", files: "-", size: "-", fileList: [], preview: [] };
+      document.getElementById("dataTitle").textContent = data.title;
+      document.getElementById("difficulty").textContent = `难度：${task.level || "中等"}`;
+      document.getElementById("dataGrid").innerHTML = [
+        ["数据量", data.rows],
+        ["字段/表", data.cols],
+        ["文件数", data.files],
+        ["大小", data.size]
+      ].map(([label, value]) => `
+        <div class="data-kv">
+          <label>${label}</label>
+          <strong>${value}</strong>
+        </div>
+      `).join("");
+      document.getElementById("fileList").innerHTML = (data.fileList || []).map(file => `<span class="file-chip">${file}</span>`).join("");
+      const rows = data.preview || [];
+      document.getElementById("previewTable").innerHTML = rows.map((row, index) => `
+        <tr>${row.map(cell => index === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`).join("")}</tr>
       `).join("");
     }
 
@@ -795,6 +1344,7 @@
     function runDemo() {
       if (running) return;
       const c = cases[current];
+      const t = activeTask();
       running = true;
       sendBtn.disabled = true;
       sendBtn.textContent = "运行中...";
@@ -802,17 +1352,17 @@
       runStatus.innerHTML = `<span class="status-dot"></span>运行中`;
       consoleEl.innerHTML = `
         <div class="agent-top">
-          <span>已读取 ${c.short} 技能卡 · 已收到任务</span>
+          <span>已读取 ${c.short} 技能卡 · 已收到《${t.name}》任务</span>
           <span>工作过程</span>
         </div>
       `;
 
       let i = 0;
       const tick = () => {
-        appendEvent(c.events[i], i);
+        appendEvent(t.events[i], i);
         i += 1;
-        if (i < c.events.length) {
-          timer = setTimeout(tick, i === c.events.length - 1 ? 900 : 650);
+        if (i < t.events.length) {
+          timer = setTimeout(tick, i === t.events.length - 1 ? 900 : 650);
         } else {
           running = false;
           sendBtn.disabled = false;

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>会使用技能的 AI 助手</title>
+  <title>Skill-Using AI Assistant</title>
   <style>
     :root {
       --ink: #15202b;
@@ -771,32 +771,30 @@
       <div class="brand">
         <div class="mark">AS</div>
         <div>
-          <strong>技能型 AI 助手</strong>
-          <span>高中人工智能导论演示</span>
+          <strong>Skill-Based AI Assistant</strong>
+          <span>High School AI Introduction Demo</span>
         </div>
       </div>
       <div class="case-list" id="caseList"></div>
       <div class="side-note">
-        课堂用法：选择一个任务，点击“发送任务”。右侧会展示 AI 助手如何读取技能、调用工具、观察结果并给出答案。
+        Classroom flow: choose a task and click "Send Task". The right side shows how the AI assistant reads a skill, calls tools, observes results, and returns an answer.
       </div>
     </aside>
 
     <main>
       <section class="hero">
         <div>
-          <h1>一个 AI 助手，如何带着“技能卡”完成复杂任务</h1>
+          <h1>How One AI Assistant Solves Complex Tasks with Skill Cards</h1>
           <p class="lead">
-            今天我们不只看 AI 聊天，而是看它怎样像一个会做研究的小助手：
-            先读任务，再查数据、调用工具、修正思路，最后交出可验证的结果。
-            这里的“技能卡”来自我们的研究：
-            <a class="paper" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer">From Multi-Agent to Single-Agent</a>。
+            Today we are not only looking at AI chat. We will see how an assistant can work like a small research helper: reading the task, checking data, calling tools, revising its plan, and finally producing a verifiable result. These "skill cards" come from our research:
+            <a class="paper" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer">From Multi-Agent to Single-Agent</a>.
           </p>
           <div class="mobile-cases" id="mobileCases"></div>
         </div>
         <div class="demo-badge">
-          <b>本节课主旨</b>
-          <span>把专家经验写成明文技能卡，一个 AI 助手也能完成复杂任务。</span>
-          <span>演示中的运行过程已预先整理，便于课堂稳定展示。</span>
+          <b>Main Idea</b>
+          <span>When expert experience is written as clear skill cards, one AI assistant can handle complex tasks.</span>
+          <span>The demo traces are pre-arranged so the class demonstration stays stable.</span>
         </div>
       </section>
 
@@ -804,16 +802,16 @@
         <div>
           <div class="panel">
             <div class="panel-head">
-              <h2 id="caseName">任务案例</h2>
+              <h2 id="caseName">Task Case</h2>
               <span class="pill" id="caseTag">single agent</span>
             </div>
             <div class="panel-body">
               <div class="prompt-box">
-                <label for="prompt"><b>发送给 AI 助手的任务</b></label>
+                <label for="prompt"><b>Task Sent to the AI Assistant</b></label>
                 <textarea id="prompt"></textarea>
                 <div class="send-row">
-                  <button class="send-btn" id="sendBtn">发送任务 ▶</button>
-                  <button class="ghost-btn" id="resetBtn">重新开始</button>
+                  <button class="send-btn" id="sendBtn">Send Task ></button>
+                  <button class="ghost-btn" id="resetBtn">Restart</button>
                   <p class="hint" id="caseHint"></p>
                 </div>
               </div>
@@ -821,14 +819,14 @@
               <div class="stats" id="stats"></div>
 
               <div class="task-picker">
-                <b>任务样例</b>
+                <b>Sample Tasks</b>
                 <div class="task-tabs" id="taskList"></div>
               </div>
 
               <div class="data-viewer">
                 <div class="data-viewer-head">
-                  <b id="dataTitle">数据查看器</b>
-                  <span class="difficulty" id="difficulty">中等</span>
+                  <b id="dataTitle">Data Viewer</b>
+                  <span class="difficulty" id="difficulty">Medium</span>
                 </div>
                 <div class="data-grid" id="dataGrid"></div>
                 <div class="file-list" id="fileList"></div>
@@ -838,7 +836,7 @@
                 <div class="raw-file">
                   <div class="raw-file-head">
                     <span id="rawFileName">raw preview</span>
-                    <span>只展示片段</span>
+                    <span>Preview only</span>
                   </div>
                   <pre id="rawPreview"></pre>
                 </div>
@@ -846,15 +844,15 @@
 
               <div class="effort-panel">
                 <div class="effort-head">
-                  <b>执行代价与努力程度</b>
-                  <span class="difficulty">不是一步出答案</span>
+                  <b>Execution Cost and Effort</b>
+                  <span class="difficulty">Not a one-step answer</span>
                 </div>
                 <div class="effort-grid" id="effortGrid"></div>
                 <div class="audit-list" id="auditList"></div>
               </div>
 
               <div class="skill-strip">
-                <b>AI 助手读取的技能卡</b>
+                <b>Skill Card Read by the AI Assistant</b>
                 <p id="skillLine"></p>
               </div>
             </div>
@@ -862,24 +860,24 @@
 
           <div class="explain">
             <div class="explain-card">
-              <h3>普通 AI 助手</h3>
-              <p>只靠题目和模型常识，能尝试，但容易漏掉数据探索、方法禁忌和验证步骤。</p>
+              <h3>Regular AI Assistant</h3>
+              <p>It can try using only the prompt and model knowledge, but it often misses data exploration, method restrictions, and verification steps.</p>
             </div>
             <div class="explain-card">
-              <h3>多智能体团队</h3>
-              <p>多个专家角色一起讨论，思路更全面，但会产生沟通、协调和重复阅读的成本。</p>
+              <h3>Multi-Agent Team</h3>
+              <p>Several expert roles can discuss the problem more fully, but communication, coordination, and repeated reading add cost.</p>
             </div>
             <div class="explain-card">
-              <h3>一个助手 + 技能卡</h3>
-              <p>把专家团队的经验整理成一份明文技能卡，让一个 AI 助手也能调用工具并做决策。</p>
+              <h3>One Assistant + Skill Card</h3>
+              <p>A skill card packages expert-team experience into clear instructions, so one assistant can call tools and make decisions.</p>
             </div>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-head">
-            <h2>AI 助手工作台</h2>
-            <span id="runStatus"><span class="status-dot"></span>等待任务</span>
+            <h2>AI Assistant Workspace</h2>
+            <span id="runStatus"><span class="status-dot"></span>Waiting for task</span>
           </div>
           <div class="console" id="console"></div>
         </div>
@@ -890,105 +888,105 @@
   <script>
     const cases = {
       text2sql: {
-        name: "文本转 SQL：学校数据库",
-        short: "文本转 SQL",
+        name: "Text-to-SQL: School Database",
+        short: "Text-to-SQL",
         color: "#2b67b2",
-        tag: "SQL 满分样例",
-        hint: "适合开场：学生能直观看到 agent 先查数据再写 SQL。",
-        prompt: "请找出 continuation school 中 eligible free rate 最低的三条记录，并返回可以执行的 SQLite 查询。",
-        skill: "adaptive_text2sql_bird：SQL 执行工具 + 数据表说明 + 经验提示 + 候选答案评分器。技能卡强调先探索真实数据，再写可执行 SQL。",
+        tag: "Full-Score SQL Example",
+        hint: "Good opener: students can see that the agent checks the data before writing SQL.",
+        prompt: "Find the three continuation-school records with the lowest eligible free rate, and return an executable SQLite query.",
+        skill: "adaptive_text2sql_bird: SQL execution tool + table descriptions + practical hints + candidate-answer scorer. The skill card emphasizes exploring real data before writing executable SQL.",
         stats: [
-          ["精确匹配", "1.00", "示例得分"],
-          ["语义得分", "1.00", "SQL 语义 F1"],
-          ["推理步骤", "7", "课堂演示"],
-          ["成本", "$0.93", "记录样例"]
+          ["Exact Match", "1.00", "Example score"],
+          ["Semantic Score", "1.00", "SQL semantic F1"],
+          ["Reasoning Steps", "7", "Class demo"],
+          ["Cost", "$0.93", "Logged sample"]
         ],
         events: [
-          ["reason", "理解题目", "目标是 eligible free rate，所以答案应该是一个比例计算，而不是简单列出学校名称。"],
+          ["reason", "Understand the Question", "The target is eligible free rate, so the answer should compute a rate instead of simply listing school names."],
           ["tool", "execute_sql", "SELECT DISTINCT \"Educational Option Type\" FROM frpm WHERE \"Educational Option Type\" LIKE '%Continuation%';"],
-          ["observe", "观察结果", "找到了精确取值：Continuation School。同时发现这个子集中有缺失的分子和分母。"],
-          ["reason", "避开常见错误", "这里应该用 IS NOT NULL，而不是只写 Enrollment > 0。评分会检查语义过滤是否正确。"],
-          ["tool", "验证候选 SQL", "运行候选 SQL，检查前三行结果，并确认没有多选无关列。"],
-          ["final", "最终答案", "AI 助手返回了一条简洁 SQL：表、过滤条件、小数除法、缺失值处理、排序和 LIMIT 都正确。", {
+          ["observe", "Observation", "Found the exact value: Continuation School. Also found missing numerators and denominators in this subset."],
+          ["reason", "Avoid a Common Mistake", "This should use IS NOT NULL, not only Enrollment > 0. The scorer checks whether the semantic filter is correct."],
+          ["tool", "Validate Candidate SQL", "Run the candidate SQL, inspect the first three rows, and confirm that no irrelevant columns are selected."],
+          ["final", "Final Answer", "The AI assistant returns concise SQL with the correct table, filters, floating-point division, missing-value handling, ordering, and LIMIT.", {
             cards: [["SRR", "1.00"], ["NSP", "1.00"], ["NSF", "1.00"]],
             code: "SELECT CAST(\"Free Meal Count (Ages 5-17)\" AS REAL)\n       / \"Enrollment (Ages 5-17)\" AS eligible_free_rate\nFROM frpm\nWHERE \"Educational Option Type\" = 'Continuation School'\n  AND \"Free Meal Count (Ages 5-17)\" IS NOT NULL\n  AND \"Enrollment (Ages 5-17)\" IS NOT NULL\nORDER BY eligible_free_rate ASC\nLIMIT 3;"
           }]
         ]
       },
       causalEstimate: {
-        name: "因果效应估计：选择正确方法",
+        name: "Causal Effect Estimation: Choose the Right Method",
         short: "Causal Estimate",
         color: "#13845b",
-        tag: "因果方法选择",
-        hint: "适合讲“相关不等于因果”：agent 要先判断研究设计。",
-        prompt: "给定一段研究描述和一份 CSV 数据，请估计处理效应，并选择正确的因果推断方法。",
-        skill: "adaptive_causal_estimate：数据分析工具 + 诊断工具 + 因果估计器。技能卡明确写了：随机实验不能随便 Matching，工具变量要检查强度，双重差分要检验平行趋势。",
+        tag: "Causal Method Selection",
+        hint: "Good for teaching \"correlation is not causation\": the agent must first identify the research design.",
+        prompt: "Given a research description and a CSV dataset, estimate the treatment effect and choose the correct causal inference method.",
+        skill: "adaptive_causal_estimate: data analysis tools + diagnostics + causal estimators. The skill card states that randomized experiments should not be matched casually, instruments need strength checks, and DiD requires parallel-trends checks.",
         stats: [
-          ["真实题准确率", "83.87%", "知识型技能卡"],
-          ["QRData 准确率", "87.18%", "知识型技能卡"],
-          ["只给工具", "48.39%", "真实题准确率"],
-          ["合成题误差", "4.26%", "知识型技能卡"]
+          ["Real-Task Accuracy", "83.87%", "Knowledge Skill Card"],
+          ["QRData Accuracy", "87.18%", "Knowledge Skill Card"],
+          ["Tools Only", "48.39%", "Real-Task Accuracy"],
+          ["Synthetic-Task Error", "4.26%", "Knowledge Skill Card"]
         ],
         events: [
-          ["reason", "阅读研究设计", "描述中出现“随机分配”。这会直接改变方法选择：不能把它当普通观察数据处理。"],
+          ["reason", "Read the Study Design", "The description says \"random assignment\". That directly changes the method choice: this should not be treated as ordinary observational data."],
           ["tool", "analyze_dataset", "{ panel_detected: false, treatment: 'program', outcome: 'score', covariates: ['age','income','pre_score'] }"],
-          ["observe", "数据诊断", "数据里确实有协变量，但随机分配已经保证了处理组和对照组的可比性。"],
-          ["tool", "estimate_ols", "使用 treatment + covariates 运行 OLS，并采用稳健标准误提高估计可靠性。"],
-          ["reason", "做出选择", "因为这是随机实验，OLS 或均值差是合理方法；即使 Matching 能跑通，也应该拒绝。"],
-          ["final", "最终答案", "AI 助手输出所选方法、ATE 数值，以及一句可以解释给人的因果理由。", {
-            cards: [["方法", "OLS"], ["ATE", "0.184"], ["方法选择", "正确"]],
+          ["observe", "Data Diagnostics", "The dataset does include covariates, but random assignment already supports comparability between treatment and control groups."],
+          ["tool", "estimate_ols", "Run OLS with treatment plus covariates, using robust standard errors for a more reliable estimate."],
+          ["reason", "Make the Choice", "Because this is a randomized experiment, OLS or difference in means is appropriate; matching should be rejected even if it runs."],
+          ["final", "Final Answer", "The AI assistant outputs the selected method, the ATE value, and a human-readable causal explanation.", {
+            cards: [["Method", "OLS"], ["ATE", "0.184"], ["Method Choice", "Correct"]],
             code: "{\n  \"selected_method\": \"ols\",\n  \"ate\": 0.184,\n  \"reasoning\": \"Randomized assignment detected; matching is forbidden. OLS with covariates is used for precision.\"\n}"
           }]
         ]
       },
       causalDiscovery: {
-        name: "因果发现：画出因果图",
-        short: "因果发现",
+        name: "Causal Discovery: Draw the Causal Graph",
+        short: "Causal Discovery",
         color: "#c98516",
-        tag: "因果图推断",
-        hint: "适合展示“AI 不只是聊天，也能调用统计工具画图”。",
-        prompt: "请根据这张观察数据表推断因果图，返回邻接矩阵，并解释最关键的约束。",
-        skill: "adaptive_causal_discovery：读取变量类型 + 统计因果发现算法 + DAG 合法性检查。技能卡教 AI 根据变量类型选择 PC、Exact-Search 或 DirectLiNGAM。",
+        tag: "Causal Graph Inference",
+        hint: "Good for showing that AI is not only chat; it can call statistical tools and draw graphs.",
+        prompt: "Infer a causal graph from this observational table, return the adjacency matrix, and explain the most important constraint.",
+        skill: "adaptive_causal_discovery: variable-type reading + statistical causal-discovery algorithms + DAG validity checks. The skill card teaches the AI to choose PC, Exact-Search, or DirectLiNGAM based on variable types.",
         stats: [
-          ["Asia F1", "1.00", "技能卡运行"],
-          ["Child F1", "0.90", "技能卡平均"],
-          ["DWD F1", "0.74", "技能卡平均"],
-          ["AutoMPG F1", "0.70", "技能卡平均"]
+          ["Asia F1", "1.00", "Skill-card run"],
+          ["Child F1", "0.90", "Skill-card average"],
+          ["DWD F1", "0.74", "Skill-card average"],
+          ["AutoMPG F1", "0.70", "Skill-card average"]
         ],
         events: [
-          ["tool", "load_and_normalize", "检测到混合变量类型；其中一些变量是离散变量，因此不能使用 DirectLiNGAM。"],
-          ["reason", "选择算法", "使用 PC 算法，并把 alpha 设为 0.1，因为这张图比较密，需要更重视召回。"],
-          ["tool", "run_scd(method='pc')", "初始图的骨架比较合理，但还有两条边的方向无法仅靠统计测试确定。"],
-          ["observe", "加入领域约束", "后发生的结果不能反过来导致更早的测量变量；定义关系对应的边必须保留。"],
-          ["tool", "validate_and_fix_dag", "删除一条双向边，并确认最终图没有环。"],
-          ["final", "最终因果图", "最终输出是一张合法的邻接矩阵，并附带使用的算法和关键约束。", {
-            cards: [["F1", "0.90"], ["结构错误", "更低"], ["DAG", "合法"]],
-            code: "```matrix\n0, 1, 0, 0\n0, 0, 1, 0\n0, 0, 0, 1\n0, 0, 0, 0\n```\n使用 PC 算法，因为变量是离散/混合类型。关键约束：禁止“结果变量 → 更早测量变量”。"
+          ["tool", "load_and_normalize", "Detected mixed variable types; some variables are discrete, so DirectLiNGAM should not be used."],
+          ["reason", "Choose an Algorithm", "Use the PC algorithm with alpha set to 0.1, because this graph is relatively dense and recall matters more."],
+          ["tool", "run_scd(method='pc')", "The initial graph skeleton is reasonable, but two edge directions cannot be determined by statistical tests alone."],
+          ["observe", "Add Domain Constraints", "Later outcomes cannot cause earlier measurement variables; edges defined by known relationships must be preserved."],
+          ["tool", "validate_and_fix_dag", "Remove one bidirectional edge and confirm that the final graph has no cycles."],
+          ["final", "Final Causal Graph", "The final output is a valid adjacency matrix, with the algorithm used and the key constraints.", {
+            cards: [["F1", "0.90"], ["Structural Errors", "Lower"], ["DAG", "Valid"]],
+            code: "```matrix\n0, 1, 0, 0\n0, 0, 1, 0\n0, 0, 0, 1\n0, 0, 0, 0\n```\nUse the PC algorithm because the variables are discrete/mixed. Key constraint: forbid \"outcome variable -> earlier measurement variable\"."
           }]
         ]
       },
       featureEngineering: {
-        name: "特征工程：淘宝广告转化",
-        short: "特征工程",
+        name: "Feature Engineering: Taobao Ad Conversion",
+        short: "Feature Engineering",
         color: "#7457a6",
-        tag: "自动造特征",
-        hint: "适合结尾：最后结果是 AUC 提升，学生能直观看到效果。",
-        prompt: "请在淘宝广告转化预测任务上构造有用特征，提升 AUC；如果多轮没有提升就停止。",
-        skill: "adaptive_feature_engineering: Taobao/Dia 领域特征 + 评测接口 + 防数据泄漏规则。Skill 强调 CVR 平滑、计数、交叉特征和早停。",
+        tag: "Automatic Feature Building",
+        hint: "Good closing example: the final result is an AUC improvement that students can see directly.",
+        prompt: "Build useful features for the Taobao ad-conversion prediction task to improve AUC; stop if several rounds bring no improvement.",
+        skill: "adaptive_feature_engineering: Taobao/Dia domain features + evaluation interface + data-leakage rules. The skill emphasizes CVR smoothing, counts, crossed features, and early stopping.",
         stats: [
-          ["初始 AUC", "0.6300", "Taobao"],
-          ["最佳 AUC", "0.6594", "Taobao"],
-          ["提升", "+0.0294", "absolute"],
-          ["特征数", "37", "最佳运行"]
+          ["Initial AUC", "0.6300", "Taobao"],
+          ["Best AUC", "0.6594", "Taobao"],
+          ["Gain", "+0.0294", "absolute"],
+          ["Feature Count", "37", "Best run"]
         ],
         events: [
-          ["reason", "识别数据集", "bench.dataset == 'taobao'。这是稀疏的广告转化预测问题，并且有很多高基数 ID。"],
-          ["tool", "构造特征", "加入商品/店铺/用户 CVR、贝叶斯平滑、访问次数、价格偏差和质量综合分。"],
-          ["observe", "第 26 次评测", "加入实体 CVR 和计数特征后，AUC 从 0.6300 提升到 0.6474。"],
-          ["tool", "消融循环", "有了 CVR 特征后，移除噪声较大的原始 ID 列，保留最强的 37 个特征。"],
-          ["observe", "第 67 次评测", "最佳验证 AUC 达到 0.6594。早停机制避免无意义地继续搜索。"],
-          ["final", "最终特征方案", "AI 助手返回一套简洁的特征构造方案，以及 benchmark 上的分数提升。", {
-            cards: [["AUC", "0.6594"], ["提升", "+0.0294"], ["特征", "37"]],
+          ["reason", "Identify Dataset", "bench.dataset == 'taobao'. This is a sparse ad-conversion prediction problem with many high-cardinality IDs."],
+          ["tool", "Build Features", "Add item/shop/user CVR, Bayesian smoothing, visit counts, price gaps, and quality scores."],
+          ["observe", "Evaluation 26", "After adding entity CVR and count features, AUC improves from 0.6300 to 0.6474."],
+          ["tool", "Ablation Loop", "After CVR features are available, remove noisy raw ID columns and keep the strongest 37 features."],
+          ["observe", "Evaluation 67", "The best validation AUC reaches 0.6594. Early stopping avoids continuing a meaningless search."],
+          ["final", "Final Feature Plan", "The AI assistant returns a concise feature plan and the benchmark score improvement.", {
+            cards: [["AUC", "0.6594"], ["Gain", "+0.0294"], ["Features", "37"]],
             code: "add_cvr('item_id', 'item_cvr', k=20)\nadd_cvr('shop_id', 'shop_cvr', k=20)\nadd_count('user_id', 'user_activity')\nX['price_gap'] = item_price_level - user_avg_price\nX['quality_score'] = sales + collected + pv\nauc = bench.evaluate(best_37_features)"
           }]
         ]
@@ -997,18 +995,18 @@
 
     cases.text2sql.tasks = [
       {
-        name: "学校免费餐比例",
-        level: "中等",
+        name: "School Free-Meal Rate",
+        level: "Medium",
         prompt: cases.text2sql.prompt,
         hint: cases.text2sql.hint,
         stats: cases.text2sql.stats,
         events: cases.text2sql.events,
         data: {
-          title: "California Schools 数据库",
-          rows: "约 15K 行",
-          cols: "2 张表 / 45 列",
-          files: "3 个文件",
-          size: "约 28 MB",
+          title: "California Schools Database",
+          rows: "About 15K rows",
+          cols: "2 tables / 45 columns",
+          files: "3 files",
+          size: "About 28 MB",
           fileList: ["schools.sqlite", "frpm.csv", "schema_descriptions.json"],
           rawName: "frpm.csv excerpt",
           raw: "CDSCode,School Name,District Name,County Name,Educational Option Type,Charter School (Y/N),Free Meal Count (Ages 5-17),Enrollment (Ages 5-17),Free Meal Count (K-12),Enrollment (K-12),Low Grade,High Grade\n01100170109835,Island Continuation High,Alameda Unified,Alameda,Continuation School,0,89,142,96,155,09,12\n01611270130278,North Valley Continuation,Butte Union,Butte,Continuation School,0,,96,41,103,10,12\n19647330122640,West Ridge High,Los Angeles Unified,Los Angeles,Traditional,0,231,1024,260,1102,09,12\n34674390112790,Oak Continuation,Sacramento City,Sacramento,Continuation School,1,7,,9,64,11,12\n37683380129211,Metro Continuation,San Diego Unified,San Diego,Continuation School,0,11,215,18,240,09,12",
@@ -1021,93 +1019,93 @@
           ]
         },
         effort: {
-          filesRead: "3 个",
-          toolCalls: "7 次",
-          candidates: "4 条 SQL",
-          fixes: "3 次",
+          filesRead: "3",
+          toolCalls: "7",
+          candidates: "4 SQL candidates",
+          fixes: "3",
           audit: [
-            ["难点 1", "字段名很长，且含空格和括号，SQL 必须正确加引号。"],
-            ["难点 2", "分子和分母都有缺失值；错用 Enrollment > 0 会漏掉语义检查。"],
-            ["难点 3", "答案不能多返回 School Name，否则 precision 会扣分。"],
-            ["结果来源", "distinct value 查询 → NULL 分布检查 → 候选 SQL 执行 → 最终 SQL。"]
+            ["Challenge 1", "Column names are long and include spaces and parentheses, so SQL must quote them correctly."],
+            ["Challenge 2", "Both numerator and denominator can be missing; using Enrollment > 0 misses the semantic check."],
+            ["Challenge 3", "The answer must not return School Name as an extra column, or precision is penalized."],
+            ["Evidence Path", "distinct-value query -> NULL distribution check -> candidate SQL execution -> final SQL."]
           ]
         }
       },
       {
-        name: "特许学校电话查询",
-        level: "困难",
-        prompt: "请返回 2000-01-01 后开办、直接经费资助的 charter schools 的联系电话。",
-        hint: "这个例子难在两个表都像有答案，但只有 JOIN 后才语义正确。",
-        stats: [["精确匹配", "1.00", "示例得分"], ["表连接", "必须", "schools + frpm"], ["孤儿记录", "321", "需排除"], ["成本", "$1.41", "记录样例"]],
+        name: "Charter School Phone Query",
+        level: "Hard",
+        prompt: "Return phone numbers for directly funded charter schools opened after 2000-01-01.",
+        hint: "The difficulty is that both tables look like they contain the answer, but the semantics are correct only after a JOIN.",
+        stats: [["Exact Match", "1.00", "Example score"], ["Table Join", "Required", "schools + frpm"], ["Orphan Rows", "321", "Exclude"], ["Cost", "$1.41", "Logged sample"]],
         events: [
-          ["reason", "识别歧义", "“direct charter-funded”不是简单的 FundingType='Directly funded'，还必须满足 charter school 定义。"],
-          ["tool", "查看字段含义", "读取 schools.FundingType 与 frpm.\"Charter Funding Type\" 的说明和样例值。"],
-          ["observe", "发现证据定义", "题目证据说明 charter schools = frpm.\"Charter School (Y/N)\" = 1，这是绑定条件。"],
-          ["tool", "孤儿记录检查", "发现 321 所 schools 表里的学校没有 frpm 记录，因此无法验证是否为 charter school。"],
-          ["final", "最终答案", "AI 助手选择 INNER JOIN，避免把无法验证的学校误加入答案。", {
-            cards: [["SQL", "正确"], ["JOIN", "INNER"], ["排除孤儿", "321"]],
+          ["reason", "Identify Ambiguity", "\"direct charter-funded\" is not just FundingType='Directly funded'; it must also satisfy the charter-school definition."],
+          ["tool", "Inspect Field Meanings", "Read descriptions and example values for schools.FundingType and frpm.\"Charter Funding Type\"."],
+          ["observe", "Find the Evidence Definition", "The task evidence defines charter schools as frpm.\"Charter School (Y/N)\" = 1, which is a required condition."],
+          ["tool", "Orphan-Row Check", "Found 321 schools-table rows with no frpm record, so their charter status cannot be verified."],
+          ["final", "Final Answer", "The AI assistant chooses INNER JOIN to avoid incorrectly including unverifiable schools.", {
+            cards: [["SQL", "Correct"], ["JOIN", "INNER"], ["Exclude Orphans", "321"]],
             code: "SELECT s.Phone\nFROM schools s\nJOIN frpm f ON s.CDSCode = f.CDSCode\nWHERE f.\"Charter School (Y/N)\" = 1\n  AND f.\"Charter Funding Type\" = 'Directly funded'\n  AND s.OpenDate > '2000-01-01';"
           }]
         ],
         data: {
-          title: "California Schools 多表查询",
-          rows: "约 15K 行",
-          cols: "2 张表 / 45 列",
-          files: "3 个文件",
-          size: "约 28 MB",
+          title: "California Schools Multi-Table Query",
+          rows: "About 15K rows",
+          cols: "2 tables / 45 columns",
+          files: "3 files",
+          size: "About 28 MB",
           fileList: ["schools.sqlite", "schools table", "frpm table"],
           rawName: "orphan-probe.sql",
-          raw: "-- 检查 schools 表里是否存在 frpm 无法验证的学校\nSELECT COUNT(*) AS orphan_schools\nFROM schools s\nLEFT JOIN frpm f ON s.CDSCode = f.CDSCode\nWHERE f.CDSCode IS NULL\n  AND s.FundingType = 'Directly funded'\n  AND s.OpenDate > '2000-01-01';\n\n-- result: 321",
+          raw: "-- Check whether schools contains rows that frpm cannot verify\nSELECT COUNT(*) AS orphan_schools\nFROM schools s\nLEFT JOIN frpm f ON s.CDSCode = f.CDSCode\nWHERE f.CDSCode IS NULL\n  AND s.FundingType = 'Directly funded'\n  AND s.OpenDate > '2000-01-01';\n\n-- result: 321",
           preview: [
-            ["CDSCode", "schools.FundingType", "schools.OpenDate", "schools.Phone", "frpm.Charter", "frpm.Funding", "frpm.CDSCode", "JOIN 状态", "风险"],
-            ["01100170109835", "Directly funded", "2004-08-16", "510-555-0131", "1", "Directly funded", "matched", "可验证", "保留"],
-            ["01611270130278", "Directly funded", "2007-09-03", "530-555-0188", "", "", "missing", "无法验证", "排除"],
-            ["19647330122640", "Directly funded", "2002-01-10", "213-555-0110", "0", "Directly funded", "matched", "非 charter", "排除"],
-            ["37683380129211", "Locally funded", "2009-08-20", "619-555-0199", "1", "Directly funded", "matched", "funding 冲突", "需查证"]
+            ["CDSCode", "schools.FundingType", "schools.OpenDate", "schools.Phone", "frpm.Charter", "frpm.Funding", "frpm.CDSCode", "JOIN Status", "Risk"],
+            ["01100170109835", "Directly funded", "2004-08-16", "510-555-0131", "1", "Directly funded", "matched", "Verifiable", "Keep"],
+            ["01611270130278", "Directly funded", "2007-09-03", "530-555-0188", "", "", "missing", "Unverifiable", "Exclude"],
+            ["19647330122640", "Directly funded", "2002-01-10", "213-555-0110", "0", "Directly funded", "matched", "Not charter", "Exclude"],
+            ["37683380129211", "Locally funded", "2009-08-20", "619-555-0199", "1", "Directly funded", "matched", "Funding conflict", "Needs checking"]
           ]
         },
         effort: {
-          filesRead: "3 个",
-          toolCalls: "10 次",
-          candidates: "5 条 SQL",
-          fixes: "4 次",
+          filesRead: "3",
+          toolCalls: "10",
+          candidates: "5 SQL candidates",
+          fixes: "4",
           audit: [
-            ["错误候选", "只查 schools.FundingType 会多包含 321 条无法验证的学校。"],
-            ["关键证据", "题目 evidence 定义 charter school 必须来自 frpm.\"Charter School (Y/N)\"。"],
-            ["验证动作", "执行 orphan probe 后才决定 INNER JOIN，而不是凭直觉 JOIN。"],
-            ["结果来源", "字段解释 → 取值探查 → orphan probe → 候选 SQL 比较 → 最终查询。"]
+            ["Wrong Candidate", "Querying only schools.FundingType would include 321 unverifiable schools."],
+            ["Key Evidence", "The task evidence defines charter school status through frpm.\"Charter School (Y/N)\"."],
+            ["Validation Action", "The assistant decides on INNER JOIN after running the orphan probe, not by intuition."],
+            ["Evidence Path", "field explanations -> value probing -> orphan probe -> candidate SQL comparison -> final query."]
           ]
         }
       },
       {
-        name: "订单统计 SQL",
-        level: "中等偏难",
-        prompt: "请在 Spider 风格数据库中统计每个客户的订单数量，并只返回订单数最高的客户。",
-        hint: "这个例子展示候选 SQL 打分：COUNT(*)、COUNT(DISTINCT) 和 JOIN 键都要验证。",
-        stats: [["执行正确率", "0.80", "小样例"], ["候选 SQL", "3", "自动比较"], ["平均轮数", "5.9", "记录运行"], ["语义得分", "0.90", "小样例"]],
+        name: "Order-Count SQL",
+        level: "Medium-Hard",
+        prompt: "In a Spider-style database, count each customer's orders and return only the customer with the highest order count.",
+        hint: "This example shows candidate SQL scoring: COUNT(*), COUNT(DISTINCT), and JOIN keys all need verification.",
+        stats: [["Execution Accuracy", "0.80", "Small sample"], ["Candidate SQL", "3", "Auto comparison"], ["Avg. rounds", "5.9", "Logged run"], ["Semantic Score", "0.90", "Small sample"]],
         events: [
-          ["reason", "拆题", "先确定主实体是 customer，统计对象是 order，不是订单明细行。"],
-          ["tool", "schema 检查", "查看 customers、orders、order_items 的主键和外键。"],
-          ["tool", "候选答案评分", "比较 COUNT(*), COUNT(order_id), COUNT(DISTINCT order_id) 三个 SQL。"],
-          ["observe", "选择更稳的候选", "如果 JOIN 到 order_items 会放大行数，应在 orders 表上计数。"],
-          ["final", "最终 SQL", "返回客户 ID、客户名和订单数，按订单数降序取第一名。", {
-            cards: [["候选数", "3"], ["最终排名", "第 1"], ["语义", "通过"]],
+          ["reason", "Decompose the Task", "First identify customer as the main entity and order as the counted object, not order-detail rows."],
+          ["tool", "Schema Check", "Inspect primary and foreign keys for customers, orders, and order_items."],
+          ["tool", "Score Candidate Answers", "Compare three SQL variants: COUNT(*), COUNT(order_id), and COUNT(DISTINCT order_id)."],
+          ["observe", "Choose the More Robust Candidate", "Joining to order_items can inflate row counts, so counting should happen on the orders table."],
+          ["final", "Final SQL", "Return customer ID, customer name, and order count, ordered descending and limited to the top customer.", {
+            cards: [["Candidates", "3"], ["Final Rank", "No. 1"], ["Semantics", "Pass"]],
             code: "SELECT c.customer_id, c.name, COUNT(o.order_id) AS order_count\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nGROUP BY c.customer_id, c.name\nORDER BY order_count DESC\nLIMIT 1;"
           }]
         ],
         data: {
-          title: "Spider 风格关系数据库",
-          rows: "约 8K 行",
-          cols: "5 张表 / 62 列",
-          files: "2 个文件",
-          size: "约 12 MB",
+          title: "Spider-Style Relational Database",
+          rows: "About 8K rows",
+          cols: "5 tables / 62 columns",
+          files: "2 files",
+          size: "About 12 MB",
           fileList: ["database.sqlite", "schema.json"],
           preview: [
             ["customer_id", "name", "city", "order_id", "order_date", "status", "item_rows", "amount", "join_risk"],
-            ["C001", "Alice Chen", "Seattle", "O1001", "2024-01-03", "paid", "3", "128.40", "order_items 会放大计数"],
-            ["C001", "Alice Chen", "Seattle", "O1009", "2024-02-11", "paid", "1", "24.99", "同一客户多订单"],
-            ["C204", "Brian Wu", "Austin", "O1044", "2024-03-08", "refund", "5", "441.20", "状态是否过滤需看题目"],
-            ["C882", "Mina Park", "Boston", "", "", "", "0", "0", "LEFT JOIN 会引入无订单客户"]
+            ["C001", "Alice Chen", "Seattle", "O1001", "2024-01-03", "paid", "3", "128.40", "order_items can inflate counts"],
+            ["C001", "Alice Chen", "Seattle", "O1009", "2024-02-11", "paid", "1", "24.99", "same customer, multiple orders"],
+            ["C204", "Brian Wu", "Austin", "O1044", "2024-03-08", "refund", "5", "441.20", "status filtering depends on the prompt"],
+            ["C882", "Mina Park", "Boston", "", "", "", "0", "0", "LEFT JOIN introduces customers with no orders"]
           ]
         }
       }
@@ -1115,18 +1113,18 @@
 
     cases.causalEstimate.tasks = [
       {
-        name: "随机实验处理效应",
-        level: "中等",
+        name: "Randomized-Experiment Treatment Effect",
+        level: "Medium",
         prompt: cases.causalEstimate.prompt,
         hint: cases.causalEstimate.hint,
         stats: cases.causalEstimate.stats,
         events: cases.causalEstimate.events,
         data: {
-          title: "真实因果问题数据",
-          rows: "约 32 个问题",
-          cols: "每题 8-40 列",
-          files: "31 个 CSV",
-          size: "约 55 MB",
+          title: "Real Causal-Question Data",
+          rows: "About 32 questions",
+          cols: "8-40 columns per question",
+          files: "31 CSV files",
+          size: "About 55 MB",
           fileList: ["real_info.csv", "q01.csv ... q32.csv", "metadata.json"],
           rawName: "q_rct.csv excerpt",
           raw: "unit_id,program,score,age,income,pre_score,gender,school_id,region,baseline_health,randomized,compliance\nu001,1,72.4,17,42000,68.1,F,S014,east,0.72,1,1\nu002,0,66.8,18,39000,67.5,M,S014,east,0.65,1,1\nu003,1,75.1,17,51000,70.2,F,S022,west,0.81,1,0\nu004,0,64.9,17,48000,66.0,F,S031,north,0.69,1,1",
@@ -1139,40 +1137,40 @@
           ]
         },
         effort: {
-          filesRead: "31 个",
-          toolCalls: "8 次",
-          candidates: "4 种方法",
-          fixes: "2 次",
+          filesRead: "31",
+          toolCalls: "8",
+          candidates: "4 methods",
+          fixes: "2",
           audit: [
-            ["候选方法", "OLS、均值差、Matching、IV 都被考虑，但随机实验先排除 Matching。"],
-            ["诊断", "读取 randomized 标记和协变量结构，再调用估计器。"],
-            ["防错", "不是看哪个工具跑得出结果，而是看研究设计支持哪个方法。"],
-            ["结果来源", "研究设计识别 → 数据结构分析 → 方法排除 → OLS 估计。"]
+            ["Candidate Methods", "OLS, difference in means, matching, and IV are considered, but randomization rules out matching first."],
+            ["Diagnostics", "Read the randomized flag and covariate structure, then call the estimator."],
+            ["Error Prevention", "The choice is not which tool can run, but which method the study design supports."],
+            ["Evidence Path", "study-design recognition -> data-structure analysis -> method exclusion -> OLS estimation."]
           ]
         }
       },
       {
-        name: "政策前后双重差分",
-        level: "困难",
-        prompt: "给定多个地区在政策前后的面板数据，请估计政策对结果变量的影响。",
-        hint: "这个任务难在要识别 panel structure，并检查平行趋势。",
-        stats: [["方法", "DiD", "双重差分"], ["时间列", "12 期", "政策前后"], ["平行趋势", "已检查", "诊断工具"], ["输出", "ATE", "数值估计"]],
+        name: "Before-and-After Policy DiD",
+        level: "Hard",
+        prompt: "Given panel data for several regions before and after a policy, estimate the policy's effect on the outcome.",
+        hint: "The challenge is identifying the panel structure and checking parallel trends.",
+        stats: [["Method", "DiD", "Difference-in-Differences"], ["Time Periods", "12 periods", "Before/after policy"], ["Parallel Trends", "Checked", "Diagnostic tool"], ["Output", "ATE", "Numeric estimate"]],
         events: [
-          ["tool", "analyze_dataset", "检测到 unit_id × year 的面板结构，以及政策在第 8 期开始。"],
-          ["reason", "选择 DiD", "同一地区有多期观察，并且存在处理组和对照组，适合双重差分。"],
-          ["tool", "test_parallel_trends", "使用政策前 7 期数据检查处理组和对照组趋势是否接近。"],
-          ["observe", "诊断通过", "平行趋势检验没有明显失败，可以继续估计。"],
-          ["final", "最终答案", "选择 DiD，输出政策影响和假设说明。", {
-            cards: [["方法", "DiD"], ["ATE", "-2.31"], ["趋势", "通过"]],
+          ["tool", "analyze_dataset", "Detected a unit_id x year panel structure, with the policy starting in period 8."],
+          ["reason", "Choose DiD", "Each region has multiple observations and there are treatment and control groups, so DiD is appropriate."],
+          ["tool", "test_parallel_trends", "Use the 7 pre-policy periods to check whether treatment and control trends are close."],
+          ["observe", "Diagnostics Passed", "The parallel-trends check does not obviously fail, so estimation can continue."],
+          ["final", "Final Answer", "Choose DiD and output the policy effect plus the assumption statement.", {
+            cards: [["Method", "DiD"], ["ATE", "-2.31"], ["Trend", "Pass"]],
             code: "{\n  \"selected_method\": \"did\",\n  \"ate\": -2.31,\n  \"reasoning\": \"Panel data with treatment timing; pre-trend diagnostic passed.\"\n}"
           }]
         ],
         data: {
-          title: "政策面板数据",
-          rows: "18,240 行",
-          cols: "14 列",
-          files: "2 个文件",
-          size: "约 8 MB",
+          title: "Policy Panel Data",
+          rows: "18,240 rows",
+          cols: "14 columns",
+          files: "2 files",
+          size: "About 8 MB",
           fileList: ["policy_panel.csv", "description.txt"],
           preview: [
             ["unit_id", "region", "year", "treated_group", "post", "policy", "outcome", "population", "income", "unemployment", "baseline_outcome", "cluster_id"],
@@ -1184,26 +1182,26 @@
         }
       },
       {
-        name: "阈值录取 RDD",
-        level: "困难",
-        prompt: "学生分数超过 cutoff 才能进入项目，请估计项目对后续成绩的局部影响。",
-        hint: "这个例子展示 running variable、cutoff 和 bandwidth 的作用。",
-        stats: [["方法", "RDD", "断点回归"], ["cutoff", "80", "分数阈值"], ["带宽", "±8", "局部估计"], ["样本", "1.2K", "阈值附近"]],
+        name: "Threshold Admission RDD",
+        level: "Hard",
+        prompt: "Students enter the program only if their score exceeds a cutoff. Estimate the program's local effect on later performance.",
+        hint: "This example shows the roles of the running variable, cutoff, and bandwidth.",
+        stats: [["Method", "RDD", "Regression Discontinuity"], ["cutoff", "80", "Score threshold"], ["Bandwidth", "±8", "Local estimate"], ["Samples", "1.2K", "Near cutoff"]],
         events: [
-          ["reason", "识别阈值设计", "处理变量由 score 是否超过 80 决定，这是典型 RDD。"],
-          ["tool", "estimate_rdd", "在 cutoff=80 附近选择默认带宽，并检查带宽内样本数是否足够。"],
-          ["observe", "局部样本充足", "阈值附近有 1,200 多个样本，估计比较稳定。"],
-          ["final", "最终答案", "输出的是 cutoff 附近的局部平均处理效应，不是全体学生的平均效果。", {
-            cards: [["方法", "RDD"], ["LATE", "5.8"], ["样本", "1.2K"]],
+          ["reason", "Identify Threshold Design", "Treatment is determined by whether score exceeds 80, a standard RDD setup."],
+          ["tool", "estimate_rdd", "Choose a default bandwidth around cutoff=80 and check whether there are enough samples in the bandwidth."],
+          ["observe", "Enough Local Samples", "There are over 1,200 samples near the cutoff, so the estimate is relatively stable."],
+          ["final", "Final Answer", "The output is the local average treatment effect near the cutoff, not the average effect for all students.", {
+            cards: [["Method", "RDD"], ["LATE", "5.8"], ["Samples", "1.2K"]],
             code: "{\n  \"selected_method\": \"rdd\",\n  \"ate\": 5.8,\n  \"reasoning\": \"Treatment assigned by score cutoff; estimate is local near cutoff=80.\"\n}"
           }]
         ],
         data: {
-          title: "阈值录取数据",
-          rows: "9,860 行",
-          cols: "11 列",
-          files: "1 个 CSV",
-          size: "约 3 MB",
+          title: "Threshold Admission Data",
+          rows: "9,860 rows",
+          cols: "11 columns",
+          files: "1 CSV file",
+          size: "About 3 MB",
           fileList: ["score_cutoff_study.csv"],
           preview: [
             ["student_id", "score", "program", "final_grade", "school", "gender", "prior_gpa", "parent_edu", "distance", "cohort", "bandwidth_flag"],
@@ -1218,18 +1216,18 @@
 
     cases.causalDiscovery.tasks = [
       {
-        name: "儿童健康因果图",
-        level: "困难",
+        name: "Child Health Causal Graph",
+        level: "Hard",
         prompt: cases.causalDiscovery.prompt,
         hint: cases.causalDiscovery.hint,
         stats: cases.causalDiscovery.stats,
         events: cases.causalDiscovery.events,
         data: {
           title: "Child Bayesian Network",
-          rows: "5,000 行",
-          cols: "20 个变量",
-          files: "3 个文件",
-          size: "约 4 MB",
+          rows: "5,000 rows",
+          cols: "20 variables",
+          files: "3 files",
+          size: "About 4 MB",
           fileList: ["child.csv", "child_ground_truth.csv", "prompt.txt"],
           preview: [
             ["BirthAsphyxia", "Disease", "LVH", "DuctFlow", "CardiacMixing", "Xray", "LungParench", "CO2", "ChestXray", "Grunting", "Hypoxia", "LowerBodyO2"],
@@ -1240,27 +1238,27 @@
         }
       },
       {
-        name: "Sachs 蛋白信号网络",
-        level: "专家级",
-        prompt: "请根据细胞信号通路数据推断蛋白之间的因果方向。",
-        hint: "这个任务适合讲领域知识：统计相关不一定能决定方向，生物机制很关键。",
-        stats: [["变量", "11", "蛋白"], ["样本", "7,466", "细胞观测"], ["F1", "0.94", "高分运行"], ["约束", "机制知识", "方向判断"]],
+        name: "Sachs Protein Signaling Network",
+        level: "Expert",
+        prompt: "Infer causal directions between proteins from cell-signaling pathway data.",
+        hint: "This task is useful for discussing domain knowledge: statistical association may not determine direction, and biological mechanisms matter.",
+        stats: [["Variables", "11", "Proteins"], ["Samples", "7,466", "cell observations"], ["F1", "0.94", "High-scoring run"], ["Constraints", "Mechanism knowledge", "Direction choice"]],
         events: [
-          ["tool", "load_and_normalize", "检测到连续蛋白表达数据，变量数量较小，可以比较 PC 和 Exact-Search。"],
-          ["tool", "run_scd", "PC 找到一批统计相关边，但部分方向不确定。"],
-          ["reason", "加入生物知识", "PKC、PKA、Raf、Mek、Erk 存在已知信号传导方向。"],
-          ["tool", "validate_and_fix_dag", "根据机制约束修正方向，并检查 DAG 合法性。"],
-          ["final", "最终因果图", "输出蛋白信号网络的邻接矩阵和关键边解释。", {
-            cards: [["F1", "0.94"], ["变量", "11"], ["图", "合法"]],
-            code: "PKC → PKA\nRaf → Mek → Erk\nPIP2 → PIP3\n\n最终输出为 11×11 邻接矩阵。"
+          ["tool", "load_and_normalize", "Detected continuous protein-expression data with a small number of variables, so PC and Exact-Search can be compared."],
+          ["tool", "run_scd", "PC finds a set of statistically associated edges, but some directions remain uncertain."],
+          ["reason", "Add Biological Knowledge", "PKC, PKA, Raf, Mek, and Erk have known signaling directions."],
+          ["tool", "validate_and_fix_dag", "Revise directions using mechanism constraints and check DAG validity."],
+          ["final", "Final Causal Graph", "Output the protein signaling network adjacency matrix and explanations for key edges.", {
+            cards: [["F1", "0.94"], ["Variables", "11"], ["Graph", "Valid"]],
+            code: "PKC → PKA\nRaf → Mek → Erk\nPIP2 → PIP3\n\nFinal output is an 11x11 adjacency matrix."
           }]
         ],
         data: {
           title: "Sachs protein signaling",
-          rows: "7,466 行",
-          cols: "11 列",
-          files: "2 个文件",
-          size: "约 2 MB",
+          rows: "7,466 rows",
+          cols: "11 columns",
+          files: "2 files",
+          size: "About 2 MB",
           fileList: ["sachs.csv", "sachs_ground_truth.csv"],
           rawName: "sachs.csv excerpt",
           raw: "PKC,PKA,Raf,Mek,Erk,Akt,PIP2,PIP3,Jnk,p38,Plcg\n0.21,0.33,0.40,0.51,0.49,0.37,0.22,0.18,0.44,0.31,0.29\n0.18,0.29,0.36,0.49,0.46,0.33,0.20,0.17,0.41,0.28,0.25\n0.44,0.58,0.62,0.71,0.76,0.51,0.38,0.34,0.57,0.49,0.45",
@@ -1273,40 +1271,40 @@
           ]
         },
         effort: {
-          filesRead: "2 个",
-          toolCalls: "9 次",
-          candidates: "3 张图",
-          fixes: "5 条边",
+          filesRead: "2",
+          toolCalls: "9",
+          candidates: "3 graphs",
+          fixes: "5 edges",
           audit: [
-            ["统计难点", "7,466 行连续观测只能说明相关，很多方向需要额外机制知识。"],
-            ["候选图", "比较 PC、Exact-Search 和领域约束后的图。"],
-            ["边修正", "对 Raf→Mek→Erk 等通路方向做强约束，避免反向边。"],
-            ["结果来源", "变量分布 → 统计图 → 生物机制约束 → DAG 合法性检查。"]
+            ["Statistical Challenge", "7,466 continuous observations can show association only; many directions need additional mechanism knowledge."],
+            ["Candidate Graphs", "Compare PC, Exact-Search, and the graph after domain constraints."],
+            ["Edge Fixes", "Apply strong direction constraints to pathways such as Raf->Mek->Erk to avoid reversed edges."],
+            ["Evidence Path", "variable distributions -> statistical graph -> biological mechanism constraints -> DAG validity check."]
           ]
         }
       },
       {
-        name: "汽车油耗因果图",
-        level: "中等",
-        prompt: "根据 AutoMPG 数据推断汽车属性之间的因果关系，例如重量、马力和油耗。",
-        hint: "这个任务适合学生理解：车重、马力、油耗之间存在直观因果方向。",
-        stats: [["变量", "6", "汽车属性"], ["样本", "398", "车辆"], ["F1", "0.70", "技能卡平均"], ["难点", "方向", "重量/马力/油耗"]],
+        name: "Auto Fuel-Economy Causal Graph",
+        level: "Medium",
+        prompt: "Infer causal relationships among car attributes in AutoMPG, such as weight, horsepower, and fuel economy.",
+        hint: "This task is easy for students to understand: weight, horsepower, and fuel economy have intuitive causal directions.",
+        stats: [["Variables", "6", "car attributes"], ["Samples", "398", "cars"], ["F1", "0.70", "Skill-card average"], ["Challenge", "Direction", "weight/horsepower/mpg"]],
         events: [
-          ["reason", "先用常识约束", "生产年份和气缸数更像上游变量，油耗更像结果变量。"],
-          ["tool", "run_scd(method='Exact-Search')", "用统计搜索得到候选图。"],
-          ["observe", "发现可疑方向", "算法可能给出 mpg → weight，但物理上更合理的是 weight → mpg。"],
-          ["reason", "修正方向", "根据物理常识禁止油耗导致车重。"],
-          ["final", "最终图", "输出更符合汽车常识的因果图。", {
-            cards: [["F1", "0.70"], ["变量", "6"], ["约束", "物理常识"]],
+          ["reason", "Start with Common-Sense Constraints", "Model year and cylinders are more like upstream variables, while mpg is more like an outcome."],
+          ["tool", "run_scd(method='Exact-Search')", "Use statistical search to obtain candidate graphs."],
+          ["observe", "Find a Suspicious Direction", "The algorithm may suggest mpg -> weight, but physically weight -> mpg is more reasonable."],
+          ["reason", "Fix Direction", "Use physical common sense to forbid fuel economy causing car weight."],
+          ["final", "Final Graph", "Output a causal graph that better matches automotive common sense.", {
+            cards: [["F1", "0.70"], ["Variables", "6"], ["Constraints", "Physical common sense"]],
             code: "cylinders → horsepower\nweight → mpg\nmodel_year → mpg\nhorsepower → mpg"
           }]
         ],
         data: {
           title: "AutoMPG",
-          rows: "398 行",
-          cols: "6 列",
-          files: "2 个文件",
-          size: "约 120 KB",
+          rows: "398 rows",
+          cols: "6 columns",
+          files: "2 files",
+          size: "About 120 KB",
           fileList: ["autompg.csv", "autompg_ground_truth.csv"],
           preview: [
             ["mpg", "cylinders", "displacement", "horsepower", "weight", "acceleration", "model_year", "origin", "car_name"],
@@ -1321,18 +1319,18 @@
 
     cases.featureEngineering.tasks = [
       {
-        name: "淘宝广告转化",
-        level: "困难",
+        name: "Taobao Ad Conversion",
+        level: "Hard",
         prompt: cases.featureEngineering.prompt,
         hint: cases.featureEngineering.hint,
         stats: cases.featureEngineering.stats,
         events: cases.featureEngineering.events,
         data: {
-          title: "Taobao 广告转化数据",
-          rows: "约 260K 行",
-          cols: "24 原始列 + 37 最佳特征",
-          files: "4 个文件",
-          size: "约 180 MB",
+          title: "Taobao Ad Conversion Data",
+          rows: "About 260K rows",
+          cols: "24 raw columns + 37 best features",
+          files: "4 files",
+          size: "About 180 MB",
           fileList: ["train.csv", "test.csv", "train_history.csv", "valid_history.csv"],
           rawName: "train_history.csv excerpt",
           raw: "user_id,item_id,shop_id,item_category_id,item_brand_id,item_city_id,item_price_level,item_sales_level,item_collected_level,item_pv_level,user_age_level,user_gender_id,user_occupation_id,context_timestamp,hour,page_id,target\n10021,53124,812,5001,77,310000,3,12,4,18,3,0,1,1537203300,21,4001,0\n10021,90412,812,5001,77,310000,2,16,6,21,3,0,1,1537206900,22,4001,1\n31088,77120,405,1203,91,440100,7,5,2,9,5,1,0,1537160400,10,4002,0\n88201,11342,901,8120,33,110000,1,21,8,33,2,0,1,1537210500,23,4001,0\n88201,11342,901,8120,33,110000,1,21,8,33,2,0,1,1537214100,23,4001,1",
@@ -1345,39 +1343,39 @@
           ]
         },
         effort: {
-          filesRead: "4 个",
-          toolCalls: "68 次评测",
-          candidates: "37 个特征",
-          fixes: "12 次",
+          filesRead: "4",
+          toolCalls: "68Evaluation",
+          candidates: "37Features",
+          fixes: "12",
           audit: [
-            ["数据难点", "历史行为超过百万行，正样本比例约 1.9%，极度不均衡。"],
-            ["防泄漏", "CVR 只能从 train_history / valid_history 计算，不能偷看测试标签。"],
-            ["搜索过程", "从 24 个原始列扩展到多组 CVR、计数、交叉和价格偏差特征。"],
-            ["结果来源", "逐轮 evaluate → 排除噪声 ID → 保留 37 个强特征 → AUC 0.6594。"]
+            ["Data Challenge", "Historical behavior exceeds one million rows, and the positive rate is about 1.9%, making the data highly imbalanced."],
+            ["Leakage Prevention", "CVR may only be computed from train_history / valid_history; test labels must not be inspected."],
+            ["Search Process", "Expand from 24 raw columns to multiple CVR, count, crossed, and price-gap features."],
+            ["Evidence Path", "round-by-round evaluation -> remove noisy IDs -> keep 37 strong features -> AUC 0.6594."]
           ]
         }
       },
       {
-        name: "糖尿病风险预测",
-        level: "中等",
-        prompt: "请在糖尿病健康调查数据上构造特征，提升 AUC，并避免目标泄漏。",
-        hint: "这个任务更贴近生活：BMI、血压、年龄、生活习惯都可能影响风险。",
-        stats: [["初始 AUC", "0.7970", "Dia"], ["最佳 AUC", "0.7991", "Dia"], ["提升", "+0.0021", "小但稳定"], ["特征数", "21", "最佳运行"]],
+        name: "Diabetes Risk Prediction",
+        level: "Medium",
+        prompt: "Build features on the diabetes health-survey data to improve AUC while avoiding target leakage.",
+        hint: "This task is closer to daily life: BMI, blood pressure, age, and lifestyle can all affect risk.",
+        stats: [["Initial AUC", "0.7970", "Dia"], ["Best AUC", "0.7991", "Dia"], ["Gain", "+0.0021", "small but stable"], ["Feature Count", "21", "Best run"]],
         events: [
-          ["reason", "识别数据", "这是健康调查数据，没有历史日志，所有特征都必须从当前表格中构造。"],
-          ["tool", "构造临床特征", "加入 BMI 阈值、心血管风险总分、生活方式风险总分。"],
-          ["observe", "评测结果", "AUC 从 0.7970 提升到 0.7991。这个数据集原始特征已经很强，提升不会特别大。"],
-          ["final", "最终方案", "保留 21 个简洁特征，避免堆很多噪声交叉项。", {
-            cards: [["AUC", "0.7991"], ["提升", "+0.0021"], ["特征", "21"]],
+          ["reason", "Identify Data", "This is health-survey data with no history log, so all features must be constructed from the current table."],
+          ["tool", "Build Clinical Features", "Add BMI thresholds, cardiovascular risk score, and lifestyle risk score."],
+          ["observe", "Evaluation Result", "AUC improves from 0.7970 to 0.7991. The raw features are already strong, so the improvement is modest."],
+          ["final", "Final Plan", "Keep 21 compact features and avoid adding many noisy crossed terms.", {
+            cards: [["AUC", "0.7991"], ["Gain", "+0.0021"], ["Features", "21"]],
             code: "risk_score = HighBP + HighChol + HeartDiseaseorAttack + Stroke\nbmi_obese = BMI >= 30\nlifestyle_risk = Smoker + no_activity + poor_diet"
           }]
         ],
         data: {
           title: "Diabetes Health Indicators",
-          rows: "253,680 行",
-          cols: "21 列",
-          files: "3 个 CSV",
-          size: "约 75 MB",
+          rows: "253,680 rows",
+          cols: "21 columns",
+          files: "3 CSV",
+          size: "About 75 MB",
           fileList: ["diabetes_binary.csv", "diabetes_012.csv", "balanced_5050.csv"],
           preview: [
             ["HighBP", "HighChol", "CholCheck", "BMI", "Smoker", "Stroke", "HeartDisease", "PhysActivity", "Fruits", "Veggies", "HvyAlcohol", "GenHlth", "MentHlth", "PhysHlth", "DiffWalk", "Sex", "Age", "Education", "Income", "Diabetes"],
@@ -1388,27 +1386,27 @@
         }
       },
       {
-        name: "价格敏感度特征",
-        level: "中等偏难",
-        prompt: "请为广告转化预测构造“用户是否对价格敏感”的特征，并验证它是否提升 AUC。",
-        hint: "这个任务展示 AI 如何把业务直觉变成可计算特征。",
-        stats: [["新增特征", "4", "价格相关"], ["AUC 提升", "+0.006", "局部贡献"], ["数据源", "history", "无泄漏"], ["评测", "通过", "evaluate"]],
+        name: "Price-Sensitivity Features",
+        level: "Medium-Hard",
+        prompt: "Build features for whether a user is price-sensitive in ad-conversion prediction, and verify whether they improve AUC.",
+        hint: "This task shows how AI turns business intuition into computable features.",
+        stats: [["New Features", "4", "price-related"], ["AUC Gain", "+0.006", "local contribution"], ["Data Source", "history", "No leakage"], ["Evaluation", "Pass", "evaluate"]],
         events: [
-          ["reason", "业务直觉", "如果用户历史上常看低价商品，那么当前商品价格偏高可能降低转化概率。"],
-          ["tool", "计算历史均值", "按 user_id 统计历史浏览商品的平均价格等级。"],
-          ["tool", "构造偏差", "price_gap = item_price_level - user_avg_price_level。"],
-          ["observe", "验证提升", "加入价格偏差和价格交叉特征后，AUC 有稳定小幅提升。"],
-          ["final", "最终特征", "把业务直觉转化为数值特征，并用 benchmark 验证。", {
-            cards: [["价格特征", "4"], ["提升", "+0.006"], ["泄漏", "无"]],
+          ["reason", "Business Intuition", "If a user historically views low-price items, a higher current item price may reduce conversion probability."],
+          ["tool", "Compute Historical Mean", "Compute each user's average historical viewed-item price level by user_id."],
+          ["tool", "Build Price Gap", "price_gap = item_price_level - user_avg_price_level."],
+          ["observe", "Verify Improvement", "After adding price-gap and price-cross features, AUC improves slightly and consistently."],
+          ["final", "Final Features", "Convert business intuition into numeric features and verify them with the benchmark.", {
+            cards: [["Price Features", "4"], ["Gain", "+0.006"], ["Leakage", "No"]],
             code: "user_avg_price = hist.groupby('user_id')['item_price_level'].mean()\nX['price_gap'] = X['item_price_level'] - X['user_avg_price']\nX['price_sensitive'] = X['price_gap'] > 1"
           }]
         ],
         data: {
           title: "Taobao history log",
-          rows: "约 1.1M 行历史行为",
-          cols: "18 列",
-          files: "2 个 history 文件",
-          size: "约 140 MB",
+          rows: "About 1.1M historical behavior rows",
+          cols: "18 columns",
+          files: "2 history files",
+          size: "About 140 MB",
           fileList: ["train_history.csv", "valid_history.csv"],
           preview: [
             ["user_id", "item_id", "shop_id", "category", "brand", "price_level", "user_avg_price", "price_gap", "sales", "pv", "hour", "purchase"],
@@ -1504,20 +1502,20 @@
       taskList.innerHTML = (c.tasks || [c]).map((task, index) => `
         <button class="task-tab ${index === taskIndex ? "active" : ""}" onclick="setTask(${index})">
           <b>${task.name}</b>
-          <span>${task.level || "任务"} · ${task.data ? task.data.rows : "数据规模已整理"}</span>
+          <span>${task.level || "Task"} · ${task.data ? task.data.rows : "data scale prepared"}</span>
         </button>
       `).join("");
     }
 
     function renderDataViewer(task) {
-      const data = task.data || { title: "数据查看器", rows: "-", cols: "-", files: "-", size: "-", fileList: [], preview: [] };
+      const data = task.data || { title: "Data Viewer", rows: "-", cols: "-", files: "-", size: "-", fileList: [], preview: [] };
       document.getElementById("dataTitle").textContent = data.title;
-      document.getElementById("difficulty").textContent = `难度：${task.level || "中等"}`;
+      document.getElementById("difficulty").textContent = `Difficulty: ${task.level || "Medium"}`;
       document.getElementById("dataGrid").innerHTML = [
-        ["数据量", data.rows],
-        ["字段/表", data.cols],
-        ["文件数", data.files],
-        ["大小", data.size]
+        ["Rows", data.rows],
+        ["Fields/Tables", data.cols],
+        ["Files", data.files],
+        ["Size", data.size]
       ].map(([label, value]) => `
         <div class="data-kv">
           <label>${label}</label>
@@ -1544,7 +1542,7 @@
 
     function makeRawPreview(data) {
       const rows = data.preview || [];
-      if (!rows.length) return "暂无预览片段";
+      if (!rows.length) return "No preview snippet available";
       return rows.map(row => row.join(",")).join("\n");
     }
 
@@ -1552,16 +1550,16 @@
       const data = task.data || {};
       if (index === 0 && data.raw) return data.raw;
       if (file && file.includes("schema")) {
-        return `{\n  "tables": ${JSON.stringify((data.preview || []).slice(1).map(r => r[0]))},\n  "columns": "${data.cols}",\n  "note": "这里通常包含字段含义、样例值、主键/外键。AI 助手会先读它，避免把同名字段用错。"\n}`;
+        return `{\n  "tables": ${JSON.stringify((data.preview || []).slice(1).map(r => r[0]))},\n  "columns": "${data.cols}",\n  "note": "This usually contains field meanings, example values, primary keys, and foreign keys. The AI assistant reads it first to avoid confusing same-name fields."\n}`;
       }
       if (file && (file.includes("ground_truth") || file.includes("metadata") || file.includes("description") || file.includes("prompt"))) {
-        return `# ${file}\n任务说明 / 标准答案 / 评测配置片段\n\n- difficulty: ${task.level}\n- rows: ${data.rows}\n- columns: ${data.cols}\n- scoring: 用于判断最终答案是否真的正确\n\n这个文件不会直接给出可抄答案，但会定义评分口径和任务边界。`;
+        return `# ${file}\nTask description / gold answer / evaluation config snippet\n\n- difficulty: ${task.level}\n- rows: ${data.rows}\n- columns: ${data.cols}\n- scoring: Used to judge whether the final answer is truly correct\n\nThis file does not directly provide an answer to copy, but it defines scoring criteria and task boundaries.`;
       }
       if (file && file.includes("history")) {
-        return `user_id,item_id,shop_id,item_price_level,hour,target\n10021,53124,812,3,21,0\n10021,90412,812,2,22,1\n31088,77120,405,7,10,0\n\n说明：history 文件只能用来统计历史行为，不能偷看 test label。`;
+        return `user_id,item_id,shop_id,item_price_level,hour,target\n10021,53124,812,3,21,0\n10021,90412,812,2,22,1\n31088,77120,405,7,10,0\n\nNote: history files can only be used to summarize historical behavior; test labels must not be inspected.`;
       }
       if (file && (file.includes("sqlite") || file.includes("database"))) {
-        return `SQLite database: ${file}\n\n.tables\n  schools\n  frpm\n  customers\n  orders\n\nPRAGMA table_info(...)\n  返回字段名、类型、是否为空、主键。\n\nAI 助手不会把数据库全塞进上下文，而是通过 execute_sql 分批探查。`;
+        return `SQLite database: ${file}\n\n.tables\n  schools\n  frpm\n  customers\n  orders\n\nPRAGMA table_info(...)\n  Returns column name, type, nullability, and primary key.\n\nThe AI assistant does not put the whole database into context; it probes in batches through execute_sql.`;
       }
       return data.raw || makeRawPreview(data);
     }
@@ -1569,10 +1567,10 @@
     function renderEffort(task) {
       const effort = task.effort || inferEffort(task);
       document.getElementById("effortGrid").innerHTML = [
-        ["读取文件", effort.filesRead],
-        ["工具调用", effort.toolCalls],
-        ["候选方案", effort.candidates],
-        ["修正次数", effort.fixes]
+        ["Files Read", effort.filesRead],
+        ["Tool Calls", effort.toolCalls],
+        ["Candidates", effort.candidates],
+        ["Fixes", effort.fixes]
       ].map(([label, value]) => `
         <div class="effort-item">
           <label>${label}</label>
@@ -1588,16 +1586,16 @@
       const eventCount = task.events ? task.events.length : 0;
       const toolCalls = (task.events || []).filter(ev => ev[0] === "tool").length;
       const files = task.data && task.data.fileList ? task.data.fileList.length : 1;
-      const rows = task.data ? task.data.rows : "未知规模";
+      const rows = task.data ? task.data.rows : "unknown scale";
       return {
-        filesRead: `${files} 个`,
-        toolCalls: `${toolCalls + 2} 次`,
-        candidates: task.level === "专家级" || task.level === "困难" ? "3-5 个" : "2-3 个",
-        fixes: task.level === "困难" || task.level === "专家级" ? "2 次" : "1 次",
+        filesRead: `${files}`,
+        toolCalls: `${toolCalls + 2}`,
+        candidates: task.level === "Expert" || task.level === "Hard" ? "3-5" : "2-3",
+        fixes: task.level === "Hard" || task.level === "Expert" ? "2" : "1",
         audit: [
-          ["规模", `处理 ${rows}，不是只看一两行样例。`],
-          ["验证", `至少经历 ${eventCount} 个可解释步骤：读数据、调用工具、观察、修正、输出。`],
-          ["防错", "最终答案来自候选比较和约束检查，而不是直接生成。"]
+          ["Scale", `Process ${rows}, not just one or two sample rows.`],
+          ["Verification", `At least ${eventCount} explainable steps: read data, call tools, observe, revise, and output.`],
+          ["Error Prevention", "The final answer comes from candidate comparison and constraint checks, not direct generation."]
         ]
       };
     }
@@ -1605,14 +1603,14 @@
     function resetConsole() {
       consoleEl.innerHTML = `
         <div class="agent-top">
-          <span>请选择左侧任务，然后点击“发送任务”。</span>
-          <span>课堂演示</span>
+          <span>Choose a task on the left, then click "Send Task".</span>
+          <span>Class demo</span>
         </div>
       `;
       runStatus.classList.remove("running");
-      runStatus.innerHTML = `<span class="status-dot"></span>等待任务`;
+      runStatus.innerHTML = `<span class="status-dot"></span>Waiting for task`;
       sendBtn.disabled = false;
-      sendBtn.textContent = "发送任务 ▶";
+      sendBtn.textContent = "Send Task >";
     }
 
     function stopRun() {
@@ -1620,9 +1618,9 @@
       timer = null;
       running = false;
       sendBtn.disabled = false;
-      sendBtn.textContent = "发送任务 ▶";
+      sendBtn.textContent = "Send Task >";
       runStatus.classList.remove("running");
-      runStatus.innerHTML = `<span class="status-dot"></span>等待任务`;
+      runStatus.innerHTML = `<span class="status-dot"></span>Waiting for task`;
     }
 
     function eventIcon(type) {
@@ -1648,13 +1646,13 @@
         <p>${text}</p>
         ${extra && extra.cards ? `<div class="result-cards">${extra.cards.map(([a,b]) => `<div class="mini"><label>${a}</label><strong>${b}</strong></div>`).join("")}</div>` : ""}
         ${extra && extra.code ? `<pre>${escapeHtml(extra.code)}</pre>` : ""}
-        <div class="event-hint">点击展开：查看这一步的输入、输出和判断依据</div>
+        <div class="event-hint">Click to expand: view this step's input, output, and evidence</div>
         <div class="event-detail">
           <div class="detail-grid">
-            <div class="detail-cell"><label>输入</label><span>${escapeHtml(detail.input)}</span></div>
-            <div class="detail-cell"><label>输出</label><span>${escapeHtml(detail.output)}</span></div>
-            <div class="detail-cell"><label>判断依据</label><span>${escapeHtml(detail.evidence)}</span></div>
-            <div class="detail-cell"><label>影响下一步</label><span>${escapeHtml(detail.next)}</span></div>
+            <div class="detail-cell"><label>Input</label><span>${escapeHtml(detail.input)}</span></div>
+            <div class="detail-cell"><label>Output</label><span>${escapeHtml(detail.output)}</span></div>
+            <div class="detail-cell"><label>Evidence</label><span>${escapeHtml(detail.evidence)}</span></div>
+            <div class="detail-cell"><label>Impact on Next Step</label><span>${escapeHtml(detail.next)}</span></div>
           </div>
           <pre>${escapeHtml(detail.log)}</pre>
         </div>
@@ -1670,36 +1668,36 @@
       const data = task.data || {};
       const effort = task.effort || inferEffort(task);
       const base = {
-        input: `任务《${task.name}》；文件 ${data.files}；数据 ${data.rows}`,
+        input: `Task《${task.name}"; files ${data.files}; data ${data.rows}`,
         output: text,
-        evidence: "来自 raw 文件片段、schema/metadata、工具返回值和技能卡规则。",
-        next: "决定下一步工具调用或候选方案筛选。",
+        evidence: "From raw file snippets, schema/metadata, tool outputs, and skill-card rules.",
+        next: "Decide the next tool call or candidate filtering step.",
         log: `[step ${index}] ${type.toUpperCase()} ${title}\n${text}`
       };
       if (type === "tool") {
-        base.input = `工具调用上下文：${(data.fileList || []).join(", ")}`;
+        base.input = `Tool-call context: ${(data.fileList || []).join(", ")}`;
         base.output = extra && extra.code ? extra.code : text;
-        base.evidence = "工具输出是后续推理的硬证据；如果与直觉冲突，优先相信工具结果。";
-        base.next = "把返回结果写入候选方案表，继续验证或修正。";
+        base.evidence = "Tool output is hard evidence for later reasoning; if it conflicts with intuition, prefer the tool result.";
+        base.next = "Write the returned result into the candidate table, then keep validating or revising.";
         base.log = `COMMAND / TOOL\n${title}\n\nINPUT FILES\n${(data.fileList || []).join("\n")}\n\nSTDOUT / RESULT\n${text}`;
       }
       if (type === "observe") {
-        base.input = "上一轮工具输出或数据预览。";
+        base.input = "Previous tool output or data preview.";
         base.output = text;
-        base.evidence = "观察结果必须能追溯到上一条工具调用或 raw 文件。";
-        base.next = "把观察结果转成约束，例如过滤条件、JOIN 决策或方法排除。";
+        base.evidence = "The observation must trace back to the previous tool call or raw file.";
+        base.next = "Convert the observation into constraints, such as filters, JOIN decisions, or method exclusions.";
       }
       if (type === "reason") {
-        base.input = `技能卡规则 + 当前证据；候选数 ${effort.candidates}`;
+        base.input = `Skill-card rules + current evidence; candidates ${effort.candidates}`;
         base.output = text;
-        base.evidence = "不是最终答案，只是用规则排除错误路线。";
-        base.next = "选择下一次工具调用，或收敛到最终候选。";
+        base.evidence = "This is not the final answer; it uses rules to eliminate wrong paths.";
+        base.next = "Choose the next tool call or converge on the final candidate.";
       }
       if (type === "final") {
-        base.input = `前面全部步骤；工具调用 ${effort.toolCalls}；修正 ${effort.fixes}`;
+        base.input = `All previous steps; tool calls ${effort.toolCalls}; fixes ${effort.fixes}`;
         base.output = extra && extra.code ? extra.code : text;
-        base.evidence = "最终答案必须能回溯到数据、工具结果、候选比较和评分约束。";
-        base.next = "进入 benchmark 评分：精确匹配、F1、AUC、ATE 误差或 DAG 指标。";
+        base.evidence = "The final answer must trace back to data, tool results, candidate comparison, and scoring constraints.";
+        base.next = "Move to benchmark scoring: exact match, F1, AUC, ATE error, or DAG metrics.";
         base.log = `FINAL ARTIFACT\n${extra && extra.code ? extra.code : text}\n\nTRACE SUMMARY\n${(effort.audit || []).map(([a,b]) => `${a}: ${b}`).join("\n")}`;
       }
       return base;
@@ -1721,20 +1719,20 @@
       const t = activeTask();
       running = true;
       sendBtn.disabled = true;
-      sendBtn.textContent = "运行中...";
+      sendBtn.textContent = "Running...";
       runStatus.classList.add("running");
-      runStatus.innerHTML = `<span class="status-dot"></span>运行中`;
+      runStatus.innerHTML = `<span class="status-dot"></span>Running`;
       consoleEl.innerHTML = `
         <div class="agent-top">
-          <span>已读取 ${c.short} 技能卡 · 已收到《${t.name}》任务</span>
-          <span>${(t.effort || inferEffort(t)).toolCalls} 工具调用计划</span>
+          <span>Read ${c.short} skill card · received "${t.name}》Task</span>
+          <span>${(t.effort || inferEffort(t)).toolCalls} planned tool calls</span>
         </div>
       `;
 
       let i = 0;
-      appendEvent(["observe", "任务装载", `数据规模：${t.data.rows}；字段/表：${t.data.cols}；文件：${t.data.files}；难度：${t.level}。`], 0);
-      appendEvent(["tool", "读取原始文件", `${(t.data.fileList || []).join(" / ")}。先看 raw 片段和 schema，再决定怎么调用工具。`], 1);
-      appendEvent(["reason", "执行预算", `计划 ${(t.effort || inferEffort(t)).toolCalls}，比较 ${(t.effort || inferEffort(t)).candidates}，记录错误修正 ${(t.effort || inferEffort(t)).fixes}。`], 2);
+      appendEvent(["observe", "Task Loaded", `Data scale: ${t.data.rows}; fields/tables: ${t.data.cols}; files: ${t.data.files}; difficulty: ${t.level}.`], 0);
+      appendEvent(["tool", "Read Raw Files", `${(t.data.fileList || []).join(" / ")}. First inspect raw snippets and schema, then decide how to call tools.`], 1);
+      appendEvent(["reason", "Execution Budget", `Plan ${(t.effort || inferEffort(t)).toolCalls}, compare ${(t.effort || inferEffort(t)).candidates}, record fixes ${(t.effort || inferEffort(t)).fixes}.`], 2);
       const tick = () => {
         appendEvent(t.events[i], i + 3);
         i += 1;
@@ -1743,9 +1741,9 @@
         } else {
           running = false;
           sendBtn.disabled = false;
-          sendBtn.textContent = "再次演示 ▶";
+          sendBtn.textContent = "Run Again >";
           runStatus.classList.remove("running");
-          runStatus.innerHTML = `<span class="status-dot"></span>已完成`;
+          runStatus.innerHTML = `<span class="status-dot"></span>Completed`;
         }
       };
       timer = setTimeout(tick, 300);

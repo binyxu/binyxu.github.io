@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <title>徐彬琰 | 长程智能体与可信 AI</title>
@@ -311,7 +311,7 @@
           优于 ReAct、SLIM 与 Claude Code。
         </div>
         <div class="card-tags"><span class="tag">长程智能体</span><span class="tag">工作记忆</span><span class="tag">工具使用</span></div>
-        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2606.30005" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
+        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2606.30005" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a><a class="card-link" href="https://binyxu.github.io/VISTA/" target="_blank" rel="noreferrer"><span>项目主页</span> <span>↗</span></a><a class="card-link" href="https://github.com/binyxu/VISTA" target="_blank" rel="noreferrer"><span>代码</span> <span>↗</span></a></div>
       </article>
 
       <article class="card">
@@ -327,7 +327,7 @@
           在 4 项任务、11 个数据集上以 1.4–15× 更低成本达到或超过原系统。
         </div>
         <div class="card-tags"><span class="tag">多智能体→单智能体</span><span class="tag">成本效率</span></div>
-        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
+        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a><a class="card-link" href="https://github.com/Tencent/AdaSkill" target="_blank" rel="noreferrer"><span>代码</span> <span>↗</span></a></div>
       </article>
 
       <article class="card">
@@ -578,7 +578,7 @@
       const root = document.documentElement;
       const toggle = document.getElementById("themeToggle");
       const stored = window.localStorage.getItem("binyan-theme");
-      const mode = stored === "light" ? "light" : "dark";
+      const mode = stored === "dark" ? "dark" : "light";
       root.setAttribute("data-theme", mode);
       toggle.setAttribute("data-mode", mode);
       toggle.addEventListener("click", function () {

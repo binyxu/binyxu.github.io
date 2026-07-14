@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <title>Binyan Xu | Long-Horizon Agents & Trustworthy AI</title>
@@ -401,6 +401,8 @@
         <div class="card-tags"><span class="tag">Long-horizon agents</span><span class="tag">Working memory</span><span class="tag">Tool use</span></div>
         <div class="card-footer">
           <a class="card-link" href="https://arxiv.org/abs/2606.30005" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://binyxu.github.io/VISTA/" target="_blank" rel="noreferrer"><span>Project</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/binyxu/VISTA" target="_blank" rel="noreferrer"><span>Code</span> <span>↗</span></a>
         </div>
       </article>
 
@@ -420,6 +422,7 @@
         <div class="card-tags"><span class="tag">Multi-agent → single-agent</span><span class="tag">Cost efficiency</span></div>
         <div class="card-footer">
           <a class="card-link" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/Tencent/AdaSkill" target="_blank" rel="noreferrer"><span>Code</span> <span>↗</span></a>
         </div>
       </article>
 
@@ -688,7 +691,7 @@
       const root = document.documentElement;
       const toggle = document.getElementById("themeToggle");
       const stored = window.localStorage.getItem("binyan-theme");
-      const mode = stored === "light" ? "light" : "dark";
+      const mode = stored === "dark" ? "dark" : "light";
       root.setAttribute("data-theme", mode);
       toggle.setAttribute("data-mode", mode);
       toggle.addEventListener("click", function () {

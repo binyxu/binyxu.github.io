@@ -1,696 +1,182 @@
 <!DOCTYPE html>
-<html lang="zh-Hans" data-theme="dark">
+<html lang="zh-CN" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>徐彬琰 | 人工智能安全与视觉语言模型</title>
+  <title>徐彬琰 | 长程智能体与可信 AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-        content="徐彬琰，香港中文大学信息工程系博士生，研究方向为 AI 安全、后门攻击与防御、以及视觉语言模型与具身智能的安全性。" />
+        content="徐彬琰 —— 香港中文大学博士生，研究闭环自主智能：长程 LLM 智能体、智能体记忆、技能蒸馏与可信 AI。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* 直接复用你 index.html 里的所有 CSS，不改动 */
     :root {
-      --bg: #040712;
-      --bg-alt: #080c1c;
-      --bg-soft: #0f172a;
-      --fg: #f9fafb;
-      --fg-muted: #9ca3af;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.12);
-      --accent-strong: #0ea5e9;
-      --border-subtle: rgba(148, 163, 184, 0.35);
-      --card-radius: 18px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
-      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.7);
-      --nav-blur: 18px;
-      --code-bg: #020617;
-      --tag-bg: rgba(148, 163, 184, 0.12);
-      --link: #38bdf8;
-      --link-hover: #7dd3fc;
+      --bg: #060a16;
+      --bg-alt: #0a0f20;
+      --bg-soft: #0f1730;
+      --fg: #f4f7fb;
+      --fg-muted: #9aa7bd;
+      --fg-faint: #6b7890;
+      --accent: #4ea8ff;
+      --accent-2: #7c8cff;
+      --accent-3: #38e8c8;
+      --accent-soft: rgba(78, 168, 255, 0.12);
+      --accent-strong: #2b8fff;
+      --border-subtle: rgba(140, 160, 200, 0.22);
+      --border-strong: rgba(140, 160, 200, 0.38);
+      --card-radius: 20px;
+      --shadow-soft: 0 24px 60px rgba(4, 8, 20, 0.55);
+      --shadow-subtle: 0 12px 30px rgba(4, 8, 20, 0.45);
+      --nav-blur: 20px;
+      --tag-bg: rgba(140, 160, 200, 0.10);
+      --gold: #e2b23c;
+      --link: #4ea8ff;
+      --link-hover: #93c9ff;
     }
-
     [data-theme="light"] {
-      --bg: #f8fafc;
-      --bg-alt: #f1f5f9;
-      --bg-soft: #ffffff;
-      --fg: #020617;
-      --fg-muted: #4b5563;
-      --accent: #0284c7;
-      --accent-soft: rgba(37, 99, 235, 0.06);
-      --accent-strong: #1d4ed8;
-      --border-subtle: rgba(148, 163, 184, 0.45);
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.10);
-      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.12);
-      --code-bg: #0f172a;
-      --tag-bg: rgba(148, 163, 184, 0.14);
-      --link: #0369a1;
-      --link-hover: #0ea5e9;
+      --bg: #f7f9fc; --bg-alt: #eef2f8; --bg-soft: #ffffff;
+      --fg: #0b1220; --fg-muted: #4a5670; --fg-faint: #7a869c;
+      --accent: #1f6fe0; --accent-2: #5b6ef0; --accent-3: #12a894;
+      --accent-soft: rgba(31, 111, 224, 0.08); --accent-strong: #1657c9;
+      --border-subtle: rgba(90, 110, 150, 0.20); --border-strong: rgba(90, 110, 150, 0.32);
+      --shadow-soft: 0 24px 55px rgba(20, 40, 90, 0.10); --shadow-subtle: 0 12px 28px rgba(20, 40, 90, 0.10);
+      --tag-bg: rgba(90, 110, 150, 0.10); --gold: #b5851b; --link: #1657c9; --link-hover: #1f6fe0;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { scroll-behavior: smooth; }
     body {
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #0b1120 0, var(--bg) 38%, #020617 100%);
-      color: var(--fg);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(1100px 600px at 12% -8%, rgba(78,168,255,0.16), transparent 60%),
+        radial-gradient(900px 520px at 100% 0%, rgba(124,140,255,0.14), transparent 55%),
+        var(--bg);
+      color: var(--fg); line-height: 1.7; -webkit-font-smoothing: antialiased;
     }
-
     [data-theme="light"] body {
-      background: #ffffff !important;  /* 纯白背景 */
-    }
-
-
-    a {
-      color: var(--link);
-      text-decoration: none;
-      transition: color 0.18s ease, opacity 0.18s ease;
-    }
-
-    a:hover {
-      color: var(--link-hover);
-    }
-
-    main {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 96px 20px 72px;
-    }
-
-    .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(var(--nav-blur));
-      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.72), transparent);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-    }
-
-    [data-theme="light"] .top-nav {
-      background: linear-gradient(
-        to bottom,
-        rgba(248, 250, 252, 0.98),
-        rgba(248, 250, 252, 0.92),
-        rgba(248, 250, 252, 0.0)
-      );
-      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
-    }
-
-    .top-nav-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 10px 20px 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-    }
-
-    .brand-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #e0f2fe, var(--accent));
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 14px;
-      font-size: 0.85rem;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .nav-links a {
-      color: var(--fg-muted);
-      padding: 6px 8px;
-      border-radius: 999px;
-    }
-
-    .nav-links a:hover {
-      color: var(--fg);
-      background: rgba(148, 163, 184, 0.12);
-    }
-
-    .theme-toggle {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.35), rgba(15, 23, 42, 0.95));
-      height: 28px;
-      width: 48px;
-      padding: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .theme-toggle-knob {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #f9fafb, #e5e7eb);
-      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.7);
-      transform: translateX(0);
-      transition: transform 0.22s ease;
-    }
-
-    .theme-toggle[data-mode="light"] .theme-toggle-knob {
-      transform: translateX(18px);
-    }
-
-    .theme-toggle-icon {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 7px;
-      font-size: 0.7rem;
-      color: rgba(148, 163, 184, 0.8);
-      pointer-events: none;
-    }
-
-    .grid-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.1fr);
-      gap: 32px;
-      align-items: center;
-      margin-bottom: 40px;
-    }
-
-    @media (max-width: 820px) {
-      .grid-hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .section {
-      margin-top: 40px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--fg-muted);
-    }
-
-    .section-subtitle {
-      font-size: 0.9rem;
-      color: var(--fg-muted);
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--fg-muted);
-    }
-
-    [data-theme="light"] .pill {
-      background: rgba(241, 245, 249, 0.9);
-    }
-
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--accent);
-    }
-
-    .hero-title {
-      font-size: clamp(2.1rem, 3vw, 2.6rem);
-      letter-spacing: 0.02em;
-      font-weight: 650;
-      margin-bottom: 10px;
-    }
-
-    .hero-highlight {
-      background: linear-gradient(120deg, #22d3ee, #38bdf8, #a855f7);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-subtitle {
-      font-size: 0.95rem;
-      color: var(--fg-muted);
-      max-width: 32rem;
-      margin-bottom: 16px;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .meta-item {
-      font-size: 0.82rem;
-      color: var(--fg-muted);
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: rgba(15, 23, 42, 0.4);
-    }
-
-    [data-theme="light"] .meta-item {
-      background: rgba(255, 255, 255, 0.8);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 9px 15px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 0.86rem;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: radial-gradient(circle at 0 0, #e0f2fe, #38bdf8);
-      border-color: rgba(56, 189, 248, 0.6);
-      color: #0f172a;
-      box-shadow: var(--shadow-subtle);
-    }
-
-    .btn-primary:hover {
-      filter: brightness(1.02);
-      transform: translateY(-0.5px);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      border-color: rgba(148, 163, 184, 0.7);
-      color: var(--fg-muted);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(15, 23, 42, 0.75);
-      color: var(--fg);
-    }
-
-    [data-theme="light"] .btn-ghost:hover {
-      background: rgba(226, 232, 240, 0.9);
-    }
-
-    .btn-icon {
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .hero-avatar-card {
-      border-radius: 24px;
-      background: radial-gradient(circle at 15% 0, rgba(56, 189, 248, 0.25), var(--bg-soft));
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      box-shadow: var(--shadow-soft);
-      padding: 20px 18px 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-avatar-main {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 16px;
-      align-items: center;
-    }
-
-    .hero-avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 24px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      overflow: hidden;
-      background: radial-gradient(circle at 30% 0, #1f2937, #020617);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .hero-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .hero-avatar-meta-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(248, 250, 252, 0.85);
-    }
-
-    [data-theme="light"] .hero-avatar-meta-title {
-      color: #0f172a;  /* 深色，日间模式可读性好 */
-    }
-
-    .hero-avatar-meta-text {
-      font-size: 0.88rem;
-      color: var(--fg-muted);
-      margin-top: 4px;
-    }
-
-    .hero-avatar-meta-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .tag {
-      font-size: 0.75rem;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--tag-bg);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--fg-muted);
-      white-space: nowrap;
-    }
-
-    .hero-avatar-footer {
-      margin-top: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-      border-top: 1px dashed rgba(148, 163, 184, 0.4);
-      padding-top: 10px;
-    }
-
-    .hero-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: flex-end;
-    }
-
-    .icon-link {
-      font-size: 0.8rem;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      color: var(--fg-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(15, 23, 42, 0.6);
-    }
-
-    [data-theme="light"] .icon-link {
-      background: rgba(248, 250, 252, 0.9);
-    }
-
-    .icon-link span.icon {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-
-    .glow-orbit {
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.38), transparent 55%),
-                  radial-gradient(circle at 100% 0, rgba(129, 140, 248, 0.35), transparent 55%);
-      opacity: 0.25;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .card {
-      border-radius: var(--card-radius);
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-soft);
-      padding: 18px 18px 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    [data-theme="light"] .card {
-      background: radial-gradient(circle at 0 0, rgba(191, 219, 254, 0.28), #ffffff);
-    }
-
-    .card + .card {
-      margin-top: 14px;
-    }
-
-    .card-header-line {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 0.98rem;
-      font-weight: 550;
-    }
-
-    .card-meta {
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-    }
-
-    .card-tags {
-      margin-top: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .card-body {
-      margin-top: 8px;
-      font-size: 0.9rem;
-      color: var(--fg-muted);
-    }
-
-    .card-footer {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.82rem;
-    }
-
-    .card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-      border: 1px solid rgba(56, 189, 248, 0.6);
-    }
-
-    .card-link:hover {
-      background: rgba(56, 189, 248, 0.18);
-    }
-
-    .muted {
-      color: var(--fg-muted);
-    }
-
-    .two-column {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.15fr);
-      gap: 18px;
-    }
-
-    @media (max-width: 880px) {
-      .two-column {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .timeline-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .edu-logo {
-      width: 58px;
-      height: 58px;
-      border-radius: 999px;
-      object-fit: contain;
-      background: #ffffff;
-      padding: 3px;
-      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.6);
-    }
-
-    [data-theme="light"] .edu-logo {
-      background: #f8fafc;
-    }
-
-    .timeline {
-      border-left: 1px dashed rgba(148, 163, 184, 0.6);
-      padding-left: 16px;
-      margin-top: 4px;
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 14px;
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: -21px;
-      top: 4px;
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
-    }
-
-    .timeline-title {
-      font-size: 0.9rem;
-      font-weight: 550;
-    }
-
-    .timeline-meta {
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-    }
-
-    .timeline-desc {
-      font-size: 0.84rem;
-      color: var(--fg-muted);
-      margin-top: 4px;
-    }
-
-    ul.inline-list {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 0.84rem;
-      color: var(--fg-muted);
-    }
-
-    ul.inline-list li::before {
-      content: "•";
-      margin-right: 4px;
-      color: var(--accent);
-    }
-
-    footer {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 20px 32px;
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      border-top: 1px solid rgba(15, 23, 42, 0.9);
-      opacity: 0.92;
-    }
-
-    .kbd {
-      font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.75em;
-      padding: 2px 5px;
-      border-radius: 4px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: rgba(15, 23, 42, 0.8);
-    }
-
-    [data-theme="light"] .kbd {
-      background: rgba(248, 250, 252, 0.9);
-    }
+      background:
+        radial-gradient(1000px 560px at 10% -10%, rgba(31,111,224,0.10), transparent 60%),
+        radial-gradient(820px 460px at 100% 0%, rgba(91,110,240,0.08), transparent 55%),
+        #f7f9fc;
+    }
+    a { color: var(--link); text-decoration: none; transition: color .18s ease; }
+    a:hover { color: var(--link-hover); }
+    main { max-width: 1060px; margin: 0 auto; padding: 92px 22px 64px; }
+
+    .top-nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(var(--nav-blur));
+      background: linear-gradient(to bottom, rgba(6,10,22,0.9), rgba(6,10,22,0.62), transparent);
+      border-bottom: 1px solid var(--border-subtle); }
+    [data-theme="light"] .top-nav { background: linear-gradient(to bottom, rgba(247,249,252,0.96), rgba(247,249,252,0.86), transparent); }
+    .top-nav-inner { max-width: 1060px; margin: 0 auto; padding: 11px 22px 9px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 9px; font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 0.95rem; color: var(--fg); }
+    .brand-dot { width: 10px; height: 10px; border-radius: 999px; background: radial-gradient(circle at 30% 0, #d6ecff, var(--accent)); box-shadow: 0 0 0 4px rgba(78,168,255,0.20); }
+    .nav-links { display: flex; gap: 6px; font-size: 0.86rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links a { color: var(--fg-muted); padding: 6px 10px; border-radius: 999px; }
+    .nav-links a:hover { color: var(--fg); background: var(--tag-bg); }
+    .theme-toggle { border-radius: 999px; border: 1px solid var(--border-strong); background: var(--tag-bg); height: 28px; width: 48px; padding: 3px; display: flex; align-items: center; position: relative; cursor: pointer; }
+    .theme-toggle-knob { width: 20px; height: 20px; border-radius: 999px; background: radial-gradient(circle at 30% 0, #f4f7fb, #cfd8e6); box-shadow: 0 3px 8px rgba(4,8,20,0.6); transform: translateX(0); transition: transform .22s ease; }
+    .theme-toggle[data-mode="light"] .theme-toggle-knob { transform: translateX(18px); }
+    .theme-toggle-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 7px; font-size: 0.7rem; color: var(--fg-faint); pointer-events: none; }
+
+    .grid-hero { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2.05fr); gap: 34px; align-items: center; margin-bottom: 34px; }
+    @media (max-width: 840px) { .grid-hero { grid-template-columns: minmax(0,1fr); } }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px; background: var(--accent-soft); border: 1px solid var(--border-strong); font-size: 0.76rem; letter-spacing: 0.06em; color: var(--fg-muted); }
+    .pill-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 3px rgba(78,168,255,0.25); }
+    .hero-title { font-family: "Space Grotesk", "PingFang SC", sans-serif; font-size: clamp(2.4rem, 4vw, 3.1rem); font-weight: 700; margin: 12px 0 6px; line-height: 1.1; }
+    .hero-highlight { background: linear-gradient(115deg, var(--accent-3), var(--accent) 45%, var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero-tagline { font-family: "Space Grotesk", "PingFang SC", sans-serif; font-size: clamp(1rem, 1.6vw, 1.18rem); font-weight: 600; color: var(--fg); margin-bottom: 12px; }
+    .hero-subtitle { font-size: 0.96rem; color: var(--fg-muted); max-width: 34rem; margin-bottom: 16px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .meta-item { font-size: 0.82rem; color: var(--fg-muted); padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border-subtle); background: var(--tag-bg); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 17px; border-radius: 999px; border: 1px solid transparent; font-size: 0.9rem; font-weight: 550; cursor: pointer; transition: transform .15s ease, filter .15s ease, background .15s ease; }
+    .btn-primary { background: linear-gradient(115deg, var(--accent-3), var(--accent) 55%, var(--accent-2)); color: #051022; box-shadow: var(--shadow-subtle); font-weight: 600; }
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .btn-ghost { background: transparent; border-color: var(--border-strong); color: var(--fg-muted); }
+    .btn-ghost:hover { background: var(--tag-bg); color: var(--fg); }
+    .btn-icon { font-size: 0.9rem; opacity: 0.9; }
+
+    .hero-card { border-radius: 24px; position: relative; overflow: hidden; background: linear-gradient(160deg, rgba(20,30,60,0.9), rgba(10,15,32,0.92)); border: 1px solid var(--border-strong); box-shadow: var(--shadow-soft); padding: 22px 20px 18px; }
+    [data-theme="light"] .hero-card { background: linear-gradient(160deg, #ffffff, #eef3fb); }
+    .glow-orbit { position: absolute; inset: -45%; background: radial-gradient(circle at 0 0, rgba(56,232,200,0.30), transparent 55%), radial-gradient(circle at 100% 0, rgba(124,140,255,0.32), transparent 55%); opacity: 0.5; mix-blend-mode: screen; pointer-events: none; }
+    [data-theme="light"] .glow-orbit { opacity: 0.35; }
+    .hero-card-main { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 16px; align-items: center; position: relative; }
+    .hero-avatar { width: 92px; height: 92px; border-radius: 22px; overflow: hidden; border: 1px solid var(--border-strong); background: #0b1226; }
+    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-card-title { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; color: var(--fg); }
+    .hero-card-text { font-size: 0.86rem; color: var(--fg-muted); margin-top: 4px; }
+    .hero-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .tag { font-size: 0.75rem; padding: 3px 9px; border-radius: 999px; background: var(--tag-bg); border: 1px solid var(--border-subtle); color: var(--fg-muted); white-space: nowrap; }
+    .hero-card-footer { margin-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px dashed var(--border-strong); padding-top: 12px; position: relative; }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .icon-link { font-size: 0.78rem; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--border-subtle); color: var(--fg-muted); display: inline-flex; align-items: center; gap: 5px; background: var(--tag-bg); }
+    .icon-link:hover { color: var(--fg); border-color: var(--border-strong); }
+
+    .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 4px 0 8px; }
+    @media (max-width: 720px) { .stat-strip { grid-template-columns: repeat(2, 1fr); } }
+    .stat { border-radius: 16px; border: 1px solid var(--border-subtle); background: var(--bg-soft); padding: 14px; box-shadow: var(--shadow-subtle); }
+    [data-theme="light"] .stat { background: #ffffff; }
+    .stat-num { font-family: "Space Grotesk", sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(115deg, var(--accent-3), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stat-label { font-size: 0.78rem; color: var(--fg-muted); margin-top: 2px; }
+
+    .section { margin-top: 46px; scroll-margin-top: 80px; }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+    .section-title { font-family: "Space Grotesk", "PingFang SC", sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--fg); }
+    .section-title .accent-bar { display: inline-block; width: 22px; height: 3px; border-radius: 3px; margin-right: 10px; vertical-align: middle; background: linear-gradient(90deg, var(--accent-3), var(--accent)); }
+    .section-subtitle { font-size: 0.88rem; color: var(--fg-muted); }
+    .group-label { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; color: var(--accent); margin: 22px 0 10px; display: flex; align-items: center; gap: 8px; }
+    .group-label::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
+
+    .card { border-radius: var(--card-radius); background: var(--bg-soft); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-subtle); padding: 18px; position: relative; overflow: hidden; transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+    [data-theme="light"] .card { background: #ffffff; }
+    .card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: var(--shadow-soft); }
+    .card + .card { margin-top: 14px; }
+    .card-header-line { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+    .card-title { font-size: 1rem; font-weight: 600; line-height: 1.5; }
+    .card-meta { font-size: 0.8rem; color: var(--fg-muted); margin-top: 3px; }
+    .oral { color: var(--gold); font-weight: 600; }
+    .card-body { margin-top: 8px; font-size: 0.9rem; color: var(--fg-muted); }
+    .card-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .card-footer { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.82rem; }
+    .card-link { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); border: 1px solid var(--border-subtle); }
+    .card-link:hover { background: rgba(78,168,255,0.18); }
+
+    .two-column { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(0,1.1fr); gap: 16px; }
+    @media (max-width: 880px) { .two-column { grid-template-columns: minmax(0,1fr); } }
+    .inline-list { list-style: none; display: flex; flex-direction: column; gap: 7px; font-size: 0.92rem; color: var(--fg-muted); }
+    .inline-list li { display: flex; gap: 8px; }
+    .inline-list li::before { content: "▹"; color: var(--accent); }
+
+    .timeline { border-left: 1px dashed var(--border-strong); padding-left: 16px; margin-top: 6px; }
+    .timeline-item { position: relative; margin-bottom: 15px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot { position: absolute; left: -21px; top: 5px; width: 9px; height: 9px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 3px rgba(78,168,255,0.22); }
+    .timeline-header { display: flex; align-items: center; gap: 10px; }
+    .edu-logo { width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; padding: 4px; box-shadow: 0 0 0 1px var(--border-subtle); }
+    .timeline-title { font-size: 0.92rem; font-weight: 600; }
+    .timeline-meta { font-size: 0.78rem; color: var(--fg-muted); }
+    .timeline-desc { font-size: 0.84rem; color: var(--fg-muted); margin-top: 4px; }
+    .award-list { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; color: var(--fg-muted); margin-top: 2px; }
+    .award-list li { display: flex; gap: 9px; }
+    .award-list li::before { content: "🏅"; font-size: 0.9rem; }
+
+    footer { max-width: 1060px; margin: 40px auto 0; padding: 26px 22px 34px; font-size: 0.78rem; color: var(--fg-faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--border-subtle); }
+    .kbd { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.75em; padding: 2px 5px; border-radius: 4px; border: 1px solid var(--border-strong); background: var(--tag-bg); }
   </style>
 </head>
 <body>
-  <!-- 顶部导航 -->
   <header class="top-nav">
     <div class="top-nav-inner">
-      <div class="brand">
-        <div class="brand-dot"></div>
-        <span>Binyan Xu</span>
-      </div>
+      <div class="brand"><div class="brand-dot"></div><span>徐彬琰</span></div>
       <nav class="nav-links">
         <a href="#about">关于</a>
         <a href="#research">研究</a>
         <a href="#publications">论文</a>
-        <a href="#projects">项目</a>
-        <a href="#awards">获奖与教育</a>
+        <a href="#experience">经历</a>
+        <a href="#awards">荣誉与教育</a>
         <a href="#contact">联系</a>
-
-        <!-- 从中文版跳回英文版 -->
-        <a href="index.html" title="Switch to English version">EN</a>
-
+        <a href="index.html" title="Switch to English">EN</a>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换亮/暗主题">
-          <div class="theme-toggle-icon">
-            <span>☾</span>
-            <span>☀︎</span>
-          </div>
+          <div class="theme-toggle-icon"><span>☾</span><span>☀︎</span></div>
           <div class="theme-toggle-knob"></div>
         </button>
       </nav>
@@ -698,473 +184,381 @@
   </header>
 
   <main>
-    <!-- Hero -->
-    <section id="about" class="section" aria-label="个人简介">
+    <section id="about" class="section" style="margin-top: 8px;" aria-label="个人简介">
       <div class="grid-hero">
         <div>
-          <div class="pill" style="margin-bottom: 10px;">
-            <span class="pill-dot"></span>
-            <span>AI 安全 · 视觉语言模型</span>
-          </div>
-          <h1 class="hero-title">
-            <span class="hero-highlight">徐彬琰</span>
-          </h1>
+          <div class="pill"><span class="pill-dot"></span><span>长程智能体 · 可信 AI</span></div>
+          <h1 class="hero-title"><span class="hero-highlight">徐彬琰</span></h1>
+          <p class="hero-tagline">闭环自主智能 —— 从风险感知到可靠自治。</p>
           <p class="hero-subtitle">
-            香港中文大学（CUHK）信息工程系博士生。我的研究关注在对抗环境下构建可信的智能系统，
-            尤其是利用 CLIP 等视觉语言模型以及具身智能体，在安全视角下同时作为
-            <em>防御者</em> 与 <em>攻击者</em> 的双重角色。
+            香港中文大学信息工程系博士生，导师张克环教授。我研究如何让 LLM 智能体在复杂、
+            长程的真实任务中感知自身状态、维护记忆、沉淀技能，并保持可靠。
           </p>
-
           <div class="hero-meta">
-            <div class="meta-item">深度神经网络安全</div>
-            <div class="meta-item">后门与对抗攻击 / 防御</div>
-            <div class="meta-item">视觉语言模型与具身智能安全</div>
+            <div class="meta-item">长程 LLM 智能体</div>
+            <div class="meta-item">智能体记忆与自管理上下文</div>
+            <div class="meta-item">技能蒸馏</div>
+            <div class="meta-item">可信 / 可审计 AI</div>
           </div>
-
           <div class="hero-actions">
-            <a class="btn btn-primary" href="https://binyxu.github.io/Binyan_Resume_phd_zh.pdf" target="_blank" rel="noreferrer">
-              下载 CV
-              <span class="btn-icon">⇩</span>
-            </a>
-            <a class="btn btn-ghost" href="#research">
-              研究概览
-              <span class="btn-icon">↳</span>
-            </a>
+            <a class="btn btn-primary" href="Binyan_Resume_phd_zh.pdf" target="_blank" rel="noreferrer">下载简历<span class="btn-icon">⇩</span></a>
+            <a class="btn btn-ghost" href="#research">研究概览<span class="btn-icon">↳</span></a>
           </div>
         </div>
 
-        <aside class="hero-avatar-card" aria-label="快速档案">
+        <aside class="hero-card" aria-label="快速档案">
           <div class="glow-orbit" aria-hidden="true"></div>
-          <div class="hero-avatar-main">
-            <div class="hero-avatar">
-              <img src="photo.jpg" alt="徐彬琰的个人照片" />
-            </div>
+          <div class="hero-card-main">
+            <div class="hero-avatar"><img src="photo.jpg" alt="徐彬琰个人照片" /></div>
             <div>
-              <div class="hero-avatar-meta-title">当前职位</div>
-              <div class="hero-avatar-meta-text">
-                信息工程系博士研究生<br />
-                香港中文大学 · 香港特别行政区
-              </div>
-              <div class="hero-avatar-meta-tags">
+              <div class="hero-card-title">当前职位</div>
+              <div class="hero-card-text">信息工程系博士研究生<br />香港中文大学 · 香港特别行政区</div>
+              <div class="hero-card-tags">
+                <span class="tag">LLM 智能体</span>
+                <span class="tag">智能体记忆</span>
+                <span class="tag">技能蒸馏</span>
                 <span class="tag">AI 安全</span>
-                <span class="tag">CLIP & VLMs</span>
-                <span class="tag">后门攻击 / 防御</span>
-                <span class="tag">具身智能安全</span>
               </div>
             </div>
           </div>
-          <div class="hero-avatar-footer">
+          <div class="hero-card-footer">
             <div>
-              <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em;">
-                联系方式
-              </div>
-              <div style="font-size: 0.82rem;">
-                <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a>
-              </div>
+              <div style="font-size:0.72rem; letter-spacing:0.06em; color:var(--fg-faint);">联系方式</div>
+              <div style="font-size:0.82rem;"><a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a></div>
             </div>
             <div class="hero-links">
-              <a class="icon-link" href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works"
-                 target="_blank" rel="noreferrer">
-                <span class="icon">📚</span> Scholar
-              </a>
-              <a class="icon-link" href="https://github.com/binyxu" target="_blank" rel="noreferrer">
-                <span class="icon">💻</span> GitHub
-              </a>
-              <a class="icon-link" href="https://www.linkedin.com/in/binyan-xu-171b862b0"
-                 target="_blank" rel="noreferrer">
-                <span class="icon">💼</span> LinkedIn
-              </a>
+              <a class="icon-link" href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works" target="_blank" rel="noreferrer"><span>📚</span> Scholar</a>
+              <a class="icon-link" href="https://github.com/binyxu" target="_blank" rel="noreferrer"><span>💻</span> GitHub</a>
+              <a class="icon-link" href="https://www.linkedin.com/in/binyan-xu-171b862b0" target="_blank" rel="noreferrer"><span>💼</span> LinkedIn</a>
             </div>
           </div>
         </aside>
       </div>
 
-      <div class="two-column">
+      <div class="stat-strip">
+        <div class="stat"><div class="stat-num">4 + 4</div><div class="stat-label">CCF-A 已录用 / 在投（一作 / 共一）</div></div>
+        <div class="stat"><div class="stat-num">3 篇</div><div class="stat-label">Oral：AAAI · CCS · ACM MM</div></div>
+        <div class="stat"><div class="stat-num">22.7→50.7%</div><div class="stat-label">长程智能体成功率（VISTA）</div></div>
+        <div class="stat"><div class="stat-num">1.4–15×</div><div class="stat-label">技能蒸馏降本</div></div>
+      </div>
+
+      <div class="two-column" style="margin-top: 18px;">
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">个人简介</span>
-          </div>
+          <div class="card-header-line"><span class="card-title">个人简介</span></div>
           <div class="card-body">
-            我目前在香港中文大学信息工程系攻读博士学位，导师为张克环教授。
-            在此之前，我于西安交通大学钱学森班获得自动化荣誉学士学位，
-            并作为交换学生在加州大学伯克利分校 EECS 系学习一学期。
-            我的研究致力于在对抗环境中提升现代 AI 系统的可信度，
-            重点方向包括后门攻击与防御、通用对抗扰动，以及视觉语言模型与具身智能体的安全性。
+            我在香港中文大学信息工程系攻读博士，导师张克环教授。此前于西安交通大学钱学森班获自动化荣誉学士
+            （经少年班从初中阶段进入），并在加州大学伯克利分校 EECS 交换一学期。我的研究将模型的单点能力
+            转化为可长期运行的系统能力——通过状态感知、记忆维护、技能沉淀、外部验证与风险反馈构成闭环。
           </div>
         </div>
-
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">研究兴趣</span>
-          </div>
+          <div class="card-header-line"><span class="card-title">研究兴趣</span></div>
           <div class="card-body">
             <ul class="inline-list">
-              <li>深度神经网络后门攻击与防御</li>
-              <li>通用与可迁移对抗攻击</li>
-              <li>利用 CLIP / VLM / LLM 进行 AI 安全</li>
-              <li>具身智能体与机器人系统的安全性</li>
+              <li>长程 LLM 智能体与自管理上下文</li>
+              <li>智能体记忆与技能 / 轨迹蒸馏</li>
+              <li>智能体自动化风险与成本感知部署</li>
+              <li>外部审计与可信多模态 AI</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Research overview -->
-    <section id="research" class="section" aria-label="研究概览">
+    <section id="research" class="section" aria-label="研究">
       <div class="section-header">
-        <h2 class="section-title">研究概览</h2>
-        <p class="section-subtitle">
-          Friend and Foe：视觉语言模型在 AI 安全中的双重角色。
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>研究主线</h2>
+        <p class="section-subtitle">一条闭环：感知风险 → 外部验证 → 构建自治。</p>
       </div>
-
       <div class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              Friend and Foe: Vision-Language Models as Both Attackers and Defenders
-            </div>
-            <div class="card-meta">
-              博士前资格论文提案 · 香港中文大学信息工程系
-            </div>
+            <div class="card-title">闭环自主智能</div>
+            <div class="card-meta">从风险感知到可靠、低成本的长程自治</div>
           </div>
         </div>
         <div class="card-body">
-          视觉语言模型（VLM）如 CLIP 具有强大的跨模态表征与推理能力，
-          但同时也引入了新的攻击面。我的研究从三个方向系统性地研究其在安全中的“友与敌”：
+          我将智能系统的能力理解为一个闭环：智能体感知自身状态与环境风险，维护记忆、沉淀技能，
+          再借助外部验证与风险反馈在部署中保持可靠。同一套方法贯穿三个方向：
           <ol style="margin-top: 8px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
-            <li style="margin-bottom: 4px;">
-              <strong>UnivIntruder：</strong> 仅利用一个公开的 VLM 构造通用、可迁移、定向的对抗扰动，
-              在完全黑盒的图像分类模型上实现高效“劫持”。
-            </li>
-            <li style="margin-bottom: 4px;">
-              <strong>CLIP-Guided Defense：</strong> 将 CLIP 作为外部语义审计器，从训练数据中分离后门样本与干净样本，
-              并通过 CLIP logits 指导重新训练，提升多种后门攻击下的鲁棒性。
-            </li>
-            <li>
-              <strong>环境驱动的具身智能 Jailbreak（在研）：</strong>
-              研究如何通过精心设计的物理环境，利用感知链路的脆弱性绕过具身智能体的安全机制。
-            </li>
+            <li style="margin-bottom: 5px;"><strong>长程自主：</strong>自管理上下文（VISTA）、智能体记忆与技能蒸馏，让智能体管理状态、积累经验，并以更低成本内化多智能体流程。</li>
+            <li style="margin-bottom: 5px;"><strong>外部审计与验证：</strong>用外部模型（如 VLM / CLIP）审计不可信模型、分离毒化与干净数据。</li>
+            <li><strong>风险发现与反馈：</strong>揭示部署模型的失效模式，并将失败成本反馈进自动化决策。</li>
           </ol>
         </div>
       </div>
     </section>
 
-    <!-- Publications -->
-    <section id="publications" class="section" aria-label="代表论文">
+    <section id="publications" class="section" aria-label="论文">
       <div class="section-header">
-        <h2 class="section-title">代表论文</h2>
-        <p class="section-subtitle">
-          第一作者工作，聚焦 AI 安全、视觉语言模型与后门鲁棒性。
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>代表论文</h2>
+        <p class="section-subtitle">4 篇已录用、4 篇在投于 CCF-A 会议；均为第一 / 共同第一作者。</p>
       </div>
 
-      <!-- UnivIntruder -->
+      <div class="group-label">长程自主智能体：状态、记忆与技能</div>
+
       <article class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              One Surrogate to Fool Them All: Universal, Transferable, and Targeted Adversarial Attacks with CLIP
-            </div>
-            <div class="card-meta">
-              ACM Conference on Computer and Communications Security (CCS) 2025 · Oral
-            </div>
+            <div class="card-title">LLM Agents Are Latent Context Managers: Eliciting Self-Managed Context via Dashboard</div>
+            <div class="card-meta">在投</div>
           </div>
-          <span class="tag">Adversarial Attack</span>
+          <span class="tag">自管理上下文</span>
         </div>
         <div class="card-body">
-          该工作表明，一个公开可用的视觉语言模型（CLIP）即可作为通用代理（surrogate），
-          生成面向多种黑盒视觉模型的定向通用对抗扰动；整个过程不依赖目标模型的结构、参数或训练数据。
+          智能体缺乏对自身上下文状态的 <em>proprioception</em>。我们设计 VISTA 自管理上下文层，
+          暴露 token 用量、时近性与预算，在 75 个长程工具任务上将 Gemini-3-Flash 成功率从 22.7% 提升到 50.7%，
+          优于 ReAct、SLIM 与 Claude Code。
         </div>
-        <div class="card-tags">
-          <span class="tag">Universal perturbation</span>
-          <span class="tag">Transferability</span>
-          <span class="tag">Black-box models</span>
-          <span class="tag">CLIP</span>
+        <div class="card-tags"><span class="tag">长程智能体</span><span class="tag">工作记忆</span><span class="tag">工具使用</span></div>
+        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2606.30005" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">From Multi-Agent to Single-Agent: When Is Skill Distillation Beneficial?</div>
+            <div class="card-meta">在投</div>
+          </div>
+          <span class="tag">技能蒸馏</span>
         </div>
+        <div class="card-body">
+          提出 <em>Metric Freedom</em>，判断何时可将多智能体协作 / 评测结构内化为单智能体技能——
+          在 4 项任务、11 个数据集上以 1.4–15× 更低成本达到或超过原系统。
+        </div>
+        <div class="card-tags"><span class="tag">多智能体→单智能体</span><span class="tag">成本效率</span></div>
+        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">Contextual Agentic Memory is a Memo, Not True Memory</div>
+            <div class="card-meta">在投 · <span style="color:var(--fg-faint)">获 DAIR.AI 转发（26K+ 阅读）</span></div>
+          </div>
+          <span class="tag">智能体记忆</span>
+        </div>
+        <div class="card-body">
+          指出当前许多“记忆”模块只是上下文扩展，而非真正的记忆系统，并重新界定可复用的智能体经验应当是什么。
+        </div>
+        <div class="card-tags"><span class="tag">记忆系统</span><span class="tag">评测</span></div>
+        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2604.27707" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
+      </article>
+
+      <div class="group-label">外部审计与语义验证</div>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">From Internal Diagnosis to External Auditing: A VLM-Driven Paradigm for Online Defense</div>
+            <div class="card-meta">ICML 2026 · Poster</div>
+          </div>
+          <span class="tag">后门防御</span>
+        </div>
+        <div class="card-body">
+          用外部视觉语言模型审计后门预测，无需信任被部署模型本身——将防御从模型内部诊断转向外部语义审计。
+        </div>
+        <div class="card-tags"><span class="tag">外部审计</span><span class="tag">VLM</span><span class="tag">在线防御</span></div>
+        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2601.19448" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">CLIP-Guided Backdoor Defense through Entropy-Based Poisoned Dataset Separation</div>
+            <div class="card-meta">ACM MM 2025 · <span class="oral">🏅 Oral</span></div>
+          </div>
+          <span class="tag">后门防御</span>
+        </div>
+        <div class="card-body">
+          CLIP 引导防御通过熵评分分离毒化与干净样本并重训练模型，在多种攻击下将成功率压到 1% 以下，
+          同时保持干净准确率。
+        </div>
+        <div class="card-tags"><span class="tag">数据分离</span><span class="tag">clean-image 后门</span><span class="tag">CLIP</span></div>
         <div class="card-footer">
-          <a class="card-link" href="https://arxiv.org/abs/2505.19840" target="_blank" rel="noreferrer">
-            <span>arXiv</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3719027.3744859" target="_blank" rel="noreferrer">
-            <span>ACM DL</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://github.com/binyxu/UnivIntruder" target="_blank" rel="noreferrer">
-            <span>Code (UnivIntruder)</span> <span>↗</span>
-          </a>
+          <a class="card-link" href="https://arxiv.org/abs/2507.05113" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3746027.3754860" target="_blank" rel="noreferrer"><span>ACM DL</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/binyxu/CGD" target="_blank" rel="noreferrer"><span>代码</span> <span>↗</span></a>
         </div>
       </article>
 
-      <!-- CLIP-Guided Defense -->
+      <div class="group-label">风险发现与反馈</div>
+
       <article class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              CLIP-Guided Backdoor Defense through Entropy-Based Poisoned Dataset Separation
-            </div>
-            <div class="card-meta">
-              ACM Multimedia (MM) 2025 · Oral
-            </div>
+            <div class="card-title">One Surrogate to Fool Them All: Universal &amp; Transferable Adversarial Attacks with CLIP</div>
+            <div class="card-meta">ACM CCS 2025 · <span class="oral">🏅 Oral</span></div>
           </div>
-          <span class="tag">Backdoor Defense</span>
+          <span class="tag">对抗攻击</span>
         </div>
         <div class="card-body">
-          提出 CLIP-Guided Defense（CGD）：利用 CLIP 的语义预测对训练集样本进行熵值打分，
-          将可疑后门样本与干净样本自动分离，并以 CLIP logits 作为监督重训模型。
-          在多数据集、多种后门攻击（包括 clean-label 与 clean-image 设置）下，
-          CGD 能在保持干净精度的同时，将攻击成功率压到约 1% 或更低。
+          单个公开 CLIP 模型即可作为通用替身，构造可迁移的定向扰动，无需查询即可攻破全黑盒视觉模型与多模态大模型。
         </div>
-        <div class="card-tags">
-          <span class="tag">Data separation</span>
-          <span class="tag">Entropy-based scoring</span>
-          <span class="tag">Clean-image backdoors</span>
-          <span class="tag">Robust retraining</span>
-        </div>
+        <div class="card-tags"><span class="tag">通用扰动</span><span class="tag">可迁移性</span><span class="tag">黑盒</span></div>
         <div class="card-footer">
-          <a class="card-link" href="https://arxiv.org/abs/2507.05113" target="_blank" rel="noreferrer">
-            <span>arXiv</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3746027.3754860" target="_blank" rel="noreferrer">
-            <span>ACM DL</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://github.com/binyxu/CGD" target="_blank" rel="noreferrer">
-            <span>Code (CGD)</span> <span>↗</span>
-          </a>
+          <a class="card-link" href="https://arxiv.org/abs/2505.19840" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3719027.3744859" target="_blank" rel="noreferrer"><span>ACM DL</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/binyxu/UnivIntruder" target="_blank" rel="noreferrer"><span>代码</span> <span>↗</span></a>
         </div>
       </article>
 
-      <!-- GCB -->
       <article class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              Breaking the Stealth–Potency Trade-off in Clean-Image Backdoors with Generative Trigger Optimization
-            </div>
-            <div class="card-meta">
-              AAAI Conference on Artificial Intelligence (AAAI) 2026 · Oral
-            </div>
+            <div class="card-title">Breaking the Stealth–Potency Trade-off in Clean-Image Backdoors with Trigger Optimization</div>
+            <div class="card-meta">AAAI 2026 · <span class="oral">🏅 Oral</span></div>
           </div>
-          <span class="tag">Backdoor Attack</span>
+          <span class="tag">后门攻击</span>
         </div>
         <div class="card-body">
-          本工作提出一种针对 <em>clean-image</em>（图像不改，标签被投毒）的通用后门框架：
-          攻击者仅通过重新标注，便可在保持输入图像外观完全不变的前提下植入强后门。
-          通过在潜在触发空间中进行生成式优化，我们证明了“高隐蔽性”和“高攻击性”可以兼得，
-          并在分类、回归、分割等任务中系统分析其影响。
+          面向 <em>clean-image</em> 后门的生成式框架：攻击者仅重标注图像即可植入强后门，
+          证明高隐蔽与高效力可以并存，并覆盖分类、回归与分割任务。
         </div>
-        <div class="card-tags">
-          <span class="tag">Clean-image backdoors</span>
-          <span class="tag">Generative models</span>
-          <span class="tag">InfoGAN</span>
-        </div>
+        <div class="card-tags"><span class="tag">clean-image 后门</span><span class="tag">生成式触发器</span></div>
         <div class="card-footer">
-          <a class="card-link" href="https://arxiv.org/abs/2511.07210" target="_blank" rel="noreferrer">
-            <span>arXiv</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://github.com/binyxu/GCB" target="_blank" rel="noreferrer">
-            <span>Code (GCB)</span> <span>↗</span>
-          </a>
+          <a class="card-link" href="https://arxiv.org/abs/2511.07210" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/binyxu/GCB" target="_blank" rel="noreferrer"><span>代码</span> <span>↗</span></a>
         </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">When Agent Automation Becomes Profitable: Quantify and Insure Autonomous AI Risk</div>
+            <div class="card-meta">在投</div>
+          </div>
+          <span class="tag">自动化风险</span>
+        </div>
+        <div class="card-body">
+          以失败成本与保险式定价刻画智能体自动化何时具有经济可行性——将部署风险反馈进自治闭环。
+        </div>
+        <div class="card-tags"><span class="tag">风险建模</span><span class="tag">部署经济性</span></div>
+        <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2606.16465" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
       </article>
     </section>
 
-    <!-- Projects -->
-    <section id="projects" class="section" aria-label="项目">
+    <section id="experience" class="section" aria-label="经历">
       <div class="section-header">
-        <h2 class="section-title">代表项目</h2>
-        <p class="section-subtitle">
-          在微软亚洲研究院（MSRA）的产业研究实习经历。
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>经历</h2>
+        <p class="section-subtitle">智能体与生成式 AI 方向的研究实习。</p>
       </div>
 
       <div class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              AI-Aided Ascetic Graphic Design Generation
-            </div>
-            <div class="card-meta">
-              微软亚洲研究院 · Stars of Tomorrow 实习
-            </div>
+            <div class="card-title">长程智能体：自管理上下文、记忆与技能蒸馏</div>
+            <div class="card-meta">腾讯 IEG · 光子工作室群 · X-Data Research Team（青云计划）· 2026</div>
           </div>
-          <span class="tag">Industry collaboration</span>
+          <span class="tag">研究实习</span>
         </div>
-
         <div class="card-body">
-          在 MSRA 实习期间，我参与共建了一个面向极简设计风格的 AI 辅助平面设计系统，
-          将：
-          <ul style="margin-top: 6px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
-            <li>具约束感知的自回归视觉语言布局生成器，</li>
-            <li>以及在保持布局语义的前提下进行风格与质感细化的扩散模型模块</li>
-          </ul>
-          有机结合。实验结果表明，该系统在美学质量与约束满足度上均优于现有方法，
-          展示了生成式模型在专业设计流程中的可控辅助能力。
+          主导 VISTA（自管理上下文）与技能蒸馏研究，构建评测、消融与可复现 artifact。
+          将长程工具使用成功率从 22.7% 提升到 50.7%，并以 1.4–15× 更低成本对齐多智能体系统。
         </div>
+        <div class="card-tags"><span class="tag">agent harness</span><span class="tag">benchmark</span><span class="tag">vLLM</span></div>
+      </div>
 
-        <div class="card-tags">
-          <span class="tag">Diffusion models</span>
-          <span class="tag">Layout generation</span>
-          <span class="tag">Vision-language</span>
-          <span class="tag">Human–AI collaboration</span>
+      <div class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">可控生成式 AI：美学平面设计</div>
+            <div class="card-meta">微软亚洲研究院 · 明日之星实习 · 2022–2023</div>
+          </div>
+          <span class="tag">研究实习</span>
         </div>
+        <div class="card-body">
+          共同开发 AI 辅助美学设计系统，结合版式规划、视觉语言理解与扩散式风格生成，实现可控内容生成，
+          获 <strong>Award of Excellence</strong>。
+        </div>
+        <div class="card-tags"><span class="tag">扩散模型</span><span class="tag">版式生成</span><span class="tag">视觉语言</span></div>
       </div>
     </section>
 
-    <!-- Awards & Education -->
-    <section id="awards" class="section" aria-label="获奖与教育">
+    <section id="awards" class="section" aria-label="荣誉与教育">
       <div class="section-header">
-        <h2 class="section-title">教育背景与奖励</h2>
-        <p class="section-subtitle">
-          学术训练经历与部分荣誉。
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>荣誉与教育</h2>
+        <p class="section-subtitle">一路走来的训练与认可。</p>
       </div>
 
       <div class="two-column">
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">教育背景</span>
-          </div>
+          <div class="card-header-line"><span class="card-title">教育背景</span></div>
           <div class="timeline">
-            <!-- CUHK PhD -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
               <div class="timeline-header">
-                <img src="assets/logo-cuhk.png" alt="The Chinese University of Hong Kong logo" class="edu-logo">
+                <img src="assets/logo-cuhk.png" alt="香港中文大学" class="edu-logo">
                 <div>
                   <div class="timeline-title">信息工程博士</div>
-                  <div class="timeline-meta">
-                    香港中文大学 · 2023 年 9 月 – 2027 年 8 月（预计）
-                  </div>
+                  <div class="timeline-meta">香港中文大学 · 2023.9 – 2027.10（预计）</div>
                 </div>
               </div>
-              <div class="timeline-desc">
-                GPA：3.86。研究方向涵盖 AI 安全、后门攻击与防御、以及视觉语言 / 具身智能的安全性。
-              </div>
+              <div class="timeline-desc">GPA 3.914，导师张克环教授。长程智能体、记忆与可信 AI。</div>
             </div>
-
-            <!-- UC Berkeley exchange -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
               <div class="timeline-header">
-                <img src="assets/logo-berkeley.svg" alt="UC Berkeley logo" class="edu-logo">
+                <img src="assets/logo-berkeley.svg" alt="加州大学伯克利分校" class="edu-logo">
                 <div>
-                  <div class="timeline-title">EECS 交换生</div>
-                  <div class="timeline-meta">
-                    加州大学伯克利分校 · 2021 年 8 月 – 2021 年 12 月
-                  </div>
+                  <div class="timeline-title">EECS 交换项目</div>
+                  <div class="timeline-meta">加州大学伯克利分校 · 2021.8 – 2021.12</div>
                 </div>
               </div>
-              <div class="timeline-desc">
-                GPA：4.0。修读计算机科学与人工智能相关课程并参与项目。
-              </div>
+              <div class="timeline-desc">GPA 4.0。</div>
             </div>
-
-            <!-- XJTU undergrad -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
               <div class="timeline-header">
-                <img src="assets/logo-xjtu.png" alt="Xi'an Jiaotong University logo" class="edu-logo">
+                <img src="assets/logo-xjtu.png" alt="西安交通大学" class="edu-logo">
                 <div>
-                  <div class="timeline-title">自动化专业荣誉学士</div>
-                  <div class="timeline-meta">
-                    西安交通大学 · 2019 年 9 月 – 2023 年 7 月
-                  </div>
+                  <div class="timeline-title">自动化工学学士（钱学森班）</div>
+                  <div class="timeline-meta">西安交通大学 · 2019.9 – 2023.7</div>
                 </div>
               </div>
-              <div class="timeline-desc">
-                GPA：3.92。钱学森班荣誉毕业生。
-              </div>
-            </div>
-
-            <!-- XJTU Youth Class -->
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-header">
-                <img src="assets/logo-xjtu.png" alt="Xi'an Jiaotong University logo" class="edu-logo">
-                <div>
-                  <div class="timeline-title">西安交大少年班</div>
-                  <div class="timeline-meta">
-                    西安交通大学 · 2017 年 9 月 – 2019 年 7 月
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-desc">
-                GPA 位列前 10%。初中直升大学的预备课程培养计划。
-              </div>
+              <div class="timeline-desc">GPA 3.92，前 5%。经少年班从初中阶段进入（4,000+ 名申请者中录取约 100 人）。</div>
             </div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">部分奖励与资助</span>
-          </div>
-          <div class="card-body">
-            <ul style="padding-left: 18px; margin-top: 4px; font-size: 0.9rem; color: var(--fg-muted);">
-              <li>美国大学生数学建模竞赛（MCM）Finalist Award</li>
-              <li>钱学森班荣誉毕业生</li>
-              <li>优秀毕业生奖学金</li>
-              <li>钱学森学院出国深造一等资助（约人民币 10 万元）</li>
-            </ul>
+          <div class="card-header-line"><span class="card-title">代表荣誉</span></div>
+          <ul class="award-list">
+            <li>美国大学生数学建模竞赛 Finalist（Top 2%）</li>
+            <li>西安交通大学少年班（4,000+ 中前 2.5%）</li>
+            <li>钱学森班荣誉毕业生 / 优秀毕业生</li>
+            <li>伯克利交换项目一等资助</li>
+            <li>微软亚洲研究院明日之星 Award of Excellence</li>
+          </ul>
+          <div style="margin-top:14px; font-size:0.82rem; color:var(--fg-faint); border-top:1px dashed var(--border-strong); padding-top:10px;">
+            ICML · ICLR · ACM MM · AAAI 审稿人 &nbsp;·&nbsp; Lead TA（40+ 学生）
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="section" aria-label="联系方式">
+    <section id="contact" class="section" aria-label="联系">
       <div class="section-header">
-        <h2 class="section-title">联系与链接</h2>
-        <p class="section-subtitle">
-          如有合作意向或相关问题，欢迎邮件联系。
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>联系方式</h2>
+        <p class="section-subtitle">邮件是联系我最快的方式。</p>
       </div>
-
       <div class="card">
         <div class="two-column">
           <div>
-            <div class="card-title">联系方式</div>
+            <div class="card-title">联系我</div>
             <div class="card-body">
-              <p>
-                我非常乐意讨论与 AI 安全、后门攻击 / 防御、视觉语言模型或具身智能相关的研究问题。
-                如果你对合作感兴趣，欢迎通过邮件简单介绍你的想法。
-              </p>
-              <p style="margin-top: 8px;">
-                <strong>邮箱：</strong>
-                <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a>
-              </p>
+              <p>欢迎交流长程智能体、智能体记忆、技能蒸馏与可信 AI。若有合作意向，可发一封简短邮件说明你的想法。</p>
+              <p style="margin-top: 8px;"><strong>邮箱：</strong> <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a></p>
             </div>
           </div>
           <div>
-            <div class="card-title">更多链接</div>
+            <div class="card-title">其他链接</div>
             <div class="card-body">
-              <ul style="list-style: none; padding-left: 0; font-size: 0.9rem;">
-                <li style="margin-bottom: 6px;">
-                  <span>📚</span>
-                  <a href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works"
-                     target="_blank" rel="noreferrer">
-                    Google Scholar
-                  </a>
-                </li>
-                <li style="margin-bottom: 6px;">
-                  <span>💻</span>
-                  <a href="https://github.com/binyxu" target="_blank" rel="noreferrer">
-                    GitHub (@binyxu)
-                  </a>
-                </li>
-                <li style="margin-bottom: 6px;">
-                  <span>💼</span>
-                  <a href="https://www.linkedin.com/in/binyan-xu-171b862b0"
-                     target="_blank" rel="noreferrer">
-                    LinkedIn
-                  </a>
-                </li>
-                <li style="margin-bottom: 6px;">
-                  <span>🆔</span>
-                  <a href="https://orcid.org/0009-0006-1073-1837" target="_blank" rel="noreferrer">
-                    ORCID: 0009-0006-1073-1837
-                  </a>
-                </li>
+              <ul style="list-style:none; padding-left:0; font-size:0.9rem; display:flex; flex-direction:column; gap:7px;">
+                <li>📚 <a href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works" target="_blank" rel="noreferrer">Google Scholar</a></li>
+                <li>💻 <a href="https://github.com/binyxu" target="_blank" rel="noreferrer">GitHub (@binyxu)</a></li>
+                <li>💼 <a href="https://www.linkedin.com/in/binyan-xu-171b862b0" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                <li>🆔 <a href="https://orcid.org/0009-0006-1073-1837" target="_blank" rel="noreferrer">ORCID: 0009-0006-1073-1837</a></li>
               </ul>
             </div>
           </div>
@@ -1174,34 +568,21 @@
   </main>
 
   <footer>
-    <div>
-      © <span id="year"></span> · Built by Binyan Xu
-    </div>
-    <div>
-      主题切换：<span class="kbd">☾ / ☀︎</span> · 托管于静态站点服务。
-    </div>
+    <div>© <span id="year"></span> · 徐彬琰</div>
+    <div>用 <span class="kbd">☾ / ☀︎</span> 切换主题</div>
   </footer>
 
   <script>
-    // 底部年份
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    // 主题切换，与英文版保持一致（使用 localStorage）
     (function () {
       const root = document.documentElement;
       const toggle = document.getElementById("themeToggle");
       const stored = window.localStorage.getItem("binyan-theme");
-      if (stored === "light") {
-        root.setAttribute("data-theme", "light");
-        toggle.setAttribute("data-mode", "light");
-      } else {
-        root.setAttribute("data-theme", "dark");
-        toggle.setAttribute("data-mode", "dark");
-      }
-
+      const mode = stored === "light" ? "light" : "dark";
+      root.setAttribute("data-theme", mode);
+      toggle.setAttribute("data-mode", mode);
       toggle.addEventListener("click", function () {
-        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
-        const next = current === "light" ? "dark" : "light";
+        const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         toggle.setAttribute("data-mode", next);
         window.localStorage.setItem("binyan-theme", next);

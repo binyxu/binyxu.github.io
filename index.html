@@ -2,699 +2,260 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>Binyan Xu | AI Security & Vision-Language Models</title>
+  <title>Binyan Xu | Long-Horizon Agents & Trustworthy AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-        content="Personal homepage of Binyan Xu, Ph.D. student in Information Engineering at The Chinese University of Hong Kong, focusing on AI security, backdoor attacks and defenses, and vision-language models." />
+        content="Binyan Xu — Ph.D. student at CUHK working on closed-loop autonomous intelligence: long-horizon LLM agents, agentic memory, skill distillation, and trustworthy AI." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #040712;
-      --bg-alt: #080c1c;
-      --bg-soft: #0f172a;
-      --fg: #f9fafb;
-      --fg-muted: #9ca3af;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.12);
-      --accent-strong: #0ea5e9;
-      --border-subtle: rgba(148, 163, 184, 0.35);
-      --card-radius: 18px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
-      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.7);
-      --nav-blur: 18px;
-      --code-bg: #020617;
-      --tag-bg: rgba(148, 163, 184, 0.12);
-      --link: #38bdf8;
-      --link-hover: #7dd3fc;
+      --bg: #060a16;
+      --bg-alt: #0a0f20;
+      --bg-soft: #0f1730;
+      --fg: #f4f7fb;
+      --fg-muted: #9aa7bd;
+      --fg-faint: #6b7890;
+      --accent: #4ea8ff;
+      --accent-2: #7c8cff;
+      --accent-3: #38e8c8;
+      --accent-soft: rgba(78, 168, 255, 0.12);
+      --accent-strong: #2b8fff;
+      --border-subtle: rgba(140, 160, 200, 0.22);
+      --border-strong: rgba(140, 160, 200, 0.38);
+      --card-radius: 20px;
+      --shadow-soft: 0 24px 60px rgba(4, 8, 20, 0.55);
+      --shadow-subtle: 0 12px 30px rgba(4, 8, 20, 0.45);
+      --nav-blur: 20px;
+      --tag-bg: rgba(140, 160, 200, 0.10);
+      --gold: #e2b23c;
+      --link: #4ea8ff;
+      --link-hover: #93c9ff;
     }
 
     [data-theme="light"] {
-      --bg: #f8fafc;
-      --bg-alt: #f1f5f9;
+      --bg: #f7f9fc;
+      --bg-alt: #eef2f8;
       --bg-soft: #ffffff;
-      --fg: #020617;
-      --fg-muted: #4b5563;
-      --accent: #0284c7;
-      --accent-soft: rgba(37, 99, 235, 0.06);
-      --accent-strong: #1d4ed8;
-      --border-subtle: rgba(148, 163, 184, 0.45);
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.10);
-      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.12);
-      --code-bg: #0f172a;
-      --tag-bg: rgba(148, 163, 184, 0.14);
-      --link: #0369a1;
-      --link-hover: #0ea5e9;
+      --fg: #0b1220;
+      --fg-muted: #4a5670;
+      --fg-faint: #7a869c;
+      --accent: #1f6fe0;
+      --accent-2: #5b6ef0;
+      --accent-3: #12a894;
+      --accent-soft: rgba(31, 111, 224, 0.08);
+      --accent-strong: #1657c9;
+      --border-subtle: rgba(90, 110, 150, 0.20);
+      --border-strong: rgba(90, 110, 150, 0.32);
+      --shadow-soft: 0 24px 55px rgba(20, 40, 90, 0.10);
+      --shadow-subtle: 0 12px 28px rgba(20, 40, 90, 0.10);
+      --tag-bg: rgba(90, 110, 150, 0.10);
+      --gold: #b5851b;
+      --link: #1657c9;
+      --link-hover: #1f6fe0;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { scroll-behavior: smooth; }
 
     body {
       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #0b1120 0, var(--bg) 38%, #020617 100%);
+      background:
+        radial-gradient(1100px 600px at 12% -8%, rgba(78,168,255,0.16), transparent 60%),
+        radial-gradient(900px 520px at 100% 0%, rgba(124,140,255,0.14), transparent 55%),
+        var(--bg);
       color: var(--fg);
-      line-height: 1.6;
+      line-height: 1.62;
       -webkit-font-smoothing: antialiased;
     }
-
     [data-theme="light"] body {
-      background: #ffffff !important;  /* 纯白背景 */
+      background:
+        radial-gradient(1000px 560px at 10% -10%, rgba(31,111,224,0.10), transparent 60%),
+        radial-gradient(820px 460px at 100% 0%, rgba(91,110,240,0.08), transparent 55%),
+        #f7f9fc;
     }
 
-    a {
-      color: var(--link);
-      text-decoration: none;
-      transition: color 0.18s ease, opacity 0.18s ease;
-    }
+    a { color: var(--link); text-decoration: none; transition: color .18s ease, opacity .18s ease; }
+    a:hover { color: var(--link-hover); }
 
-    a:hover {
-      color: var(--link-hover);
-    }
+    main { max-width: 1060px; margin: 0 auto; padding: 92px 22px 64px; }
 
-    main {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 96px 20px 72px;
-    }
-
-    /* Top nav */
+    /* Nav */
     .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      position: sticky; top: 0; z-index: 50;
       backdrop-filter: blur(var(--nav-blur));
-      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.72), transparent);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      background: linear-gradient(to bottom, rgba(6,10,22,0.9), rgba(6,10,22,0.62), transparent);
+      border-bottom: 1px solid var(--border-subtle);
     }
-
     [data-theme="light"] .top-nav {
-      background: linear-gradient(
-        to bottom,
-        rgba(248, 250, 252, 0.98),
-        rgba(248, 250, 252, 0.92),
-        rgba(248, 250, 252, 0.0)
-      );
-      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      background: linear-gradient(to bottom, rgba(247,249,252,0.96), rgba(247,249,252,0.86), transparent);
     }
-
     .top-nav-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 10px 20px 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      max-width: 1060px; margin: 0 auto; padding: 11px 22px 9px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
     }
+    .brand { display: flex; align-items: center; gap: 9px; font-family: "Space Grotesk", sans-serif;
+      font-weight: 600; letter-spacing: 0.02em; font-size: 0.95rem; color: var(--fg); }
+    .brand-dot { width: 10px; height: 10px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #d6ecff, var(--accent));
+      box-shadow: 0 0 0 4px rgba(78,168,255,0.20); }
+    .nav-links { display: flex; gap: 6px; font-size: 0.86rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links a { color: var(--fg-muted); padding: 6px 10px; border-radius: 999px; }
+    .nav-links a:hover { color: var(--fg); background: var(--tag-bg); }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-    }
-
-    .brand-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #e0f2fe, var(--accent));
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 14px;
-      font-size: 0.85rem;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .nav-links a {
-      color: var(--fg-muted);
-      padding: 6px 8px;
-      border-radius: 999px;
-    }
-
-    .nav-links a:hover {
-      color: var(--fg);
-      background: rgba(148, 163, 184, 0.12);
-    }
-
-    .theme-toggle {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.35), rgba(15, 23, 42, 0.95));
-      height: 28px;
-      width: 48px;
-      padding: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .theme-toggle-knob {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #f9fafb, #e5e7eb);
-      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.7);
-      transform: translateX(0);
-      transition: transform 0.22s ease;
-    }
-
-    .theme-toggle[data-mode="light"] .theme-toggle-knob {
-      transform: translateX(18px);
-    }
-
-    .theme-toggle-icon {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 7px;
-      font-size: 0.7rem;
-      color: rgba(148, 163, 184, 0.8);
-      pointer-events: none;
-    }
-
-    /* Layout helpers */
-    .grid-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.1fr);
-      gap: 32px;
-      align-items: center;
-      margin-bottom: 40px;
-    }
-
-    @media (max-width: 820px) {
-      .grid-hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .section {
-      margin-top: 40px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--fg-muted);
-    }
-
-    .section-subtitle {
-      font-size: 0.9rem;
-      color: var(--fg-muted);
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--fg-muted);
-    }
-
-    [data-theme="light"] .pill {
-      background: rgba(241, 245, 249, 0.9);
-    }
-
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--accent);
-    }
+    .theme-toggle { border-radius: 999px; border: 1px solid var(--border-strong);
+      background: var(--tag-bg); height: 28px; width: 48px; padding: 3px;
+      display: flex; align-items: center; position: relative; cursor: pointer; }
+    .theme-toggle-knob { width: 20px; height: 20px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #f4f7fb, #cfd8e6);
+      box-shadow: 0 3px 8px rgba(4,8,20,0.6); transform: translateX(0); transition: transform .22s ease; }
+    .theme-toggle[data-mode="light"] .theme-toggle-knob { transform: translateX(18px); }
+    .theme-toggle-icon { position: absolute; inset: 0; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 7px; font-size: 0.7rem; color: var(--fg-faint); pointer-events: none; }
 
     /* Hero */
-    .hero-title {
-      font-size: clamp(2.1rem, 3vw, 2.6rem);
-      letter-spacing: 0.02em;
-      font-weight: 650;
-      margin-bottom: 10px;
-    }
+    .grid-hero { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2.05fr);
+      gap: 34px; align-items: center; margin-bottom: 34px; }
+    @media (max-width: 840px) { .grid-hero { grid-template-columns: minmax(0,1fr); } }
 
-    .hero-highlight {
-      background: linear-gradient(120deg, #22d3ee, #38bdf8, #a855f7);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px;
+      background: var(--accent-soft); border: 1px solid var(--border-strong);
+      font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--fg-muted); }
+    .pill-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(78,168,255,0.25); }
 
-    .hero-subtitle {
-      font-size: 0.95rem;
-      color: var(--fg-muted);
-      max-width: 32rem;
-      margin-bottom: 16px;
-    }
+    .hero-title { font-family: "Space Grotesk", sans-serif; font-size: clamp(2.4rem, 4vw, 3.1rem);
+      letter-spacing: 0.01em; font-weight: 700; margin: 12px 0 6px; line-height: 1.05; }
+    .hero-highlight { background: linear-gradient(115deg, var(--accent-3), var(--accent) 45%, var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero-tagline { font-family: "Space Grotesk", sans-serif; font-size: clamp(1rem, 1.6vw, 1.18rem);
+      font-weight: 600; color: var(--fg); margin-bottom: 12px; }
+    .hero-subtitle { font-size: 0.96rem; color: var(--fg-muted); max-width: 34rem; margin-bottom: 16px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .meta-item { font-size: 0.8rem; color: var(--fg-muted); padding: 5px 11px; border-radius: 999px;
+      border: 1px solid var(--border-subtle); background: var(--tag-bg); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 17px; border-radius: 999px; border: 1px solid transparent;
+      font-size: 0.88rem; font-weight: 550; cursor: pointer; transition: transform .15s ease, filter .15s ease, background .15s ease; }
+    .btn-primary { background: linear-gradient(115deg, var(--accent-3), var(--accent) 55%, var(--accent-2));
+      color: #051022; box-shadow: var(--shadow-subtle); font-weight: 600; }
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .btn-ghost { background: transparent; border-color: var(--border-strong); color: var(--fg-muted); }
+    .btn-ghost:hover { background: var(--tag-bg); color: var(--fg); }
+    .btn-icon { font-size: 0.9rem; opacity: 0.9; }
 
-    .meta-item {
-      font-size: 0.82rem;
-      color: var(--fg-muted);
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: rgba(15, 23, 42, 0.4);
-    }
+    /* Hero card */
+    .hero-card { border-radius: 24px; position: relative; overflow: hidden;
+      background: linear-gradient(160deg, rgba(20,30,60,0.9), rgba(10,15,32,0.92));
+      border: 1px solid var(--border-strong); box-shadow: var(--shadow-soft); padding: 22px 20px 18px; }
+    [data-theme="light"] .hero-card { background: linear-gradient(160deg, #ffffff, #eef3fb); }
+    .glow-orbit { position: absolute; inset: -45%;
+      background: radial-gradient(circle at 0 0, rgba(56,232,200,0.30), transparent 55%),
+                  radial-gradient(circle at 100% 0, rgba(124,140,255,0.32), transparent 55%);
+      opacity: 0.5; mix-blend-mode: screen; pointer-events: none; }
+    [data-theme="light"] .glow-orbit { opacity: 0.35; }
+    .hero-card-main { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 16px; align-items: center; position: relative; }
+    .hero-avatar { width: 92px; height: 92px; border-radius: 22px; overflow: hidden;
+      border: 1px solid var(--border-strong); background: #0b1226; }
+    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-card-title { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--fg); }
+    .hero-card-text { font-size: 0.86rem; color: var(--fg-muted); margin-top: 4px; }
+    .hero-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .tag { font-size: 0.73rem; padding: 3px 9px; border-radius: 999px; background: var(--tag-bg);
+      border: 1px solid var(--border-subtle); color: var(--fg-muted); white-space: nowrap; }
+    .hero-card-footer { margin-top: 16px; display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; border-top: 1px dashed var(--border-strong); padding-top: 12px; position: relative; }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .icon-link { font-size: 0.78rem; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--border-subtle);
+      color: var(--fg-muted); display: inline-flex; align-items: center; gap: 5px; background: var(--tag-bg); }
+    .icon-link:hover { color: var(--fg); border-color: var(--border-strong); }
 
-    [data-theme="light"] .meta-item {
-      background: rgba(255, 255, 255, 0.8);
-    }
+    /* Stat strip */
+    .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 4px 0 8px; }
+    @media (max-width: 720px) { .stat-strip { grid-template-columns: repeat(2, 1fr); } }
+    .stat { border-radius: 16px; border: 1px solid var(--border-subtle); background: var(--bg-soft);
+      padding: 14px 14px; box-shadow: var(--shadow-subtle); }
+    [data-theme="light"] .stat { background: #ffffff; }
+    .stat-num { font-family: "Space Grotesk", sans-serif; font-size: 1.5rem; font-weight: 700;
+      background: linear-gradient(115deg, var(--accent-3), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stat-label { font-size: 0.78rem; color: var(--fg-muted); margin-top: 2px; }
 
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 8px;
-    }
+    /* Sections */
+    .section { margin-top: 46px; scroll-margin-top: 80px; }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+    .section-title { font-family: "Space Grotesk", sans-serif; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.01em; color: var(--fg); }
+    .section-title .accent-bar { display: inline-block; width: 22px; height: 3px; border-radius: 3px; margin-right: 10px; vertical-align: middle;
+      background: linear-gradient(90deg, var(--accent-3), var(--accent)); }
+    .section-subtitle { font-size: 0.88rem; color: var(--fg-muted); }
 
-    .btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 9px 15px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 0.86rem;
-      font-weight: 500;
-      cursor: pointer;
-    }
+    .group-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--accent); margin: 22px 0 10px; display: flex; align-items: center; gap: 8px; }
+    .group-label::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
 
-    .btn-primary {
-      background: radial-gradient(circle at 0 0, #e0f2fe, #38bdf8);
-      border-color: rgba(56, 189, 248, 0.6);
-      color: #0f172a;
-      box-shadow: var(--shadow-subtle);
-    }
+    .card { border-radius: var(--card-radius); background: var(--bg-soft);
+      border: 1px solid var(--border-subtle); box-shadow: var(--shadow-subtle); padding: 18px; position: relative; overflow: hidden;
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+    [data-theme="light"] .card { background: #ffffff; }
+    .card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: var(--shadow-soft); }
+    .card + .card { margin-top: 14px; }
+    .card-header-line { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+    .card-title { font-size: 1rem; font-weight: 600; line-height: 1.4; }
+    .card-meta { font-size: 0.8rem; color: var(--fg-muted); margin-top: 3px; }
+    .oral { color: var(--gold); font-weight: 600; }
+    .card-body { margin-top: 8px; font-size: 0.89rem; color: var(--fg-muted); }
+    .card-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .card-footer { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.82rem; }
+    .card-link { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent-strong); border: 1px solid var(--border-subtle); }
+    .card-link:hover { background: rgba(78,168,255,0.18); }
 
-    .btn-primary:hover {
-      filter: brightness(1.02);
-      transform: translateY(-0.5px);
-    }
+    .two-column { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(0,1.1fr); gap: 16px; }
+    @media (max-width: 880px) { .two-column { grid-template-columns: minmax(0,1fr); } }
 
-    .btn-ghost {
-      background: transparent;
-      border-color: rgba(148, 163, 184, 0.7);
-      color: var(--fg-muted);
-    }
+    .inline-list { list-style: none; display: flex; flex-direction: column; gap: 7px; font-size: 0.9rem; color: var(--fg-muted); }
+    .inline-list li { display: flex; gap: 8px; }
+    .inline-list li::before { content: "▹"; color: var(--accent); }
 
-    .btn-ghost:hover {
-      background: rgba(15, 23, 42, 0.75);
-      color: var(--fg);
-    }
+    /* Timeline */
+    .timeline { border-left: 1px dashed var(--border-strong); padding-left: 16px; margin-top: 6px; }
+    .timeline-item { position: relative; margin-bottom: 15px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot { position: absolute; left: -21px; top: 5px; width: 9px; height: 9px; border-radius: 999px;
+      background: var(--accent); box-shadow: 0 0 0 3px rgba(78,168,255,0.22); }
+    .timeline-header { display: flex; align-items: center; gap: 10px; }
+    .edu-logo { width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; padding: 4px;
+      box-shadow: 0 0 0 1px var(--border-subtle); }
+    .timeline-title { font-size: 0.9rem; font-weight: 600; }
+    .timeline-meta { font-size: 0.77rem; color: var(--fg-muted); }
+    .timeline-desc { font-size: 0.83rem; color: var(--fg-muted); margin-top: 4px; }
 
-    [data-theme="light"] .btn-ghost:hover {
-      background: rgba(226, 232, 240, 0.9);
-    }
+    .award-list { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.89rem; color: var(--fg-muted); margin-top: 2px; }
+    .award-list li { display: flex; gap: 9px; }
+    .award-list li::before { content: "🏅"; font-size: 0.9rem; }
 
-    .btn-icon {
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .hero-avatar-card {
-      border-radius: 24px;
-      background: radial-gradient(circle at 15% 0, rgba(56, 189, 248, 0.25), var(--bg-soft));
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      box-shadow: var(--shadow-soft);
-      padding: 20px 18px 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-avatar-main {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 16px;
-      align-items: center;
-    }
-
-    .hero-avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 24px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      overflow: hidden;
-      background: radial-gradient(circle at 30% 0, #1f2937, #020617);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .hero-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .hero-avatar-meta-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(248, 250, 252, 0.85);
-    }
-
-    [data-theme="light"] .hero-avatar-meta-title {
-      color: #0f172a;
-    }
-
-    .hero-avatar-meta-text {
-      font-size: 0.88rem;
-      color: var(--fg-muted);
-      margin-top: 4px;
-    }
-
-    .hero-avatar-meta-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .tag {
-      font-size: 0.75rem;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--tag-bg);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--fg-muted);
-      white-space: nowrap;
-    }
-
-    .hero-avatar-footer {
-      margin-top: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-      border-top: 1px dashed rgba(148, 163, 184, 0.4);
-      padding-top: 10px;
-    }
-
-    .hero-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: flex-end;
-    }
-
-    .icon-link {
-      font-size: 0.8rem;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      color: var(--fg-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(15, 23, 42, 0.6);
-    }
-
-    [data-theme="light"] .icon-link {
-      background: rgba(248, 250, 252, 0.9);
-    }
-
-    .icon-link span.icon {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-
-    .glow-orbit {
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.38), transparent 55%),
-                  radial-gradient(circle at 100% 0, rgba(129, 140, 248, 0.35), transparent 55%);
-      opacity: 0.25;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    /* Cards / content */
-    .card {
-      border-radius: var(--card-radius);
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-soft);
-      padding: 18px 18px 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    [data-theme="light"] .card {
-      background: radial-gradient(circle at 0 0, rgba(191, 219, 254, 0.28), #ffffff);
-    }
-
-    .card + .card {
-      margin-top: 14px;
-    }
-
-    .card-header-line {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 0.98rem;
-      font-weight: 550;
-    }
-
-    .card-meta {
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-    }
-
-    .card-tags {
-      margin-top: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .card-body {
-      margin-top: 8px;
-      font-size: 0.9rem;
-      color: var(--fg-muted);
-    }
-
-    .card-footer {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.82rem;
-    }
-
-    .card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-      border: 1px solid rgba(56, 189, 248, 0.6);
-    }
-
-    .card-link:hover {
-      background: rgba(56, 189, 248, 0.18);
-    }
-
-    .muted {
-      color: var(--fg-muted);
-    }
-
-    .two-column {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.15fr);
-      gap: 18px;
-    }
-
-    @media (max-width: 880px) {
-      .two-column {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .timeline-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .edu-logo {
-      width: 58px;
-      height: 58px;
-      border-radius: 999px;
-      object-fit: contain;
-      background: #ffffff;
-      padding: 3px;
-      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.6);
-    }
-    
-    [data-theme="light"] .edu-logo {
-      background: #f8fafc;
-    }
-
-    .timeline {
-      border-left: 1px dashed rgba(148, 163, 184, 0.6);
-      padding-left: 16px;
-      margin-top: 4px;
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 14px;
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: -21px;
-      top: 4px;
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
-    }
-
-    .timeline-title {
-      font-size: 0.9rem;
-      font-weight: 550;
-    }
-
-    .timeline-meta {
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-    }
-
-    .timeline-desc {
-      font-size: 0.84rem;
-      color: var(--fg-muted);
-      margin-top: 4px;
-    }
-
-    ul.inline-list {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 0.84rem;
-      color: var(--fg-muted);
-    }
-
-    ul.inline-list li::before {
-      content: "•";
-      margin-right: 4px;
-      color: var(--accent);
-    }
-
-    /* Footer */
-    footer {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 20px 32px;
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      border-top: 1px solid rgba(15, 23, 42, 0.9);
-      opacity: 0.92;
-    }
-
-    .kbd {
-      font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.75em;
-      padding: 2px 5px;
-      border-radius: 4px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: rgba(15, 23, 42, 0.8);
-    }
-
-    [data-theme="light"] .kbd {
-      background: rgba(248, 250, 252, 0.9);
-    }
+    footer { max-width: 1060px; margin: 0 auto; padding: 26px 22px 34px; font-size: 0.78rem; color: var(--fg-faint);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--border-subtle); margin-top: 40px; }
+    .kbd { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.75em; padding: 2px 5px;
+      border-radius: 4px; border: 1px solid var(--border-strong); background: var(--tag-bg); }
   </style>
 </head>
 <body>
-  <!-- Top navigation -->
   <header class="top-nav">
     <div class="top-nav-inner">
-      <div class="brand">
-        <div class="brand-dot"></div>
-        <span>Binyan Xu</span>
-      </div>
+      <div class="brand"><div class="brand-dot"></div><span>Binyan Xu</span></div>
       <nav class="nav-links">
         <a href="#about">About</a>
         <a href="#research">Research</a>
         <a href="#publications">Publications</a>
-        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
         <a href="#awards">Awards</a>
         <a href="#contact">Contact</a>
-      
-        <!-- 语言切换按钮：跳到中文版 -->
         <a href="index_zh.html" title="切换到中文版主页">中文</a>
-
-        
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark mode">
-          <div class="theme-toggle-icon">
-            <span>☾</span>
-            <span>☀︎</span>
-          </div>
+          <div class="theme-toggle-icon"><span>☾</span><span>☀︎</span></div>
           <div class="theme-toggle-knob"></div>
         </button>
       </nav>
@@ -703,117 +264,86 @@
 
   <main>
     <!-- Hero -->
-    <section id="about" class="section" aria-label="Hero">
+    <section id="about" class="section" style="margin-top: 8px;" aria-label="Hero">
       <div class="grid-hero">
         <div>
-          <div class="pill" style="margin-bottom: 10px;">
-            <span class="pill-dot"></span>
-            <span>AI Security · Vision-Language Models</span>
-          </div>
-          <h1 class="hero-title">
-            <span class="hero-highlight">Binyan Xu</span>
-          </h1>
+          <div class="pill"><span class="pill-dot"></span><span>Long-Horizon Agents · Trustworthy AI</span></div>
+          <h1 class="hero-title"><span class="hero-highlight">Binyan Xu</span></h1>
+          <p class="hero-tagline">Closed-loop intelligence — from risk sensing to reliable autonomy.</p>
           <p class="hero-subtitle">
             Ph.D. student in Information Engineering at
-            <strong>The Chinese University of Hong Kong</strong>.
-            My research explores how advanced models like CLIP and embodied agents can be both
-            <em>defenders</em> and <em>attackers</em> in AI security.
+            <strong>The Chinese University of Hong Kong</strong>, advised by Prof. Kehuan Zhang.
+            I study how LLM agents can sense their own state, maintain memory, consolidate skills,
+            and stay reliable across long-horizon, real-world tasks.
           </p>
-
           <div class="hero-meta">
-            <div class="meta-item">Deep neural network security</div>
-            <div class="meta-item">Backdoor & adversarial attacks / defenses</div>
-            <div class="meta-item">Vision-language & embodied AI safety</div>
+            <div class="meta-item">Long-horizon LLM agents</div>
+            <div class="meta-item">Agentic memory & self-managed context</div>
+            <div class="meta-item">Skill distillation</div>
+            <div class="meta-item">Trustworthy / auditable AI</div>
           </div>
-
           <div class="hero-actions">
-            <!-- TODO: Replace href with the hosted CV PDF URL -->
-            <a class="btn btn-primary" href="https://binyxu.github.io/Binyan_Resume_phd.pdf" target="_blank" rel="noreferrer">
-              Download CV
-              <span class="btn-icon">⇩</span>
-            </a>
-            <!-- TODO: Replace href with hosted thesis / research overview PDF if desired -->
-            <a class="btn btn-ghost" href="#research">
-              Research overview
-              <span class="btn-icon">↳</span>
-            </a>
+            <a class="btn btn-primary" href="Binyan_Resume_phd.pdf" target="_blank" rel="noreferrer">Download CV<span class="btn-icon">⇩</span></a>
+            <a class="btn btn-ghost" href="#research">Research overview<span class="btn-icon">↳</span></a>
           </div>
         </div>
 
-        <aside class="hero-avatar-card" aria-label="Quick profile card">
+        <aside class="hero-card" aria-label="Profile card">
           <div class="glow-orbit" aria-hidden="true"></div>
-          <div class="hero-avatar-main">
-            <div class="hero-avatar">
-              <!-- TODO: Replace with your real avatar image. Example:
-                   <img src="photo.jpg" alt="Portrait of Binyan Xu" /> -->
-              <img src="photo.jpg" alt="Portrait of Binyan Xu" />
-            </div>
+          <div class="hero-card-main">
+            <div class="hero-avatar"><img src="photo.jpg" alt="Portrait of Binyan Xu" /></div>
             <div>
-              <div class="hero-avatar-meta-title">Current Position</div>
-              <div class="hero-avatar-meta-text">
-                Ph.D. student, Information Engineering<br />
-                The Chinese University of Hong Kong · Hong Kong SAR
-              </div>
-              <div class="hero-avatar-meta-tags">
-                <span class="tag">AI Security</span>
-                <span class="tag">CLIP & VLMs</span>
-                <span class="tag">Backdoor Attacks / Defense</span>
-                <span class="tag">Embodied AI</span>
+              <div class="hero-card-title">Current Position</div>
+              <div class="hero-card-text">Ph.D. Student, Information Engineering<br />CUHK · Hong Kong SAR</div>
+              <div class="hero-card-tags">
+                <span class="tag">LLM Agents</span>
+                <span class="tag">Agentic Memory</span>
+                <span class="tag">Skill Distillation</span>
+                <span class="tag">AI Safety</span>
               </div>
             </div>
           </div>
-          <div class="hero-avatar-footer">
+          <div class="hero-card-footer">
             <div>
-              <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em;">
-                Contact
-              </div>
-              <div style="font-size: 0.82rem;">
-                <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a>
-              </div>
+              <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--fg-faint);">Contact</div>
+              <div style="font-size:0.82rem;"><a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a></div>
             </div>
             <div class="hero-links">
-              <a class="icon-link" href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works"
-                 target="_blank" rel="noreferrer">
-                <span class="icon">📚</span> Scholar
-              </a>
-              <a class="icon-link" href="https://github.com/binyxu" target="_blank" rel="noreferrer">
-                <span class="icon">💻</span> GitHub
-              </a>
-              <a class="icon-link" href="https://www.linkedin.com/in/binyan-xu-171b862b0"
-                 target="_blank" rel="noreferrer">
-                <span class="icon">💼</span> LinkedIn
-              </a>
+              <a class="icon-link" href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works" target="_blank" rel="noreferrer"><span>📚</span> Scholar</a>
+              <a class="icon-link" href="https://github.com/binyxu" target="_blank" rel="noreferrer"><span>💻</span> GitHub</a>
+              <a class="icon-link" href="https://www.linkedin.com/in/binyan-xu-171b862b0" target="_blank" rel="noreferrer"><span>💼</span> LinkedIn</a>
             </div>
           </div>
         </aside>
       </div>
 
-      <div class="two-column">
+      <!-- Stats -->
+      <div class="stat-strip">
+        <div class="stat"><div class="stat-num">4 + 4</div><div class="stat-label">CCF-A accepted / under review (first / co-first)</div></div>
+        <div class="stat"><div class="stat-num">3×</div><div class="stat-label">Oral at AAAI · CCS · ACM MM</div></div>
+        <div class="stat"><div class="stat-num">22.7→50.7%</div><div class="stat-label">Long-horizon agent success (VISTA)</div></div>
+        <div class="stat"><div class="stat-num">1.4–15×</div><div class="stat-label">Cheaper via skill distillation</div></div>
+      </div>
+
+      <div class="two-column" style="margin-top: 18px;">
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">Short bio</span>
-          </div>
+          <div class="card-header-line"><span class="card-title">Short bio</span></div>
           <div class="card-body">
-            I am a Ph.D. student in the Department of Information Engineering at
-            the Chinese University of Hong Kong, advised by Prof. Kehuan Zhang.
-            Before that, I received my B.Sc. in Automation (Honors) from Xi’an Jiaotong University
-            and spent a semester as an exchange student in EECS at UC Berkeley.
-            My research focuses on making modern AI systems more trustworthy in adversarial settings,
-            with an emphasis on backdoor attacks and defenses, universal adversarial perturbations,
-            and the security of vision-language and embodied agents.
+            I am a Ph.D. student in Information Engineering at CUHK, advised by Prof. Kehuan Zhang.
+            I received my B.Sc. in Automation (Qian Xuesen Honors, entered via the XJTU Honors Youth Program)
+            from Xi'an Jiaotong University, and spent a semester in EECS at UC Berkeley.
+            My work turns single-shot model capability into long-running system capability —
+            through state awareness, memory, skill consolidation, external verification, and risk feedback.
           </div>
         </div>
-
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">Research interests</span>
-          </div>
+          <div class="card-header-line"><span class="card-title">Research interests</span></div>
           <div class="card-body">
             <ul class="inline-list">
-              <li>Backdoor attacks & defenses for DNNs</li>
-              <li>Universal & transferable adversarial attacks</li>
-              <li>Using CLIP / VLMs / LLMs for AI security</li>
-              <li>Security of embodied agents & robotic systems</li>
+              <li>Long-horizon LLM agents & self-managed context</li>
+              <li>Agentic memory and skill / trajectory distillation</li>
+              <li>Agent automation risk & cost-aware deployment</li>
+              <li>External auditing & trustworthy multimodal AI</li>
             </ul>
           </div>
         </div>
@@ -823,41 +353,24 @@
     <!-- Research overview -->
     <section id="research" class="section" aria-label="Research">
       <div class="section-header">
-        <h2 class="section-title">Research Overview</h2>
-        <p class="section-subtitle">
-          Friend and Foe: Exploring the dual role of vision-language models in AI safety.
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>Research Thesis</h2>
+        <p class="section-subtitle">One loop: sense risk → verify externally → build autonomy.</p>
       </div>
-
       <div class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              Friend and Foe: Vision-Language Models as Both Attackers and Defenders
-            </div>
-            <div class="card-meta">
-              Ph.D. pre-candidacy thesis proposal · Department of Information Engineering, CUHK
-            </div>
+            <div class="card-title">Closed-Loop Autonomous Intelligence</div>
+            <div class="card-meta">From risk sensing to reliable, low-cost long-horizon autonomy</div>
           </div>
         </div>
         <div class="card-body">
-          Vision-language models (VLMs) such as CLIP enable powerful cross-modal reasoning,
-          but they also introduce new attack surfaces. My research proposal studies this
-          dual role across three directions:
+          I frame intelligent-system capability as a closed loop: an agent senses its own state and
+          environmental risk, maintains memory and consolidates skills, and uses external verification
+          and risk feedback to stay reliable in deployment. My work follows one method across domains:
           <ol style="margin-top: 8px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
-            <li style="margin-bottom: 4px;">
-              <strong>UnivIntruder:</strong> Using a single public VLM to craft universal, transferable
-              and targeted adversarial perturbations that can hijack fully black-box image classifiers.
-            </li>
-            <li style="margin-bottom: 4px;">
-              <strong>CLIP-Guided Defense:</strong> Leveraging CLIP as an external semantic inspector
-              to separate poisoned from clean data and defend against a wide range of backdoor attacks.
-            </li>
-            <li>
-              <strong>Environment-Driven Jailbreaks (in progress):</strong>
-              Studying how carefully designed physical environments around embodied agents can bypass
-              safety mechanisms via their perception pipelines.
-            </li>
+            <li style="margin-bottom: 5px;"><strong>Long-horizon autonomy:</strong> self-managed context (VISTA), agentic memory, and skill distillation that let agents manage state, accumulate experience, and internalize multi-agent workflows at lower cost.</li>
+            <li style="margin-bottom: 5px;"><strong>External auditing &amp; verification:</strong> using external models (e.g., VLMs / CLIP) to audit untrusted models and separate poisoned from clean data.</li>
+            <li><strong>Risk discovery &amp; feedback:</strong> revealing failure modes of deployed models and feeding failure cost back into automation decisions.</li>
           </ol>
         </div>
       </div>
@@ -866,264 +379,267 @@
     <!-- Publications -->
     <section id="publications" class="section" aria-label="Publications">
       <div class="section-header">
-        <h2 class="section-title">Selected Publications</h2>
-        <p class="section-subtitle">
-          First-author works on AI security, vision-language models and backdoor robustness.
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>Selected Publications</h2>
+        <p class="section-subtitle">4 accepted &amp; 4 under review at CCF-A venues; all first / co-first author.</p>
       </div>
 
-      <!-- UnivIntruder -->
+      <div class="group-label">Long-Horizon Autonomous Agents: State, Memory &amp; Skills</div>
+
       <article class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              One Surrogate to Fool Them All: Universal, Transferable, and Targeted Adversarial Attacks with CLIP
-            </div>
-            <div class="card-meta">
-              ACM Conference on Computer and Communications Security (CCS) 2025 · Oral
-            </div>
+            <div class="card-title">LLM Agents Are Latent Context Managers: Eliciting Self-Managed Context via Dashboard</div>
+            <div class="card-meta">Under Review</div>
           </div>
-          <span class="tag">Adversarial Attack</span>
+          <span class="tag">Self-Managed Context</span>
         </div>
         <div class="card-body">
-          This work shows that a single, publicly available vision-language model (CLIP) can serve as a
-          universal surrogate for generating targeted, universal perturbations that transfer to diverse,
-          fully black-box vision models without accessing their architectures, parameters or data.
+          Agents lack <em>proprioception</em> over their own context state. We design VISTA, a self-managed
+          context layer exposing token usage, recency, and budget — lifting Gemini-3-Flash success on 75
+          long-horizon tool-use tasks from 22.7% to 50.7%, ahead of ReAct, SLIM, and Claude Code.
         </div>
-        <div class="card-tags">
-          <span class="tag">Universal perturbation</span>
-          <span class="tag">Transferability</span>
-          <span class="tag">Black-box models</span>
-          <span class="tag">CLIP</span>
-        </div>
+        <div class="card-tags"><span class="tag">Long-horizon agents</span><span class="tag">Working memory</span><span class="tag">Tool use</span></div>
         <div class="card-footer">
-          <a class="card-link" href="https://arxiv.org/abs/2505.19840" target="_blank" rel="noreferrer">
-            <span>arXiv</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3719027.3744859" target="_blank" rel="noreferrer">
-            <span>ACM DL</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://github.com/binyxu/UnivIntruder" target="_blank" rel="noreferrer">
-            <span>Code (UnivIntruder)</span> <span>↗</span>
-          </a>
+          <a class="card-link" href="https://arxiv.org/abs/2606.30005" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
         </div>
       </article>
 
-      <!-- CLIP-Guided Defense -->
       <article class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              CLIP-Guided Backdoor Defense through Entropy-Based Poisoned Dataset Separation
-            </div>
-            <div class="card-meta">
-              ACM Multimedia (MM) 2025 · Oral
-            </div>
+            <div class="card-title">From Multi-Agent to Single-Agent: When Is Skill Distillation Beneficial?</div>
+            <div class="card-meta">Under Review</div>
+          </div>
+          <span class="tag">Skill Distillation</span>
+        </div>
+        <div class="card-body">
+          Introduces <em>Metric Freedom</em> to predict when multi-agent collaboration/evaluation structures
+          can be internalized as single-agent skills — matching or beating original systems at 1.4–15× lower
+          cost across 4 tasks and 11 datasets.
+        </div>
+        <div class="card-tags"><span class="tag">Multi-agent → single-agent</span><span class="tag">Cost efficiency</span></div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">Contextual Agentic Memory is a Memo, Not True Memory</div>
+            <div class="card-meta">Under Review · <span style="color:var(--fg-faint)">featured by DAIR.AI (26K+ views)</span></div>
+          </div>
+          <span class="tag">Agentic Memory</span>
+        </div>
+        <div class="card-body">
+          Shows that many current "memory" modules are context extensions rather than true memory systems,
+          and reframes what reusable agent experience should look like.
+        </div>
+        <div class="card-tags"><span class="tag">Memory systems</span><span class="tag">Evaluation</span></div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2604.27707" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+        </div>
+      </article>
+
+      <div class="group-label">External Auditing &amp; Semantic Verification</div>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">From Internal Diagnosis to External Auditing: A VLM-Driven Paradigm for Online Defense</div>
+            <div class="card-meta">ICML 2026 · Poster</div>
           </div>
           <span class="tag">Backdoor Defense</span>
         </div>
         <div class="card-body">
-          We propose CLIP-Guided Defense (CGD), which uses CLIP to identify and separate likely poisoned
-          and clean samples, then retrains the victim model using CLIP’s logits as guidance. CGD achieves
-          low attack success rates (often below 1%) while preserving clean accuracy across multiple datasets
-          and diverse backdoor attacks, including clean-label and clean-image settings.
+          Uses an external vision-language model to audit backdoored predictions without trusting the deployed
+          model itself — shifting defense from internal neural diagnosis to external semantic inspection.
         </div>
-        <div class="card-tags">
-          <span class="tag">Data separation</span>
-          <span class="tag">Entropy-based scoring</span>
-          <span class="tag">Clean-image backdoors</span>
-          <span class="tag">Robust retraining</span>
-        </div>
+        <div class="card-tags"><span class="tag">External auditing</span><span class="tag">VLM</span><span class="tag">Online defense</span></div>
         <div class="card-footer">
-          <a class="card-link" href="https://arxiv.org/abs/2507.05113" target="_blank" rel="noreferrer">
-            <span>arXiv</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3746027.3754860" target="_blank" rel="noreferrer">
-            <span>ACM DL</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://github.com/binyxu/CGD" target="_blank" rel="noreferrer">
-            <span>Code (CGD)</span> <span>↗</span>
-          </a>
+          <a class="card-link" href="https://arxiv.org/abs/2601.19448" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
         </div>
       </article>
 
-      <!-- GCB -->
       <article class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              Breaking the Stealth–Potency Trade-off in Clean-Image Backdoors with Generative Trigger Optimization
-            </div>
-            <div class="card-meta">
-              AAAI Conference on Artificial Intelligence (AAAI) 2026 · Oral
-            </div>
+            <div class="card-title">CLIP-Guided Backdoor Defense through Entropy-Based Poisoned Dataset Separation</div>
+            <div class="card-meta">ACM MM 2025 · <span class="oral">🏅 Oral</span></div>
+          </div>
+          <span class="tag">Backdoor Defense</span>
+        </div>
+        <div class="card-body">
+          CLIP-Guided Defense separates poisoned from clean samples via entropy-based scoring, then retrains
+          the victim model — driving attack success below 1% while preserving clean accuracy across diverse attacks.
+        </div>
+        <div class="card-tags"><span class="tag">Data separation</span><span class="tag">Clean-image backdoors</span><span class="tag">CLIP</span></div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2507.05113" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3746027.3754860" target="_blank" rel="noreferrer"><span>ACM DL</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/binyxu/CGD" target="_blank" rel="noreferrer"><span>Code</span> <span>↗</span></a>
+        </div>
+      </article>
+
+      <div class="group-label">Risk Discovery &amp; Feedback</div>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">One Surrogate to Fool Them All: Universal &amp; Transferable Adversarial Attacks with CLIP</div>
+            <div class="card-meta">ACM CCS 2025 · <span class="oral">🏅 Oral</span></div>
+          </div>
+          <span class="tag">Adversarial Attack</span>
+        </div>
+        <div class="card-body">
+          A single public CLIP model serves as a universal surrogate to craft targeted, transferable
+          perturbations that hijack fully black-box vision models and multimodal LLMs — without queries.
+        </div>
+        <div class="card-tags"><span class="tag">Universal perturbation</span><span class="tag">Transferability</span><span class="tag">Black-box</span></div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2505.19840" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://dl.acm.org/doi/10.1145/3719027.3744859" target="_blank" rel="noreferrer"><span>ACM DL</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/binyxu/UnivIntruder" target="_blank" rel="noreferrer"><span>Code</span> <span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">Breaking the Stealth–Potency Trade-off in Clean-Image Backdoors with Trigger Optimization</div>
+            <div class="card-meta">AAAI 2026 · <span class="oral">🏅 Oral</span></div>
           </div>
           <span class="tag">Backdoor Attack</span>
         </div>
         <div class="card-body">
-          This line of work introduces a generative framework for <em>clean-image</em> backdoors:
-          attackers only relabel images while keeping visual content unchanged, yet still plant
-          powerful backdoors with high success rates and minimal clean accuracy degradation.
-          By optimizing over a latent trigger space, we demonstrate that high stealth and high
-          potency can coexist, and we explore their impact across classification, regression,
-          and segmentation tasks.
+          A generative framework for <em>clean-image</em> backdoors: attackers only relabel images yet plant
+          powerful backdoors, showing high stealth and high potency can coexist across classification,
+          regression, and segmentation.
         </div>
-        <div class="card-tags">
-          <span class="tag">Clean-image backdoors</span>
-          <span class="tag">Generative models</span>
-          <span class="tag">InfoGAN</span>
-        </div>
+        <div class="card-tags"><span class="tag">Clean-image backdoors</span><span class="tag">Generative triggers</span></div>
         <div class="card-footer">
-          <a class="card-link" href="https://arxiv.org/abs/2511.07210" target="_blank" rel="noreferrer">
-            <span>arXiv</span> <span>↗</span>
-          </a>
-          <a class="card-link" href="https://github.com/binyxu/GCB" target="_blank" rel="noreferrer">
-            <span>Code (GCB)</span> <span>↗</span>
-          </a>
+          <a class="card-link" href="https://arxiv.org/abs/2511.07210" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
+          <a class="card-link" href="https://github.com/binyxu/GCB" target="_blank" rel="noreferrer"><span>Code</span> <span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">When Agent Automation Becomes Profitable: Quantify and Insure Autonomous AI Risk</div>
+            <div class="card-meta">Under Review</div>
+          </div>
+          <span class="tag">Automation Risk</span>
+        </div>
+        <div class="card-body">
+          Models when agent automation is economically worthwhile under failure cost and insurance-style
+          pricing — feeding deployment risk back into the autonomy loop.
+        </div>
+        <div class="card-tags"><span class="tag">Risk modeling</span><span class="tag">Deployment economics</span></div>
+        <div class="card-footer">
+          <a class="card-link" href="https://arxiv.org/abs/2606.16465" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a>
         </div>
       </article>
     </section>
 
-    <!-- Projects -->
-    <section id="projects" class="section" aria-label="Projects">
+    <!-- Experience -->
+    <section id="experience" class="section" aria-label="Experience">
       <div class="section-header">
-        <h2 class="section-title">Selected Project</h2>
-        <p class="section-subtitle">
-          Industry research experience at Microsoft Research Asia (MSRA).
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>Experience</h2>
+        <p class="section-subtitle">Research internships across agents and generative AI.</p>
       </div>
-    
+
       <div class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">
-              AI-Aided Ascetic Graphic Design Generation
-            </div>
-            <div class="card-meta">
-              Microsoft Research Asia · Stars of Tomorrow Internship
-            </div>
+            <div class="card-title">Long-Horizon Agents: Self-Managed Context, Memory &amp; Skill Distillation</div>
+            <div class="card-meta">Tencent IEG · Lightspeed Studios · X-Data Research Team (Qingyun Program) · 2026</div>
           </div>
-          <!-- 可选：项目小标签 -->
-          <span class="tag">Industry collaboration</span>
+          <span class="tag">Research Intern</span>
         </div>
-    
         <div class="card-body">
-          During my internship at Microsoft Research Asia (MSRA), I co-developed an AI-aided
-          <em>ascetic graphic design</em> system that combines:
-          <ul style="margin-top: 6px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
-            <li>an autoregressive vision-language layout generator that produces structured, constraint-aware designs,</li>
-            <li>a diffusion-based module that refines style and texture while preserving layout semantics.</li>
-          </ul>
-          The system achieves higher aesthetic quality and fewer constraint violations compared to prior
-          approaches, and demonstrates how generative models can augment professional design workflows
-          in a controllable way.
+          Led VISTA (self-managed context) and skill-distillation research; built evaluation, ablation, and
+          reproducible artifacts. Improved long-horizon tool-use success from 22.7% to 50.7% and matched
+          multi-agent systems at 1.4–15× lower cost.
         </div>
-    
-        <div class="card-tags">
-          <span class="tag">Diffusion models</span>
-          <span class="tag">Layout generation</span>
-          <span class="tag">Vision-language</span>
-          <span class="tag">Human–AI collaboration</span>
+        <div class="card-tags"><span class="tag">Agent harness</span><span class="tag">Benchmarks</span><span class="tag">vLLM</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header-line">
+          <div>
+            <div class="card-title">Controllable Generative AI for Graphic Design</div>
+            <div class="card-meta">Microsoft Research Asia · Stars of Tomorrow Internship · 2022–2023</div>
+          </div>
+          <span class="tag">Research Intern</span>
         </div>
+        <div class="card-body">
+          Co-developed an AI-aided aesthetic design system combining layout planning, vision-language
+          understanding, and diffusion-based style generation for controllable content creation.
+          Received the <strong>Award of Excellence</strong>.
+        </div>
+        <div class="card-tags"><span class="tag">Diffusion models</span><span class="tag">Layout generation</span><span class="tag">Vision-language</span></div>
       </div>
     </section>
 
     <!-- Awards & Education -->
     <section id="awards" class="section" aria-label="Awards and Education">
       <div class="section-header">
-        <h2 class="section-title">Awards & Education</h2>
-        <p class="section-subtitle">
-          Academic training and recognitions along the way.
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>Awards &amp; Education</h2>
+        <p class="section-subtitle">Training and recognitions along the way.</p>
       </div>
 
       <div class="two-column">
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">Education</span>
-          </div>
+          <div class="card-header-line"><span class="card-title">Education</span></div>
           <div class="timeline">
-            <!-- CUHK PhD -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
               <div class="timeline-header">
-                <img src="assets/logo-cuhk.png" alt="The Chinese University of Hong Kong logo" class="edu-logo">
+                <img src="assets/logo-cuhk.png" alt="CUHK" class="edu-logo">
                 <div>
                   <div class="timeline-title">Ph.D. in Information Engineering</div>
-                  <div class="timeline-meta">
-                    The Chinese University of Hong Kong · Sep. 2023 – Aug. 2027 (expected)
-                  </div>
+                  <div class="timeline-meta">The Chinese University of Hong Kong · Sep. 2023 – Oct. 2027 (expected)</div>
                 </div>
               </div>
-              <div class="timeline-desc">
-                GPA: 3.86. Research on AI security, backdoor attacks/defenses, and vision-language / embodied AI.
-              </div>
+              <div class="timeline-desc">GPA 3.914. Advised by Prof. Kehuan Zhang. Long-horizon agents, memory, and trustworthy AI.</div>
             </div>
-        
-            <!-- UC Berkeley exchange -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
               <div class="timeline-header">
-                <img src="assets/logo-berkeley.svg" alt="UC Berkeley logo" class="edu-logo">
+                <img src="assets/logo-berkeley.svg" alt="UC Berkeley" class="edu-logo">
                 <div>
                   <div class="timeline-title">Exchange Program in EECS</div>
-                  <div class="timeline-meta">
-                    University of California, Berkeley · Aug. 2021 – Dec. 2021
-                  </div>
+                  <div class="timeline-meta">University of California, Berkeley · Aug. 2021 – Dec. 2021</div>
                 </div>
               </div>
-              <div class="timeline-desc">
-                GPA: 4.0. Coursework and projects in computer science and artificial intelligence.
-              </div>
+              <div class="timeline-desc">GPA 4.0.</div>
             </div>
-        
-            <!-- XJTU undergrad -->
             <div class="timeline-item">
               <div class="timeline-dot"></div>
               <div class="timeline-header">
-                <img src="assets/logo-xjtu.png" alt="Xi'an Jiaotong University logo" class="edu-logo">
+                <img src="assets/logo-xjtu.png" alt="XJTU" class="edu-logo">
                 <div>
-                  <div class="timeline-title">B.Sc. in Automation (Honor)</div>
-                  <div class="timeline-meta">
-                    Xi’an Jiaotong University · Sep. 2019 – Jul. 2023
-                  </div>
+                  <div class="timeline-title">B.Sc. in Automation (Qian Xuesen Honors)</div>
+                  <div class="timeline-meta">Xi'an Jiaotong University · Sep. 2019 – Jul. 2023</div>
                 </div>
               </div>
-              <div class="timeline-desc">
-                GPA: 3.92. Graduated with honors under the Qian Xuesen Program.
-              </div>
-            </div>
-
-            <!-- XJTU Youth Class -->
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-header">
-                <img src="assets/logo-xjtu.png" alt="Xi'an Jiaotong University logo" class="edu-logo">
-                <div>
-                  <div class="timeline-title">Honors Youth Program (西安交大少年班)</div>
-                  <div class="timeline-meta">
-                    Xi’an Jiaotong University · Sep. 2017 – Jul. 2019
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-desc">
-                GPA: Top 10%. Middle School to University Preparatory Course.
-              </div>
+              <div class="timeline-desc">GPA 3.92, Top 5%. Entered via the Honors Youth Program (100 admitted from 4,000+ applicants).</div>
             </div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-header-line">
-            <span class="card-title">Selected awards & scholarships</span>
-          </div>
-          <div class="card-body">
-            <ul style="padding-left: 18px; margin-top: 4px; font-size: 0.9rem; color: var(--fg-muted);">
-              <li>Finalist Award, Mathematical Contest in Modeling (MCM)</li>
-              <li>Qian Xuesen Program Honorary Graduate</li>
-              <li>Outstanding Graduates Scholarship</li>
-              <li>First-class Funding for Studying Abroad (~¥100k)</li>
-            </ul>
+          <div class="card-header-line"><span class="card-title">Selected awards &amp; honors</span></div>
+          <ul class="award-list">
+            <li>Finalist, Mathematical Contest in Modeling (Top 2%)</li>
+            <li>XJTU Honors Youth Program (Top 2.5% of 4,000+)</li>
+            <li>Qian Xuesen Honors / Outstanding Graduate</li>
+            <li>First-class funding for Berkeley Exchange</li>
+            <li>MSRA Stars of Tomorrow — Award of Excellence</li>
+          </ul>
+          <div style="margin-top:14px; font-size:0.82rem; color:var(--fg-faint); border-top:1px dashed var(--border-strong); padding-top:10px;">
+            Reviewer for ICML · ICLR · ACM MM · AAAI &nbsp;·&nbsp; Lead TA (40+ students)
           </div>
         </div>
       </div>
@@ -1132,58 +648,27 @@
     <!-- Contact -->
     <section id="contact" class="section" aria-label="Contact">
       <div class="section-header">
-        <h2 class="section-title">Contact & Links</h2>
-        <p class="section-subtitle">
-          The fastest way to reach me is via email.
-        </p>
+        <h2 class="section-title"><span class="accent-bar"></span>Contact &amp; Links</h2>
+        <p class="section-subtitle">The fastest way to reach me is email.</p>
       </div>
-
       <div class="card">
         <div class="two-column">
           <div>
-            <div class="card-title">Contact</div>
+            <div class="card-title">Get in touch</div>
             <div class="card-body">
-              <p>
-                I am always happy to discuss AI security, backdoor attacks/defenses, and vision-language or
-                embodied AI. If you are interested in collaboration, feel free to send me a short email
-                describing your idea.
-              </p>
-              <p style="margin-top: 8px;">
-                <strong>Email:</strong>
-                <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a>
-              </p>
+              <p>Happy to discuss long-horizon agents, agentic memory, skill distillation, and trustworthy AI.
+                 For collaboration, drop me a short email describing your idea.</p>
+              <p style="margin-top: 8px;"><strong>Email:</strong> <a href="mailto:binyxu@ie.cuhk.edu.hk">binyxu@ie.cuhk.edu.hk</a></p>
             </div>
           </div>
           <div>
             <div class="card-title">Elsewhere</div>
             <div class="card-body">
-              <ul style="list-style: none; padding-left: 0; font-size: 0.9rem;">
-                <li style="margin-bottom: 6px;">
-                  <span>📚</span>
-                  <a href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works"
-                     target="_blank" rel="noreferrer">
-                    Google Scholar
-                  </a>
-                </li>
-                <li style="margin-bottom: 6px;">
-                  <span>💻</span>
-                  <a href="https://github.com/binyxu" target="_blank" rel="noreferrer">
-                    GitHub (@binyxu)
-                  </a>
-                </li>
-                <li style="margin-bottom: 6px;">
-                  <span>💼</span>
-                  <a href="https://www.linkedin.com/in/binyan-xu-171b862b0"
-                     target="_blank" rel="noreferrer">
-                    LinkedIn
-                  </a>
-                </li>
-                <li style="margin-bottom: 6px;">
-                  <span>🆔</span>
-                  <a href="https://orcid.org/0009-0006-1073-1837" target="_blank" rel="noreferrer">
-                    ORCID: 0009-0006-1073-1837
-                  </a>
-                </li>
+              <ul style="list-style:none; padding-left:0; font-size:0.9rem; display:flex; flex-direction:column; gap:7px;">
+                <li>📚 <a href="https://scholar.google.com/citations?hl=en&user=QxNlQ8kAAAAJ&view_op=list_works" target="_blank" rel="noreferrer">Google Scholar</a></li>
+                <li>💻 <a href="https://github.com/binyxu" target="_blank" rel="noreferrer">GitHub (@binyxu)</a></li>
+                <li>💼 <a href="https://www.linkedin.com/in/binyan-xu-171b862b0" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                <li>🆔 <a href="https://orcid.org/0009-0006-1073-1837" target="_blank" rel="noreferrer">ORCID: 0009-0006-1073-1837</a></li>
               </ul>
             </div>
           </div>
@@ -1193,34 +678,21 @@
   </main>
 
   <footer>
-    <div>
-      © <span id="year"></span> · Built by Binyan Xu
-    </div>
-    <div>
-      Toggle theme with <span class="kbd">☾ / ☀︎</span> · Hosted with your favorite static site service.
-    </div>
+    <div>© <span id="year"></span> · Binyan Xu</div>
+    <div>Toggle theme with <span class="kbd">☾ / ☀︎</span></div>
   </footer>
 
   <script>
-    // Year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Theme toggle with localStorage
     (function () {
       const root = document.documentElement;
       const toggle = document.getElementById("themeToggle");
       const stored = window.localStorage.getItem("binyan-theme");
-      if (stored === "light") {
-        root.setAttribute("data-theme", "light");
-        toggle.setAttribute("data-mode", "light");
-      } else {
-        root.setAttribute("data-theme", "dark");
-        toggle.setAttribute("data-mode", "dark");
-      }
-
+      const mode = stored === "light" ? "light" : "dark";
+      root.setAttribute("data-theme", mode);
+      toggle.setAttribute("data-mode", mode);
       toggle.addEventListener("click", function () {
-        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
-        const next = current === "light" ? "dark" : "light";
+        const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         toggle.setAttribute("data-mode", next);
         window.localStorage.setItem("binyan-theme", next);

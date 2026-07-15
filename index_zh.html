@@ -5,7 +5,7 @@
   <title>徐彬琰 | 长程智能体与可信 AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-        content="徐彬琰 —— 香港中文大学博士生，研究闭环自主智能：长程 LLM 智能体、智能体记忆、技能蒸馏与可信 AI。" />
+        content="徐彬琰 —— 香港中文大学博士生，研究状态智能：让 AI 看见并掌控自己的状态 —— 长程 LLM 智能体、智能体记忆、技能蒸馏与可信 AI。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -189,7 +189,7 @@
         <div>
           <div class="pill"><span class="pill-dot"></span><span>长程智能体 · 可信 AI</span></div>
           <h1 class="hero-title"><span class="hero-highlight">徐彬琰</span></h1>
-          <p class="hero-tagline">闭环自主智能 —— 从风险感知到可靠自治。</p>
+          <p class="hero-tagline">状态智能 —— 让 AI 看见并掌控自己的状态。</p>
           <p class="hero-subtitle">
             香港中文大学信息工程系博士生，导师张克环教授。我研究如何让 LLM 智能体在复杂、
             长程的真实任务中感知自身状态、维护记忆、沉淀技能，并保持可靠。
@@ -248,7 +248,7 @@
           <div class="card-body">
             我在香港中文大学信息工程系攻读博士，导师张克环教授。此前于西安交通大学钱学森班获自动化荣誉学士
             （经少年班从初中阶段进入），并在加州大学伯克利分校 EECS 交换一学期。我的研究将模型的单点能力
-            转化为可长期运行的系统能力——通过状态感知、记忆维护、技能沉淀、外部验证与风险反馈构成闭环。
+            转化为可长期运行的系统能力——沿“感知状态—外部核验—自主优化”一以贯之，让智能体状态、模型状态与系统状态都显式可控。
           </div>
         </div>
         <div class="card">
@@ -268,22 +268,23 @@
     <section id="research" class="section" aria-label="研究">
       <div class="section-header">
         <h2 class="section-title"><span class="accent-bar"></span>研究主线</h2>
-        <p class="section-subtitle">一条闭环：感知风险 → 外部验证 → 构建自治。</p>
+        <p class="section-subtitle">同一套方法：感知状态 → 外部核验 → 自主优化。</p>
       </div>
       <div class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">闭环自主智能</div>
-            <div class="card-meta">从风险感知到可靠、低成本的长程自治</div>
+            <div class="card-title">状态智能：让 AI 看见并掌控自己的状态</div>
+            <div class="card-meta">智能体状态 · 模型状态 · 系统状态</div>
           </div>
         </div>
         <div class="card-body">
-          我将智能系统的能力理解为一个闭环：智能体感知自身状态与环境风险，维护记忆、沉淀技能，
-          再借助外部验证与风险反馈在部署中保持可靠。同一套方法贯穿三个方向：
+          从系统层一路做到智能体层，我把智能系统的<em>状态</em>显式化、可操作化：让智能体管理自身状态、
+          让模型行为可被外部核验、让系统异常可被建模预警，支撑开放环境下可靠、低成本的长期自主。
+          同一套方法贯穿三个方向：
           <ol style="margin-top: 8px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
-            <li style="margin-bottom: 5px;"><strong>长程自主：</strong>自管理上下文（VISTA）、智能体记忆与技能蒸馏，让智能体管理状态、积累经验，并以更低成本内化多智能体流程。</li>
-            <li style="margin-bottom: 5px;"><strong>外部审计与验证：</strong>用外部模型（如 VLM / CLIP）审计不可信模型、分离毒化与干净数据。</li>
-            <li><strong>风险发现与反馈：</strong>揭示部署模型的失效模式，并将失败成本反馈进自动化决策。</li>
+            <li style="margin-bottom: 5px;"><strong>智能体状态：</strong>自管理上下文（VISTA）、智能体记忆与技能蒸馏，让智能体感知并管理自身工作状态、积累经验，并以更低成本内化多智能体流程。RL 对照实验表明长程 agent 的 RL 训练本质上主要习得<em>状态感知</em>，故显式暴露状态即可匹配甚至超越 RL 策略而无需训练。</li>
+            <li style="margin-bottom: 5px;"><strong>模型状态：</strong>用外部模型（如 VLM / CLIP）核验、审计不可信模型行为，并分离毒化与干净数据。</li>
+            <li><strong>系统状态：</strong>建模并预警异常行为，揭示部署系统的失效模式，并将失败成本反馈进自动化决策。</li>
           </ol>
         </div>
       </div>
@@ -295,7 +296,7 @@
         <p class="section-subtitle">4 篇已录用、4 篇在投于 CCF-A 会议；均为第一 / 共同第一作者。</p>
       </div>
 
-      <div class="group-label">长程自主智能体：状态、记忆与技能</div>
+      <div class="group-label">智能体状态：上下文管理、长期记忆与技能沉淀</div>
 
       <article class="card">
         <div class="card-header-line">
@@ -345,7 +346,7 @@
         <div class="card-footer"><a class="card-link" href="https://arxiv.org/abs/2604.27707" target="_blank" rel="noreferrer"><span>arXiv</span> <span>↗</span></a></div>
       </article>
 
-      <div class="group-label">外部审计与语义验证</div>
+      <div class="group-label">模型状态：行为可靠性核验与外部审计</div>
 
       <article class="card">
         <div class="card-header-line">
@@ -382,7 +383,7 @@
         </div>
       </article>
 
-      <div class="group-label">风险发现与反馈</div>
+      <div class="group-label">系统状态：异常行为建模与风险预警</div>
 
       <article class="card">
         <div class="card-header-line">

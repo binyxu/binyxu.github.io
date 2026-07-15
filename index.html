@@ -5,7 +5,7 @@
   <title>Binyan Xu | Long-Horizon Agents & Trustworthy AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-        content="Binyan Xu — Ph.D. student at CUHK working on closed-loop autonomous intelligence: long-horizon LLM agents, agentic memory, skill distillation, and trustworthy AI." />
+        content="Binyan Xu — Ph.D. student at CUHK working on state intelligence: letting AI see and control its own state — long-horizon LLM agents, agentic memory, skill distillation, and trustworthy AI." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -269,7 +269,7 @@
         <div>
           <div class="pill"><span class="pill-dot"></span><span>Long-Horizon Agents · Trustworthy AI</span></div>
           <h1 class="hero-title"><span class="hero-highlight">Binyan Xu</span></h1>
-          <p class="hero-tagline">Closed-loop intelligence — from risk sensing to reliable autonomy.</p>
+          <p class="hero-tagline">State intelligence — let AI see and control its own state.</p>
           <p class="hero-subtitle">
             Ph.D. student in Information Engineering at
             <strong>The Chinese University of Hong Kong</strong>, advised by Prof. Kehuan Zhang.
@@ -333,7 +333,8 @@
             I received my B.Sc. in Automation (Qian Xuesen Honors, entered via the XJTU Honors Youth Program)
             from Xi'an Jiaotong University, and spent a semester in EECS at UC Berkeley.
             My work turns single-shot model capability into long-running system capability —
-            through state awareness, memory, skill consolidation, external verification, and risk feedback.
+            following one method (sense state → verify externally → optimize autonomy) so that
+            agent state, model state, and system state are all made explicit and controllable.
           </div>
         </div>
         <div class="card">
@@ -354,23 +355,24 @@
     <section id="research" class="section" aria-label="Research">
       <div class="section-header">
         <h2 class="section-title"><span class="accent-bar"></span>Research Thesis</h2>
-        <p class="section-subtitle">One loop: sense risk → verify externally → build autonomy.</p>
+        <p class="section-subtitle">One method: sense state → verify externally → optimize autonomy.</p>
       </div>
       <div class="card">
         <div class="card-header-line">
           <div>
-            <div class="card-title">Closed-Loop Autonomous Intelligence</div>
-            <div class="card-meta">From risk sensing to reliable, low-cost long-horizon autonomy</div>
+            <div class="card-title">State Intelligence: Let AI See and Control Its Own State</div>
+            <div class="card-meta">Agent state · Model state · System state</div>
           </div>
         </div>
         <div class="card-body">
-          I frame intelligent-system capability as a closed loop: an agent senses its own state and
-          environmental risk, maintains memory and consolidates skills, and uses external verification
-          and risk feedback to stay reliable in deployment. My work follows one method across domains:
+          From the system layer up to the agent layer, I make the <em>state</em> of intelligent systems
+          explicit and actionable: letting agents manage their own state, letting model behavior be
+          externally verified, and letting system anomalies be modeled and flagged — to support reliable,
+          low-cost long-horizon autonomy in open environments. The same method runs through my work:
           <ol style="margin-top: 8px; padding-left: 18px; font-size: 0.9rem; color: var(--fg-muted);">
-            <li style="margin-bottom: 5px;"><strong>Long-horizon autonomy:</strong> self-managed context (VISTA), agentic memory, and skill distillation that let agents manage state, accumulate experience, and internalize multi-agent workflows at lower cost.</li>
-            <li style="margin-bottom: 5px;"><strong>External auditing &amp; verification:</strong> using external models (e.g., VLMs / CLIP) to audit untrusted models and separate poisoned from clean data.</li>
-            <li><strong>Risk discovery &amp; feedback:</strong> revealing failure modes of deployed models and feeding failure cost back into automation decisions.</li>
+            <li style="margin-bottom: 5px;"><strong>Agent state:</strong> self-managed context (VISTA), agentic memory, and skill distillation that let agents sense and manage their own working state, accumulate experience, and internalize multi-agent workflows at lower cost. Controlled RL experiments show that RL for long-horizon agents primarily acquires <em>state-awareness</em>, so explicitly exposing state matches or exceeds RL-trained policies without any training.</li>
+            <li style="margin-bottom: 5px;"><strong>Model state:</strong> using external models (e.g., VLMs / CLIP) to verify and audit untrusted model behavior and separate poisoned from clean data.</li>
+            <li><strong>System state:</strong> modeling and flagging anomalous behavior, revealing failure modes of deployed systems, and feeding failure cost back into automation decisions.</li>
           </ol>
         </div>
       </div>
@@ -383,7 +385,7 @@
         <p class="section-subtitle">4 accepted &amp; 4 under review at CCF-A venues; all first / co-first author.</p>
       </div>
 
-      <div class="group-label">Long-Horizon Autonomous Agents: State, Memory &amp; Skills</div>
+      <div class="group-label">Agent State: Context Management, Long-Term Memory &amp; Skill Consolidation</div>
 
       <article class="card">
         <div class="card-header-line">
@@ -444,7 +446,7 @@
         </div>
       </article>
 
-      <div class="group-label">External Auditing &amp; Semantic Verification</div>
+      <div class="group-label">Model State: Behavioral Reliability Verification &amp; External Auditing</div>
 
       <article class="card">
         <div class="card-header-line">
@@ -484,7 +486,7 @@
         </div>
       </article>
 
-      <div class="group-label">Risk Discovery &amp; Feedback</div>
+      <div class="group-label">System State: Anomaly Modeling &amp; Risk Early-Warning</div>
 
       <article class="card">
         <div class="card-header-line">

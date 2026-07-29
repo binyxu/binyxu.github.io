@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Publications by Binyan Xu on long-horizon agents, agentic memory, external auditing, and foundation-model security.">
+  <title>Publications | Binyan Xu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap"><div class="identity"><a class="site-name" href="index.html">Binyan Xu <span>徐彬琰</span></a><div class="socials" aria-label="Social links"><a href="mailto:binyxu@ie.cuhk.edu.hk" aria-label="Email">✉</a><a href="https://orcid.org/0009-0006-1073-1837" target="_blank" rel="noreferrer" aria-label="ORCID">iD</a><a href="https://scholar.google.com/citations?hl=en&amp;user=QxNlQ8kAAAAJ&amp;view_op=list_works" target="_blank" rel="noreferrer" aria-label="Google Scholar">G</a><a href="https://github.com/binyxu" target="_blank" rel="noreferrer" aria-label="GitHub">GH</a><a href="https://www.linkedin.com/in/binyan-xu-171b862b0" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a></div></div><nav class="page-nav" aria-label="Primary navigation"><a href="index.html">about</a><a href="publications.html" aria-current="page">publications</a><a href="publications_zh.html" lang="zh-CN">中文</a><button class="theme-toggle" type="button" aria-label="Use dark theme">☾</button></nav></div></header>
+
+  <main class="container">
+    <section class="section" style="border-top:0;padding-top:0">
+      <h1 class="pub-page-title">Publications</h1>
+      <p>Four accepted and four under-review CCF-A papers, all led as first or co-first author. * indicates equal contribution.</p>
+      <div class="pub-controls" aria-label="Filter publications">
+        <button class="filter-button is-active" type="button" data-filter="all">All</button>
+        <button class="filter-button" type="button" data-filter="agents">Agents &amp; skills</button>
+        <button class="filter-button" type="button" data-filter="verification">Verification</button>
+        <button class="filter-button" type="button" data-filter="security">Security &amp; risk</button>
+      </div>
+
+      <div class="paper-list">
+        <article class="paper" data-topic="agents"><div class="paper-visual"><span class="venue">Under review</span>VISTA</div><div><h4>LLM Agents Are Latent Context Managers: Eliciting Self-Management via Proprioception</h4><p class="authors"><strong>Binyan Xu</strong>, Haitao Li, Kehuan Zhang</p><p class="publication">Under review, 2026</p><p class="abstract">Exposes working-state signals through a typed, addressable context layer and a context-tool action space. On 75 long-horizon tasks, VISTA raises Gemini-3-Flash success from 22.7% to 50.7% and complements GRPO post-training.</p><div class="paper-links"><a href="https://arxiv.org/abs/2606.30005" target="_blank" rel="noreferrer">arXiv</a><a href="https://binyxu.github.io/VISTA/" target="_blank" rel="noreferrer">Project</a><a href="https://github.com/binyxu/VISTA" target="_blank" rel="noreferrer">Code</a></div></div></article>
+
+        <article class="paper" data-topic="agents"><div class="paper-visual"><span class="venue">Under review</span>SKILL</div><div><h4>From Multi-Agent to Single-Agent: When Is Skill Distillation Beneficial?</h4><p class="authors"><strong>Binyan Xu</strong>, Dong Fang, Haitao Li, Kehuan Zhang</p><p class="publication">Under review, 2026</p><p class="abstract">Introduces Metric Freedom to identify when collaboration and evaluation loops can be internalized as a single-agent skill, matching or outperforming the source system at 1.4–15× lower cost across four tasks and eleven datasets.</p><div class="paper-links"><a href="https://arxiv.org/abs/2604.01608" target="_blank" rel="noreferrer">arXiv</a><a href="https://github.com/Tencent/AdaSkill" target="_blank" rel="noreferrer">Code</a></div></div></article>
+
+        <article class="paper" data-topic="agents"><div class="paper-visual"><span class="venue">Under review</span>MEMO</div><div><h4>Contextual Agentic Memory is a Memo, Not True Memory</h4><p class="authors"><strong>Binyan Xu*</strong>, Xilin Dai*, Kehuan Zhang</p><p class="publication">Under review, 2026</p><p class="abstract">Uses controlled ablations and statistical analysis to show that many retrieval-based “memory” systems behave as temporary context extension, then reframes evaluation around reusable and generalizable experience.</p><div class="paper-links"><a href="https://arxiv.org/abs/2604.27707" target="_blank" rel="noreferrer">arXiv</a></div></div></article>
+
+        <article class="paper" data-topic="verification"><div class="paper-visual"><span class="venue">ICML ’26</span>AUDIT</div><div><h4>From Internal Diagnosis to External Auditing: A VLM-Driven Paradigm for Online Defense</h4><p class="authors"><strong>Binyan Xu</strong>, Xilin Dai, Fan Yang, Di Tang, Kehuan Zhang</p><p class="publication">ICML 2026, Poster</p><p class="abstract">Uses an independent vision-language model to audit online predictions, moving defense from internal diagnosis of an untrusted model to model-agnostic external semantic verification.</p><div class="paper-links"><a href="https://arxiv.org/abs/2601.19448" target="_blank" rel="noreferrer">arXiv</a></div></div></article>
+
+        <article class="paper" data-topic="verification"><div class="paper-visual"><span class="venue">ACM MM ’25</span>CGD</div><div><h4>CLIP-Guided Backdoor Defense through Entropy-Based Poisoned Dataset Separation</h4><p class="authors"><strong>Binyan Xu</strong>, Fan Yang, Xilin Dai, Di Tang, Kehuan Zhang</p><p class="publication">ACM Multimedia 2025, Oral Presentation</p><p class="abstract">Separates poisoned and clean samples using CLIP semantic signals and entropy, then guides model repair while preserving clean accuracy across diverse backdoor attacks.</p><div class="paper-links"><a href="https://arxiv.org/abs/2507.05113" target="_blank" rel="noreferrer">arXiv</a><a href="https://dl.acm.org/doi/10.1145/3746027.3754860" target="_blank" rel="noreferrer">ACM DL</a><a href="https://github.com/binyxu/CGD" target="_blank" rel="noreferrer">Code</a></div></div></article>
+
+        <article class="paper" data-topic="security"><div class="paper-visual"><span class="venue">CCS ’25</span>CLIP</div><div><h4>One Surrogate to Fool Them All: Universal and Transferable Adversarial Attacks with CLIP</h4><p class="authors"><strong>Binyan Xu</strong>, Xilin Dai, Di Tang, Kehuan Zhang</p><p class="publication">ACM CCS 2025, Oral Presentation</p><p class="abstract">Uses one public CLIP model as a universal surrogate to craft targeted attacks that transfer across models, tasks, multimodal systems, and real black-box AI services without victim queries.</p><div class="paper-links"><a href="https://arxiv.org/abs/2505.19840" target="_blank" rel="noreferrer">arXiv</a><a href="https://dl.acm.org/doi/10.1145/3719027.3744859" target="_blank" rel="noreferrer">ACM DL</a><a href="https://github.com/binyxu/UnivIntruder" target="_blank" rel="noreferrer">Code</a></div></div></article>
+
+        <article class="paper" data-topic="security"><div class="paper-visual"><span class="venue">AAAI ’26</span>GCB</div><div><h4>Breaking the Stealth-Potency Trade-off in Clean-Image Backdoors with Trigger Optimization</h4><p class="authors"><strong>Binyan Xu</strong>, Xilin Dai, Fan Yang, Di Tang, Kehuan Zhang</p><p class="publication">AAAI 2026, Oral Presentation</p><p class="abstract">Optimizes generative triggers to build stealthy clean-image backdoors that remain potent across classification, regression, and segmentation tasks.</p><div class="paper-links"><a href="https://arxiv.org/abs/2511.07210" target="_blank" rel="noreferrer">arXiv</a><a href="https://github.com/binyxu/GCB" target="_blank" rel="noreferrer">Code</a></div></div></article>
+
+        <article class="paper" data-topic="security"><div class="paper-visual"><span class="venue">Under review</span>RISK</div><div><h4>When Agent Automation Becomes Profitable: Quantify and Insure Autonomous AI Risk</h4><p class="authors"><strong>Binyan Xu</strong>, Xilin Dai, Fan Yang, Kehuan Zhang</p><p class="publication">Under review, 2026</p><p class="abstract">Maps agent tool trajectories into task losses, control signals, and insurance-style pricing to identify when autonomous execution is economically viable under failure risk.</p><div class="paper-links"><a href="https://arxiv.org/abs/2606.16465" target="_blank" rel="noreferrer">arXiv</a></div></div></article>
+      </div>
+    </section>
+  </main>
+  <footer>© <span data-year></span> Binyan Xu</footer>
+  <script src="script.js"></script>
+</body>
+</html>

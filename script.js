@@ -9,8 +9,12 @@
   function updateToggle() {
     if (!toggle) return;
     const dark = root.dataset.theme === "dark";
-    toggle.textContent = dark ? "☀" : "☾";
-    toggle.setAttribute("aria-label", dark ? "Use light theme" : "Use dark theme");
+    const icon = toggle.querySelector("i");
+    const isChinese = root.lang.toLowerCase().startsWith("zh");
+    if (icon) icon.className = dark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    toggle.setAttribute("aria-label", isChinese
+      ? (dark ? "切换浅色主题" : "切换深色主题")
+      : (dark ? "Use light theme" : "Use dark theme"));
   }
 
   updateToggle();

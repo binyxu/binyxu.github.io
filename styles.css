@@ -55,7 +55,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .identity {
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 12px;
   min-width: 0;
 }
 .site-name {
@@ -65,31 +65,34 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .site-name:hover { text-decoration: none; }
 .site-name span { margin-left: 5px; }
-.socials { display: flex; align-items: center; gap: 8px; }
+.socials { display: flex; align-items: center; gap: 7px; }
 .socials a {
-  width: 22px;
-  height: 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--text);
-  font-size: 13px;
-  font-weight: 700;
-  border: 1px solid var(--text);
-  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 400;
   line-height: 1;
+  transition: color 140ms ease, transform 140ms ease;
 }
-.socials a:first-child { border: 0; font-size: 22px; }
-.socials a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+.socials a .ai { font-size: 21px; }
+.socials a:hover { color: var(--accent); text-decoration: none; transform: translateY(-1px); }
 .page-nav { margin-left: auto; display: flex; align-items: center; gap: 16px; }
 .page-nav a { color: var(--text); font-size: 14px; }
 .page-nav a[aria-current="page"] { color: var(--accent); }
 .theme-toggle {
   border: 0;
-  padding: 3px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text);
   background: transparent;
-  font-size: 19px;
+  font-size: 18px;
+  line-height: 1;
   cursor: pointer;
 }
 

@@ -100,7 +100,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .container { width: min(790px, calc(100% - 36px)); margin: 0 auto; padding: 46px 0 70px; }
 .intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 175px;
+  grid-template-columns: minmax(0, 1fr) 130px;
   gap: 42px;
   align-items: center;
   padding: 0 0 34px;
@@ -116,7 +116,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .contact-line { display: flex; align-items: center; gap: 9px; color: var(--muted); }
 .contact-line a { overflow-wrap: anywhere; }
 .portrait {
-  width: 175px;
+  width: 130px;
   height: auto;
   border-radius: 4px;
   box-shadow: var(--shadow);
@@ -255,7 +255,7 @@ footer {
   .page-nav { margin-left: 0; width: 100%; justify-content: flex-end; gap: 13px; }
   .container { padding-top: 30px; }
   .intro { grid-template-columns: 1fr; gap: 24px; }
-  .portrait { width: min(100%, 200px); height: auto; justify-self: start; }
+  .portrait { width: min(100%, 150px); height: auto; justify-self: start; }
   .paper { grid-template-columns: 1fr; gap: 10px; }
   .paper-visual { width: 100%; height: 150px; }
   .edu-item, .experience-item { grid-template-columns: 1fr; gap: 2px; }
